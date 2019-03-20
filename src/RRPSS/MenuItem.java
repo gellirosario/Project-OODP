@@ -15,7 +15,7 @@ public class MenuItem {
 		MAIN("Main Dish"), SIDE("Side Dish"), DRINK("Drink"), DESSERT("Dessert");
 
 		private final String desc;
-
+		
 		MenuType(String desc) {
 			this.desc = desc;
 		}
@@ -35,12 +35,12 @@ public class MenuItem {
 	}
 
 	public MenuItem() {
-		
+
 	}
 
 	/**
-	 * check if input id is valid;
-	 * invalid if id already exist
+	 * check if input id is valid; invalid if id already exist
+	 * 
 	 * @param menuItems
 	 * @param id
 	 * @return
@@ -53,39 +53,38 @@ public class MenuItem {
 		}
 		return true;
 	}
-	
+
 	public static MenuType chooseMenuType() {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
-		
+
 		System.out.println("Choose a Menu Type");
-		
-		//print all MenuType
+
+		// print all MenuType
 		for (int i = 0; i < MenuType.values().length; i++) {
 			System.out.println(i + 1 + ") " + MenuType.values()[i].toString());
 		}
-				
-		do {			
+
+		do {
 //			try {				
-				option = sc.nextInt(); //TODO input int error checking
+			option = sc.nextInt(); // TODO input int error checking
 //			} catch (Exception e) {
 //				System.out.println("Error! Try again");
 //			}
-			
+
 			if (option <= 0 || option > MenuType.values().length) { // invalid input
 				System.out.println("Invalid input, enter again");
 			}
 		} while (option <= 0 || option > MenuType.values().length);
-		
-		return MenuType.values()[option-1];
+
+		return MenuType.values()[option - 1];
 	}
-	
+
 	public void print() {
 		// eg Id: 1 | Name: Cheesecake | Description: Delicious fresh cheesecake |
 		// Price: $5.25 | Menu Type: Dessert
-		System.out.println("Id: " + menuItemId + " | Name: " + name + " | Description: "
-				+ description + " | Price: " + price + " | Menu Type: "
-				+ menuType.toString());
+		System.out.println("Id: " + menuItemId + " | Name: " + name + " | Description: " + description + " | Price: "
+				+ price + " | Menu Type: " + menuType.toString());
 	}
 
 	// getter and setters
