@@ -58,6 +58,23 @@ public class RRPSSApp {
 
 	}// end of main
 
+	/**
+	 * if inString != NULL, prints: "Invalid Input, please enter valid input.
+	 * Exiting inString ..." ; if inString == "" , prints: "Invalid Input, please
+	 * enter valid input."
+	 * 
+	 * @param inString
+	 */
+	public static void printInvalidInputMsg(String inString) {
+		// eg s = "create Menu Item" ,
+		// Please enter valid input. Exiting create Menu Item...
+		if (inString.isEmpty()) {
+			System.out.println("Invalid Input, please enter valid input.");
+		} else {
+			System.out.println("Invalid Input, please enter valid input. Exiting " + inString + "...");
+		}
+	}
+
 	public static void loadData() {
 		System.out.println("Loading data...");
 		// ========== PLACEHOLDER VALUES ========== //TODO remove when not needed
@@ -118,7 +135,7 @@ public class RRPSSApp {
 			System.out.println("=== View/Edit Menu Item ===");
 			System.out.println("Choose an option:");
 			System.out.println("1) View all Menu Item");
-			System.out.println("2) Create new Menu Item");
+			System.out.println("2) Create Menu Item");
 			System.out.println("3) Edit Menu Item");
 			System.out.println("4) Delete Menu Item");
 			System.out.println("0) Return to RRPSS Main Menu");
@@ -141,35 +158,35 @@ public class RRPSSApp {
 			case 2: // 2 Create Menu Item
 				try {
 					int id = 0;
-					System.out.println("Enter menu item Id: ");
+					System.out.println("Enter Menu Item Id: ");
 					id = sc.nextInt();
 					sc.nextLine(); // get rid of \n
 					if (id < 0 || !MenuItem.isValidId(menuItems, id)) { // invalid value
-						System.out.println("Please enter valid input. Exiting create menu item...");
+						printInvalidInputMsg("Create Menu Item");
 						break; // exit to displayMenuItem() do while loop
 					}
 
 					String name = "";
-					System.out.println("Enter menu item name: ");
+					System.out.println("Enter Menu Item name: ");
 					name = sc.nextLine();
 					if (name.isEmpty()) { // invalid value
-						System.out.println("Please enter valid input. Exiting create menu item...");
+						printInvalidInputMsg("Create Menu Item");
 						break; // exit to displayMenuItem() do while loop
 					}
 
 					String desc = "";
-					System.out.println("Enter menu item description: ");
+					System.out.println("Enter Menu Item description: ");
 					desc = sc.nextLine();
 					if (desc.isEmpty()) { // invalid value
-						System.out.println("Please enter valid input. Exiting create menu item...");
+						printInvalidInputMsg("Create Menu Item");
 						break; // exit to displayMenuItem() do while loop
 					}
 
 					double price = 0;
-					System.out.println("Enter menu item price: ");
+					System.out.println("Enter Menu Item price: ");
 					price = sc.nextDouble();
 					if (price < 0) { // invalid value
-						System.out.println("Please enter valid input. Exiting create menu item...");
+						printInvalidInputMsg("Create Menu Item");
 						break; // exit to displayMenuItem() do while loop
 					}
 
@@ -179,7 +196,7 @@ public class RRPSSApp {
 					MenuItem newItem = new MenuItem(id, name, desc, price, menuType);
 					menuItems.add(newItem);
 					// print success msg
-					System.out.println("Success! New menu item:");
+					System.out.println("Success! New Menu Item:");
 					newItem.print();
 				} catch (Exception e) {
 					System.out.println("Error! Try again.");
