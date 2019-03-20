@@ -19,6 +19,10 @@ public class MenuItem {
 		MenuType(String desc){
 			this.desc = desc;
 		}
+		
+		public String getDesc() {
+			return desc;
+		}
 	}
 
 	public MenuItem(int menuItemId, String name, String description, double price, MenuType menuType) {

@@ -25,13 +25,13 @@ public class RRPSSApp {
 //		Scanner sc = new Scanner(System.in);
 
 		do {
-			System.out.println("============================");
-			System.out.println("===RRPSS System Main Menu===");
+			System.out.println("/n==============================");
+			System.out.println("=== RRPSS System Main Menu ===");
 			System.out.println("Choose an option:");
 			System.out.println("1) View/Edit Menu Item");
 			System.out.println("2) View/Edit Promotion Item");
 			System.out.println("0) Exit");
-			System.out.println("============================");
+			System.out.println("==============================");
 
 			option = sc.nextInt();
 
@@ -39,14 +39,14 @@ public class RRPSSApp {
 			case 0:
 				System.out.println("Ending RRPSS System...");
 				break;
-			case 1: // 1) Edit Menu Item
+			case 1: // 1) View/Edit Menu Item
 				viewMenuItem();
 				break;
-			case 2: // 2) Edit Promotion Item
+			case 2: // 2) View/Edit Promotion Item
 				break;
 
 			default:
-				System.out.println("main No such option");				
+				System.out.println("No such option");				
 			}
 		} while (option != 0);
 
@@ -67,15 +67,15 @@ public class RRPSSApp {
 		int option = 0;
 		
 		do {
-			System.out.println("============================");
-			System.out.println("===View/Edit Menu Item===");
+			System.out.println("/n==============================");
+			System.out.println("=== View/Edit Menu Item ===");
 			System.out.println("Choose an option:");
 			System.out.println("1) View all Menu Item");
 			System.out.println("2) Create new Menu Item");
 			System.out.println("3) Edit Menu Item");
 			System.out.println("4) Delete Menu Item");
 			System.out.println("0) Exit");
-			System.out.println("============================");
+			System.out.println("==============================");
 
 			option = sc.nextInt();
 
@@ -91,7 +91,7 @@ public class RRPSSApp {
 					// Price: $5.25 | MenuType: Dessert
 					System.out.println("Id: " + item.getMenuItemId() + " | Name: " + item.getName() + " | Description: "
 							+ item.getDescription() + " | Price: " + item.getPrice() + " | MenuType: "
-							+ item.getMenuType().toString());
+							+ item.getMenuType().getDesc());
 				}
 				break;
 
@@ -105,7 +105,7 @@ public class RRPSSApp {
 				break;
 
 			default:
-				System.out.println("menuitem No such option");
+				System.out.println("No such option");
 			}
 		} while (option != 0);
 	}
