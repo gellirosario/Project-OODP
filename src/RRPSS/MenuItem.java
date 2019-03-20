@@ -15,7 +15,7 @@ public class MenuItem {
 		MAIN("Main Dish"), SIDE("Side Dish"), DRINK("Drink"), DESSERT("Dessert");
 
 		private final String desc;
-		
+
 		MenuType(String desc) {
 			this.desc = desc;
 		}
@@ -85,6 +85,10 @@ public class MenuItem {
 		// Price: $5.25 | Menu Type: Dessert
 		System.out.println("Id: " + menuItemId + " | Name: " + name + " | Description: " + description + " | Price: "
 				+ price + " | Menu Type: " + menuType.toString());
+	}
+
+	public String toString() {
+		return "MenuItem|" + menuItemId + "|" + name + "|" + description + "|" + price + "|" + menuType.name();
 	}
 
 	// getter and setters

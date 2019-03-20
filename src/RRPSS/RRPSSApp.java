@@ -3,6 +3,7 @@ package RRPSS;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,7 +31,7 @@ public class RRPSSApp {
 			System.out.println("Choose an option:");
 			System.out.println("1) View/Edit Menu Item");
 			System.out.println("2) View/Edit Promotion Item");
-			System.out.println("0) Exit");
+			System.out.println("0) Exit RRPSS");
 			System.out.println("==============================");
 
 			option = sc.nextInt();
@@ -39,7 +40,7 @@ public class RRPSSApp {
 //			case 55: // for testing lul TODO remove b4 submit
 //				break;
 			case 0:
-				System.out.println("Ending RRPSS System...");
+				System.out.println("Exiting RRPSS System...");
 				break;
 			case 1: // 1) View/Edit Menu Item
 				displayMenuItem();
@@ -52,11 +53,13 @@ public class RRPSSApp {
 			}
 		} while (option != 0);
 
-		// TODO save data when program ends
+		// save data when program ends
+		saveData();
 
 	}// end of main
 
 	public static void loadData() {
+		System.out.println("Loading data...");
 		// ========== PLACEHOLDER VALUES ========== //TODO remove when not needed
 //		menuItems.add(new MenuItem(31, "Ice Lemon Tea", "Homemade fresh ice lemon tea", 1.8, MenuType.DRINK));
 
@@ -64,26 +67,46 @@ public class RRPSSApp {
 		try {
 			String line = "";
 			BufferedReader reader = new BufferedReader(new FileReader("data.txt"));
-			while ((line = reader.readLine()) != null) { //check and read next line
-				System.out.println("Line: " + line); //TODO remove b4 submit
-				
+			while ((line = reader.readLine()) != null) { // check and read next line
+//				System.out.println("Line: " + line); //TODO remove b4 submit
+
 				// used '|' as char to separate values, as ',' is used in description
-				//NOTE: used "\\|" as "|" is interpret as logical operator OR
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
 				String[] tokens = line.split("\\|");
-				
-				if (tokens[0].equals("MenuItem")) { //MenuItem
-					//MenuItem(int menuItemId, String name, String description, double price, MenuType menuType)
+
+				if (tokens[0].equals("MenuItem")) { // MenuItem
+					// MenuItem(int menuItemId, String name, String description, double price,
+					// MenuType menuType)
 					menuItems.add(new MenuItem(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
 							Double.parseDouble(tokens[4]), MenuType.valueOf(tokens[5])));
-					System.out.println("Added MenuItem " + tokens[2]);
 				}
-				
-				// ############ ADD YOUR OWN READ DATA HERE ################# //TODO remove b4 submit
+
+				// ####### ADD YOUR OWN READ DATA HERE ####### //TODO remove b4 submit
 			}
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("Loading data done.");
+	}
+
+	public static void saveData() {
+		System.out.println("Saving data...");
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter("data.txt");
+
+			// save all MenuItem
+			for (int i = 0; i < menuItems.size(); i++) {
+				String line = menuItems.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Saving data done.");
 	}
 
 	public static void displayMenuItem() {
@@ -98,14 +121,14 @@ public class RRPSSApp {
 			System.out.println("2) Create new Menu Item");
 			System.out.println("3) Edit Menu Item");
 			System.out.println("4) Delete Menu Item");
-			System.out.println("0) Exit");
+			System.out.println("0) Return to RRPSS Main Menu");
 			System.out.println("==============================");
 
 			option = sc.nextInt();
 
 			switch (option) {
 			case 0:
-				System.out.println("Returning to RRPSS main menu...");
+				System.out.println("Returning to RRPSS Main Menu...");
 				break;
 
 			case 1: // 1 View all Menu Item
