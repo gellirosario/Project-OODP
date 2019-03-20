@@ -1,5 +1,6 @@
 package RRPSS;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuItem {
@@ -37,18 +38,34 @@ public class MenuItem {
 		
 	}
 
-	public static MenuType chooseMenuType() {		
+	/**
+	 * check if input id is valid;
+	 * invalid if id already exist
+	 * @param menuItems
+	 * @param id
+	 * @return
+	 */
+	public static boolean isValidId(ArrayList<MenuItem> menuItems, int id) {
+		for (int i = 0; i < menuItems.size(); i++) {
+			if (menuItems.get(i).getMenuItemId() == id) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public static MenuType chooseMenuType() {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
+		
+		System.out.println("Choose a Menu Type");
 		
 		//print all MenuType
 		for (int i = 0; i < MenuType.values().length; i++) {
 			System.out.println(i + 1 + ") " + MenuType.values()[i].toString());
 		}
 				
-		do {
-			System.out.println("Enter number of Menu Type");
-			
+		do {			
 //			try {				
 				option = sc.nextInt(); //TODO input int error checking
 //			} catch (Exception e) {
@@ -61,6 +78,14 @@ public class MenuItem {
 		} while (option <= 0 || option > MenuType.values().length);
 		
 		return MenuType.values()[option-1];
+	}
+	
+	public void print() {
+		// eg Id: 1 | Name: Cheesecake | Description: Delicious fresh cheesecake |
+		// Price: $5.25 | Menu Type: Dessert
+		System.out.println("Id: " + menuItemId + " | Name: " + name + " | Description: "
+				+ description + " | Price: " + price + " | Menu Type: "
+				+ menuType.toString());
 	}
 
 	// getter and setters
