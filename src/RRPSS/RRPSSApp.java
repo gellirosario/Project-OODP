@@ -69,7 +69,7 @@ public class RRPSSApp {
 		do {
 			System.out.println("/n==============================");
 			System.out.println("=== View/Edit Menu Item ===");
-			System.out.println("Choose an option:");
+			System.out.println("Choose an option: ");
 			System.out.println("1) View all Menu Item");
 			System.out.println("2) Create new Menu Item");
 			System.out.println("3) Edit Menu Item");
