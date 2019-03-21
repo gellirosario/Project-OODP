@@ -3,11 +3,7 @@ package RRPSS;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Promotion {
-	private int id;
-	private String name;
-	private String description;
-	private double price;
+public class Promotion extends SaleItem {
 	private ArrayList<MenuItem> menuItems;
 
 	public Promotion() {
@@ -15,11 +11,7 @@ public class Promotion {
 	}
 
 	public Promotion(int id, String name, String description, double price, ArrayList<MenuItem> menuItems) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
+		super(id, name, description, price);
 		this.menuItems = menuItems;
 	}
 
@@ -50,9 +42,10 @@ public class Promotion {
 
 	/**
 	 * creates new ArrayList<MenuItem>, menuItems, of a Promotion
+	 * 
 	 * @param menuItems
-	 * @return null if input menuItems size == 0; 
-	 * <br> valid ArrayList<MenuItem>
+	 * @return null if input menuItems size == 0; <br>
+	 *         valid ArrayList<MenuItem>
 	 */
 	public static ArrayList<MenuItem> createPromotionItems(ArrayList<MenuItem> menuItems) {
 		Scanner sc = new Scanner(System.in);
@@ -61,7 +54,7 @@ public class Promotion {
 		int promoItemsSize = 0;
 		MenuItem promoItem = null;
 		ArrayList<MenuItem> promoItems = new ArrayList<MenuItem>();
-		
+
 		if (menuItems.size() == 0) {
 			return null;
 		}
@@ -104,7 +97,7 @@ public class Promotion {
 				}
 			} while (true); // only exit do while loop when user input is valid
 		}
-		
+
 		return promoItems;
 	}
 
@@ -113,8 +106,8 @@ public class Promotion {
 	 * names
 	 */
 	public void print() {
-		System.out.println("Id: " + id + " | Name: " + name + " | Description: " + description + " | Price: " + price
-				+ " | Promotion's Menu Item(s): ");
+		System.out.println("Id: " + getId() + " | Name: " + getName() + " | Description: " + getDescription()
+				+ " | Price: " + getPrice() + " | Promotion's Menu Item(s): ");
 		String s = "";
 		for (int i = 0; i < menuItems.size(); i++) {
 			s += menuItems.get(i).getName() + ", ";
@@ -133,7 +126,7 @@ public class Promotion {
 
 	public String toString() {
 		String s = "";
-		s = "Promotion|" + id + "|" + name + "|" + description + "|" + price;
+		s = "Promotion|" + getId() + "|" + getName() + "|" + getDescription() + "|" + getPrice();
 		if (menuItems.size() != 0) {
 			s += "|";
 			int menuItemId = 0;
@@ -147,44 +140,12 @@ public class Promotion {
 	}
 
 	// getter and setters
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public ArrayList<MenuItem> getMenuItems() {
 		return menuItems;
 	}
 
 	public void setMenuItems(ArrayList<MenuItem> menuItems) {
 		this.menuItems = menuItems;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
 	}
 
 }

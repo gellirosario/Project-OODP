@@ -3,12 +3,7 @@ package RRPSS;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MenuItem {
-	private int id;
-	private String name;
-	private String description;
-	private double price;
-
+public class MenuItem extends SaleItem {
 	private MenuType menuType;
 
 	public enum MenuType {
@@ -26,11 +21,7 @@ public class MenuItem {
 	}
 
 	public MenuItem(int id, String name, String description, double price, MenuType menuType) {
-//		super(); //TODO remove?
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
+		super(id, name, description, price);
 		this.menuType = menuType;
 	}
 
@@ -100,10 +91,8 @@ public class MenuItem {
 	}
 
 	public void print() {
-		// eg Id: 1 | Name: Cheesecake | Description: Delicious fresh cheesecake |
-		// Price: $5.25 | Menu Type: Dessert
-		System.out.println("Id: " + id + " | Name: " + name + " | Description: " + description + " | Price: "
-				+ price + " | Menu Type: " + menuType.toString());
+		System.out.println("Id: " + getId() + " | Name: " + getName() + " | Description: " + getDescription() + " | Price: " + getPrice()
+				+ " | Menu Type: " + menuType.toString());
 	}
 
 	public static void printAll(ArrayList<MenuItem> menuItems) {
@@ -115,43 +104,10 @@ public class MenuItem {
 	}
 
 	public String toString() {
-		return "MenuItem|" + id + "|" + name + "|" + description + "|" + price + "|" + menuType.name();
+		return "MenuItem|" + getId() + "|" + getName() + "|" + getDescription() + "|" + getPrice() + "|" + menuType.name();
 	}
 
 	// getter and setters
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
 	public MenuType getMenuType() {
 		return menuType;
 	}
