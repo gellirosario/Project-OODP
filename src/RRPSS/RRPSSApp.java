@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import RRPSS.MenuItem.MenuType;
@@ -15,6 +16,7 @@ public class RRPSSApp {
 
 	// using ArrayList as it has no fixed size
 	static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+	static ArrayList<Promotion> promotions = new ArrayList<Promotion>();
 
 	public static void main(String[] args) {
 		System.out.println("Starting RRPSS System...");
@@ -53,6 +55,7 @@ public class RRPSSApp {
 				displayMenuItem();
 				break;
 			case 2: // 2) View/Edit Promotion Item
+				displayPromotion();
 				break;
 
 			default:
@@ -91,11 +94,23 @@ public class RRPSSApp {
 				if (tokens[0].equals("MenuItem")) { // MenuItem
 					menuItems.add(new MenuItem(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
 							Double.parseDouble(tokens[4]), MenuType.valueOf(tokens[5])));
-				} else {
+				} else if (tokens[0].equals("Promotion")) { // Promotion
+					String[] stringIds = tokens[5].split(","); // menuItemIds are split by ','
+					int[] menuItemIds = Arrays.asList(stringIds).stream().mapToInt(Integer::parseInt).toArray();
+					MenuItem promotionItem = null;
+					ArrayList<MenuItem> promotionItems = new ArrayList<MenuItem>();
+					for (int i = 0; i < menuItemIds.length; i++) {
+						promotionItem = MenuItem.getMenuItemById(menuItems, menuItemIds[i]);
+						promotionItems.add(promotionItem);
+					}
+					promotions.add(new Promotion(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
+							Double.parseDouble(tokens[4]), promotionItems));
+				}
+				// ####### u can ADD YOUR OWN READ DATA HERE ####### //TODO remove b4 submit
+				else {
 					System.out.println("Error reading data.");
 				}
 
-				// ####### ADD YOUR OWN READ DATA HERE ####### //TODO remove b4 submit
 			}
 			reader.close();
 		} catch (IOException e) {
@@ -115,6 +130,12 @@ public class RRPSSApp {
 				String line = menuItems.get(i).toString(); // generate line
 				out.println(line); // add a line to text file
 			}
+			// save all Promotion
+			for (int i = 0; i < promotions.size(); i++) {
+				String line = promotions.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+			// ####### u can ADD YOUR OWN SAVE DATA HERE ####### //TODO remove b4 submit
 
 			out.close(); // close before exit
 		} catch (Exception e) {
@@ -378,6 +399,57 @@ public class RRPSSApp {
 					}
 				} while (true); // only exit do while loop when user input is valid
 				break; // end of case 4 Delete Menu Item
+
+			default:
+				System.out.println("No such option.");
+			}
+		} while (option != 0);
+	}
+
+	public static void displayPromotion() {
+		Scanner sc = new Scanner(System.in);
+		int option = 0;
+
+		do {
+			System.out.println("\n==============================");
+			System.out.println("=== View/Edit Promotion ===");
+			System.out.println("Choose an option:");
+			System.out.println("1) View all Promotion");
+			System.out.println("2) Create Promotion");
+			System.out.println("3) Edit Promotion");
+			System.out.println("4) Delete Promotion");
+			System.out.println("0) Return to RRPSS Main Menu");
+			System.out.println("==============================");
+
+			while (!sc.hasNextInt()) { // check if user entered int
+				sc.next(); // move buffer
+				printInvalidInputMsg();
+			}
+
+			// user entered int
+			option = sc.nextInt();
+
+			switch (option) {
+			case 0:
+				System.out.println("Returning to RRPSS Main Menu...");
+				break;
+
+			case 1: // 1 View all Promotion
+				if (promotions.size() == 0) {
+					System.out.println("No Promotion available.");
+					break; // go back to === View/Edit Promotion ===
+				}
+				Promotion.printAllMenuItem(promotions);
+				break;
+
+			case 2: // 2 Create Promotion
+				break;
+
+			case 3: // 3 Edit Promotion
+				break;
+
+			case 4: // 4 Delete Promotion
+				break;
 
 			default:
 				System.out.println("No such option.");
