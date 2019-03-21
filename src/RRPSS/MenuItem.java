@@ -64,18 +64,21 @@ public class MenuItem {
 		for (int i = 0; i < MenuType.values().length; i++) {
 			System.out.println(i + 1 + ") " + MenuType.values()[i].toString());
 		}
-
+		
 		do {
-//			try {				
-			option = sc.nextInt(); // TODO input int error checking
-//			} catch (Exception e) {
-//				System.out.println("Error! Try again");
-//			}
-
-			if (option <= 0 || option > MenuType.values().length) { // invalid input
-				System.out.println("Invalid input, enter again");
+			while (!sc.hasNextInt()) { // check if user entered int
+				sc.next(); // move buffer
+				RRPSSApp.printInvalidInputMsg();
 			}
-		} while (option <= 0 || option > MenuType.values().length);
+			// user entered int
+			option = sc.nextInt();
+			sc.nextLine(); // get rid of \n
+			if (option <= 0 || option > MenuType.values().length) { // invalid value
+				RRPSSApp.printInvalidInputMsg();
+			} else { // valid value
+				break; // exit do while loop
+			}
+		} while (true); // only exit do while loop when user input is valid
 
 		return MenuType.values()[option - 1];
 	}

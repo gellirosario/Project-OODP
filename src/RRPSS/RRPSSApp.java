@@ -59,20 +59,10 @@ public class RRPSSApp {
 	}// end of main
 
 	/**
-	 * if inString != NULL, prints: "Invalid Input, please enter valid input.
-	 * Exiting inString ..." ; if inString == "" , prints: "Invalid Input, please
-	 * enter valid input."
-	 * 
-	 * @param inString
+	 * prints "Invalid Input, please enter valid input."
 	 */
-	public static void printInvalidInputMsg(String inString) {
-		// eg s = "create Menu Item" ,
-		// Please enter valid input. Exiting create Menu Item...
-		if (inString.isEmpty()) {
-			System.out.println("Invalid Input, please enter valid input.");
-		} else {
-			System.out.println("Invalid Input, please enter valid input. Exiting " + inString + "...");
-		}
+	public static void printInvalidInputMsg() {
+		System.out.println("Invalid Input, please enter valid input.");
 	}
 
 	public static void loadData() {
@@ -92,10 +82,10 @@ public class RRPSSApp {
 				String[] tokens = line.split("\\|");
 
 				if (tokens[0].equals("MenuItem")) { // MenuItem
-					// MenuItem(int menuItemId, String name, String description, double price,
-					// MenuType menuType)
 					menuItems.add(new MenuItem(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
 							Double.parseDouble(tokens[4]), MenuType.valueOf(tokens[5])));
+				} else {
+					System.out.println("Error reading data.");
 				}
 
 				// ####### ADD YOUR OWN READ DATA HERE ####### //TODO remove b4 submit
@@ -156,61 +146,147 @@ public class RRPSSApp {
 				break;
 
 			case 2: // 2 Create Menu Item
-				try {
-					int id = 0;
-					System.out.println("Enter Menu Item Id: ");
+				int id = 0;
+				System.out.println("Enter Menu Item Id: ");
+				do {
+					while (!sc.hasNextInt()) { // check if user entered int
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered int
 					id = sc.nextInt();
 					sc.nextLine(); // get rid of \n
-					if (id < 0 || !MenuItem.isValidId(menuItems, id)) { // invalid value
-						printInvalidInputMsg("Create Menu Item");
-						break; // exit to displayMenuItem() do while loop
+					if (id <= 0 || !MenuItem.isValidId(menuItems, id)) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
 					}
+				} while (true); // only exit do while loop when user input is valid
 
-					String name = "";
-					System.out.println("Enter Menu Item name: ");
+				String name = "";
+				System.out.println("Enter Menu Item name: ");
+				do {
 					name = sc.nextLine();
 					if (name.isEmpty()) { // invalid value
-						printInvalidInputMsg("Create Menu Item");
-						break; // exit to displayMenuItem() do while loop
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
 					}
+				} while (true); // only exit do while loop when user input is valid
 
-					String desc = "";
-					System.out.println("Enter Menu Item description: ");
+				String desc = "";
+				System.out.println("Enter Menu Item description: ");
+				do {
 					desc = sc.nextLine();
 					if (desc.isEmpty()) { // invalid value
-						printInvalidInputMsg("Create Menu Item");
-						break; // exit to displayMenuItem() do while loop
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
 					}
+				} while (true); // only exit do while loop when user input is valid
 
-					double price = 0;
-					System.out.println("Enter Menu Item price: ");
+				double price = 0;
+				System.out.println("Enter Menu Item price: ");
+				do {
+					while (!sc.hasNextDouble()) { // check if user entered double
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered double
 					price = sc.nextDouble();
+					sc.nextLine(); // get rid of \n
 					if (price < 0) { // invalid value
-						printInvalidInputMsg("Create Menu Item");
-						break; // exit to displayMenuItem() do while loop
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
 					}
+				} while (true); // only exit do while loop when user input is valid
 
-					MenuType menuType = MenuItem.chooseMenuType();
+				MenuType menuType = MenuItem.chooseMenuType();
 
-					// add to ArrayList<MenuItem> menuItems
-					MenuItem newItem = new MenuItem(id, name, desc, price, menuType);
-					menuItems.add(newItem);
-					// print success msg
-					System.out.println("Success! New Menu Item:");
-					newItem.print();
-				} catch (Exception e) {
-					System.out.println("Error! Try again.");
-				}
+				// add to ArrayList<MenuItem> menuItems
+				MenuItem newItem = new MenuItem(id, name, desc, price, menuType);
+				menuItems.add(newItem);
+				// print success msg
+				System.out.println("Success! New Menu Item:");
+				newItem.print();
 				break;
 
 			case 3: // 3 Edit Menu Item
+//				try {
+//					// choose a Menu Item to edit
+//					// print all Menu Item
+//					for (int i = 0; i < menuItems.size(); i++) {
+//						MenuItem item = menuItems.get(i);
+//						System.out.print((i+1) + "): ");
+//						item.print();
+//					}
+//
+//					do { // loop till valid input
+//						option = sc.nextInt();
+//						if (option <= 0 || option > menuItems.size()) { // invalid input
+//							System.out.println("Invalid input, enter again");
+//						}
+//					} while (option <= 0 || option > menuItems.size());
+//
+//					MenuItem menuItem = menuItems.get(option - 1);
+//
+//					// user input changes
+//					int id = 0;
+//					System.out.println("Press Enter to keep original value; Enter new Menu Item Id: ");
+//					id = sc.nextInt();
+//					sc.nextLine(); // get rid of \n
+//					if (menuItem.getMenuItemId() != id) { // different from original id
+//						if (id < 0 || !MenuItem.isValidId(menuItems, id)) { // invalid value
+//							printInvalidInputMsg("Edit Menu Item");
+//							break; // exit to displayMenuItem() do while loop
+//						} else {
+//							menuItem.setMenuItemId(id);
+//						}
+//					}
+//
+//					String name = "";
+//					System.out.println("Press Enter to keep original value; Enter new Menu Item name: ");
+//					name = sc.nextLine();
+//					if (name.isEmpty()) { // invalid value
+//						printInvalidInputMsg("Edit Menu Item");
+//						break; // exit to displayMenuItem() do while loop
+//					}
+//
+//					String desc = "";
+//					System.out.println("Press Enter to keep original value; Enter new Menu Item description: ");
+//					desc = sc.nextLine();
+//					if (desc.isEmpty()) { // invalid value
+//						printInvalidInputMsg("Edit Menu Item");
+//						break; // exit to displayMenuItem() do while loop
+//					}
+//
+//					double price = 0;
+//					System.out.println("Press Enter to keep original value; Enter new Menu Item price: ");
+//					price = sc.nextDouble();
+//					if (price < 0) { // invalid value
+//						printInvalidInputMsg("Edit Menu Item");
+//						break; // exit to displayMenuItem() do while loop
+//					}
+//
+//					MenuType menuType = MenuItem.chooseMenuType();
+//
+//					// add to ArrayList<MenuItem> menuItems
+//					MenuItem newItem = new MenuItem(id, name, desc, price, menuType);
+//					menuItems.add(newItem);
+//					// print success msg
+//					System.out.println("Success! Edited Menu Item:");
+//					newItem.print();
+//				} catch (Exception e) {
+//					System.out.println("Error! Try again.");
+//				}
 				break;
 
 			case 4: // 4 Delete Menu Item
 				break;
 
 			default:
-				System.out.println("No such option");
+				printInvalidInputMsg();
 			}
 		} while (option != 0);
 	}
