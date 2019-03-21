@@ -161,11 +161,7 @@ public class RRPSSApp {
 					System.out.println("No Menu Item available.");
 					break; // go back to === View/Edit Menu Item ===
 				}
-
-				for (int i = 0; i < menuItems.size(); i++) {
-					MenuItem item = menuItems.get(i);
-					item.print();
-				}
+				MenuItem.printAllMenuItem(menuItems);
 				break;
 
 			case 2: // 2 Create Menu Item
@@ -241,11 +237,7 @@ public class RRPSSApp {
 				}
 
 				System.out.println("Select a Menu Item by Id:");
-				for (i = 0; i < menuItems.size(); i++) { // print all Menu Item
-					MenuItem item = menuItems.get(i);
-					System.out.print((i + 1) + ") ");
-					item.print();
-				}
+				MenuItem.printAllMenuItem(menuItems);
 				do { // choose a Menu Item to edit
 					while (!sc.hasNextInt()) { // check if user entered int
 						sc.next(); // move buffer
