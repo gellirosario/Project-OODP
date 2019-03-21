@@ -65,7 +65,7 @@ public class RRPSSApp {
 
 		// save data when program ends
 		saveData();
-		
+
 		sc.close();
 	}// end of main
 
@@ -362,7 +362,7 @@ public class RRPSSApp {
 					menuItem.setMenuType(menuType);
 					System.out.println("New value: " + menuItem.getMenuType().toString());
 				}
-				
+
 				// print success msg
 				System.out.println("\nSuccess! Edited Menu Item:");
 				menuItem.print();
@@ -454,7 +454,7 @@ public class RRPSSApp {
 					System.out.println("No Menu Item available. Cannot create Promotion.");
 					break; // go back to === View/Edit Promotion ===
 				}
-				
+
 				System.out.println("Enter Promotion Id: ");
 				do {
 					while (!sc.hasNextInt()) { // check if user entered int
@@ -470,7 +470,7 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				System.out.println("Enter Promotion name: ");
 				do {
 					name = sc.nextLine();
@@ -480,7 +480,7 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				System.out.println("Enter Promotion description: ");
 				do {
 					desc = sc.nextLine();
@@ -490,7 +490,7 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				System.out.println("Enter Promotion price: ");
 				do {
 					while (!sc.hasNextDouble()) { // check if user entered double
@@ -506,9 +506,9 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				promoItems = Promotion.createPromotionItems(menuItems);
-								
+
 				// add to ArrayList<Promotion> promotions
 				Promotion newPromotion = new Promotion(id, name, desc, price, promoItems);
 				promotions.add(newPromotion);
@@ -526,7 +526,7 @@ public class RRPSSApp {
 					System.out.println("No Promotion available.");
 					break; // go back to === View/Edit Promotion ===
 				}
-				
+
 				System.out.println("Select a Promotion by Id:");
 				Promotion.printAll(promotions);
 				do { // choose a Promotion to edit
@@ -544,7 +544,7 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				System.out.println("\nCurrent id: " + promotion.getId());
 				System.out.println("Enter new Promotion Id: ");
 				do {
@@ -566,7 +566,7 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				System.out.println("\nCurrent name: " + promotion.getName());
 				System.out.println("Enter new Promotion name: ");
 				do {
@@ -583,7 +583,7 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				System.out.println("\nCurrent description: " + promotion.getDescription());
 				System.out.println("Enter new Promotion description: ");
 				do {
@@ -600,7 +600,7 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				System.out.println("\nCurrent price: " + promotion.getPrice());
 				System.out.println("Enter new Promotion price: ");
 				do {
@@ -623,7 +623,7 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				
+
 				System.out.println("\nCurrent Promotion's Menu Items(s): ");
 				promoItems = promotion.getMenuItems();
 				MenuItem.printAll(promoItems);
@@ -631,11 +631,11 @@ public class RRPSSApp {
 				promotion.setMenuItems(promoItems);
 				System.out.println("New Promotion's Menu Items(s):");
 				MenuItem.printAll(promoItems);
-				
+
 				// print success msg
 				System.out.println("\nSuccess! Edited Promotion:");
 				promotion.print();
-				
+
 				break;
 
 			case 4: // 4 Delete Promotion

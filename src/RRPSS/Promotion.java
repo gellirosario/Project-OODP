@@ -110,9 +110,16 @@ public class Promotion extends SaleItem {
 				+ " | Price: " + getPrice() + " | Promotion's Menu Item(s): ");
 		String s = "";
 		for (int i = 0; i < menuItems.size(); i++) {
-			s += menuItems.get(i).getName() + ", ";
+			if (menuItems.get(i) == null) { // promotion may still have deleted menu item
+				s += "MENU_ITEM_NOT_FOUND";
+			} else {
+				s += menuItems.get(i).getName() + ", ";
+			}
 		}
-		s = s.substring(0, s.length() - 2); // remove last 2 char ', '
+		String strEnd = s.substring(s.length() - 2);
+		if (strEnd.equals(", ")) {
+			s = s.substring(0, s.length() - 2); // remove last 2 char ', '
+		}
 		System.out.println(s);
 	}
 

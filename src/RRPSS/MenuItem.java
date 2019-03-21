@@ -91,8 +91,8 @@ public class MenuItem extends SaleItem {
 	}
 
 	public void print() {
-		System.out.println("Id: " + getId() + " | Name: " + getName() + " | Description: " + getDescription() + " | Price: " + getPrice()
-				+ " | Menu Type: " + menuType.toString());
+		System.out.println("Id: " + getId() + " | Name: " + getName() + " | Description: " + getDescription()
+				+ " | Price: " + getPrice() + " | Menu Type: " + menuType.toString());
 	}
 
 	public static void printAll(ArrayList<MenuItem> menuItems) {
@@ -104,7 +104,8 @@ public class MenuItem extends SaleItem {
 	}
 
 	public String toString() {
-		return "MenuItem|" + getId() + "|" + getName() + "|" + getDescription() + "|" + getPrice() + "|" + menuType.name();
+		return "MenuItem|" + getId() + "|" + getName() + "|" + getDescription() + "|" + getPrice() + "|"
+				+ menuType.name();
 	}
 
 	// getter and setters
