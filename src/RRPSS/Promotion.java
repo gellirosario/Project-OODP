@@ -48,6 +48,12 @@ public class Promotion {
 		return null;
 	}
 
+	/**
+	 * creates new ArrayList<MenuItem>, menuItems, of a Promotion
+	 * @param menuItems
+	 * @return null if input menuItems size == 0; 
+	 * <br> valid ArrayList<MenuItem>
+	 */
 	public static ArrayList<MenuItem> createPromotionItems(ArrayList<MenuItem> menuItems) {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
@@ -55,10 +61,14 @@ public class Promotion {
 		int promoItemsSize = 0;
 		MenuItem promoItem = null;
 		ArrayList<MenuItem> promoItems = new ArrayList<MenuItem>();
+		
+		if (menuItems.size() == 0) {
+			return null;
+		}
 
 		System.out.println("List of all Menu Item(s):");
 		MenuItem.printAll(menuItems);
-		
+
 		System.out.println("Enter number of Menu Item(s) to be added into Promotion:");
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
@@ -68,13 +78,13 @@ public class Promotion {
 			// user entered int
 			promoItemsSize = sc.nextInt();
 			sc.nextLine(); // get rid of \n
-			if (promoItemsSize < 0 || promoItemsSize >= menuItems.size()) { // invalid value
+			if (promoItemsSize < 1 || promoItemsSize > menuItems.size()) { // invalid value
 				RRPSSApp.printInvalidInputMsg();
 			} else { // valid value
 				break; // exit do while loop
 			}
 		} while (true); // only exit do while loop when user input is valid
-		
+
 		for (int i = 0; i < promoItemsSize; i++) {
 			System.out.println("Enter Menu Item Id that will be added to Promotion:");
 			do {
@@ -91,9 +101,10 @@ public class Promotion {
 				} else { // valid value
 					promoItems.add(promoItem);
 					break; // exit do while loop
-				}				
+				}
 			} while (true); // only exit do while loop when user input is valid
 		}
+		
 		return promoItems;
 	}
 
@@ -166,6 +177,14 @@ public class Promotion {
 
 	public void setMenuItems(ArrayList<MenuItem> menuItems) {
 		this.menuItems = menuItems;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 }

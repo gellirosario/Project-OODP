@@ -362,6 +362,7 @@ public class RRPSSApp {
 					menuItem.setMenuType(menuType);
 					System.out.println("New value: " + menuItem.getMenuType().toString());
 				}
+				
 				// print success msg
 				System.out.println("\nSuccess! Edited Menu Item:");
 				menuItem.print();
@@ -413,7 +414,7 @@ public class RRPSSApp {
 		String name = "";
 		String desc = "";
 		double price = 0;
-		ArrayList<MenuItem> promotionItems = null;
+		ArrayList<MenuItem> promoItems = null;
 		Promotion promotion = null;
 
 		do {
@@ -506,10 +507,10 @@ public class RRPSSApp {
 					}
 				} while (true); // only exit do while loop when user input is valid
 				
-				promotionItems = Promotion.createPromotionItems(menuItems);
+				promoItems = Promotion.createPromotionItems(menuItems);
 								
 				// add to ArrayList<Promotion> promotions
-				Promotion newPromotion = new Promotion(id, name, desc, price, promotionItems);
+				Promotion newPromotion = new Promotion(id, name, desc, price, promoItems);
 				promotions.add(newPromotion);
 				// print success msg
 				System.out.println("\nSuccess! New Promotion:");
@@ -525,6 +526,115 @@ public class RRPSSApp {
 					System.out.println("No Promotion available.");
 					break; // go back to === View/Edit Promotion ===
 				}
+				
+				System.out.println("Select a Promotion by Id:");
+				Promotion.printAll(promotions);
+				do { // choose a Promotion to edit
+					while (!sc.hasNextInt()) { // check if user entered int
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered int
+					id = sc.nextInt();
+					sc.nextLine(); // get rid of \n
+					promotion = Promotion.getPromotionById(promotions, id);
+					if (promotion == null) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				System.out.println("\nCurrent id: " + promotion.getId());
+				System.out.println("Enter new Promotion Id: ");
+				do {
+					while (!sc.hasNextInt()) { // check if user entered int
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered int
+					id = sc.nextInt();
+					sc.nextLine(); // get rid of \n
+					if (id == promotion.getId()) { // same value
+						System.out.println("Input value is same as current value: " + promotion.getId());
+						break; // same value
+					} else if (id <= 0 || !Promotion.isValidId(promotions, id)) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						promotion.setId(id);
+						System.out.println("New value: " + promotion.getId());
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				System.out.println("\nCurrent name: " + promotion.getName());
+				System.out.println("Enter new Promotion name: ");
+				do {
+					name = sc.nextLine();
+					if (name.isEmpty()) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						if (name.equals(promotion.getName())) {
+							System.out.println("Input value is same as current value: " + promotion.getName());
+						} else {
+							promotion.setName(name);
+							System.out.println("New value: " + promotion.getName());
+						}
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				System.out.println("\nCurrent description: " + promotion.getDescription());
+				System.out.println("Enter new Promotion description: ");
+				do {
+					desc = sc.nextLine();
+					if (desc.isEmpty()) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						if (desc.equals(promotion.getDescription())) {
+							System.out.println("Input value is same as current value: " + promotion.getDescription());
+						} else {
+							promotion.setDescription(desc);
+							System.out.println("New value: " + promotion.getDescription());
+						}
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				System.out.println("\nCurrent price: " + promotion.getPrice());
+				System.out.println("Enter new Promotion price: ");
+				do {
+					while (!sc.hasNextDouble()) { // check if user entered double
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered double
+					price = sc.nextDouble();
+					sc.nextLine(); // get rid of \n
+					if (price < 0) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						if (price == promotion.getPrice()) {
+							System.out.println("Input value is same as current value: " + promotion.getPrice());
+						} else {
+							promotion.setPrice(price);
+							System.out.println("New value: " + promotion.getPrice());
+						}
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				System.out.println("\nCurrent Promotion's Menu Items(s): ");
+				promoItems = promotion.getMenuItems();
+				MenuItem.printAll(promoItems);
+				promoItems = Promotion.createPromotionItems(menuItems); // enter new promotion items
+				promotion.setMenuItems(promoItems);
+				System.out.println("New Promotion's Menu Items(s):");
+				MenuItem.printAll(promoItems);
+				
+				// print success msg
+				System.out.println("\nSuccess! Edited Promotion:");
+				promotion.print();
 				
 				break;
 
