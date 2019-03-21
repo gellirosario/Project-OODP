@@ -275,7 +275,7 @@ public class RRPSSApp {
 					}
 				} while (true); // only exit do while loop when user input is valid
 
-				System.out.println("\nCurrent id: " + menuItem.getMenuItemId());
+				System.out.println("\nCurrent id: " + menuItem.getId());
 				System.out.println("Enter new Menu Item Id: ");
 				do {
 					while (!sc.hasNextInt()) { // check if user entered int
@@ -285,14 +285,14 @@ public class RRPSSApp {
 					// user entered int
 					id = sc.nextInt();
 					sc.nextLine(); // get rid of \n
-					if (id == menuItem.getMenuItemId()) { // same value
-						System.out.println("Input value is same as current value: " + menuItem.getMenuItemId());
+					if (id == menuItem.getId()) { // same value
+						System.out.println("Input value is same as current value: " + menuItem.getId());
 						break; // same value
 					} else if (id <= 0 || !MenuItem.isValidId(menuItems, id)) { // invalid value
 						printInvalidInputMsg();
 					} else { // valid value
-						menuItem.setMenuItemId(id);
-						System.out.println("New value: " + menuItem.getMenuItemId());
+						menuItem.setId(id);
+						System.out.println("New value: " + menuItem.getId());
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid

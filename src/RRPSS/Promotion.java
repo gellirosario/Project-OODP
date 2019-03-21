@@ -127,7 +127,7 @@ public class Promotion {
 			s += "|";
 			int menuItemId = 0;
 			for (int i = 0; i < menuItems.size(); i++) {
-				menuItemId = menuItems.get(i).getMenuItemId();
+				menuItemId = menuItems.get(i).getId();
 				s += menuItemId + ",";
 			}
 			s = s.substring(0, s.length() - 1); // remove last char ','

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MenuItem {
-	private int menuItemId;
+	private int id;
 	private String name;
 	private String description;
 	private double price;
@@ -25,9 +25,9 @@ public class MenuItem {
 		}
 	}
 
-	public MenuItem(int menuItemId, String name, String description, double price, MenuType menuType) {
+	public MenuItem(int id, String name, String description, double price, MenuType menuType) {
 //		super(); //TODO remove?
-		this.menuItemId = menuItemId;
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -47,7 +47,7 @@ public class MenuItem {
 	 */
 	public static boolean isValidId(ArrayList<MenuItem> menuItems, int id) {
 		for (int i = 0; i < menuItems.size(); i++) {
-			if (menuItems.get(i).getMenuItemId() == id) {
+			if (menuItems.get(i).getId() == id) {
 				return false;
 			}
 		}
@@ -63,7 +63,7 @@ public class MenuItem {
 	 */
 	public static MenuItem getMenuItemById(ArrayList<MenuItem> menuItems, int id) {
 		for (int i = 0; i < menuItems.size(); i++) {
-			if (menuItems.get(i).getMenuItemId() == id) {
+			if (menuItems.get(i).getId() == id) {
 				return menuItems.get(i);
 			}
 		}
@@ -102,7 +102,7 @@ public class MenuItem {
 	public void print() {
 		// eg Id: 1 | Name: Cheesecake | Description: Delicious fresh cheesecake |
 		// Price: $5.25 | Menu Type: Dessert
-		System.out.println("Id: " + menuItemId + " | Name: " + name + " | Description: " + description + " | Price: "
+		System.out.println("Id: " + id + " | Name: " + name + " | Description: " + description + " | Price: "
 				+ price + " | Menu Type: " + menuType.toString());
 	}
 
@@ -115,17 +115,17 @@ public class MenuItem {
 	}
 
 	public String toString() {
-		return "MenuItem|" + menuItemId + "|" + name + "|" + description + "|" + price + "|" + menuType.name();
+		return "MenuItem|" + id + "|" + name + "|" + description + "|" + price + "|" + menuType.name();
 	}
 
 	// getter and setters
 
-	public int getMenuItemId() {
-		return menuItemId;
+	public int getId() {
+		return id;
 	}
 
-	public void setMenuItemId(int menuItemId) {
-		this.menuItemId = menuItemId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
