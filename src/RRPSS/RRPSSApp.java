@@ -229,7 +229,7 @@ public class RRPSSApp {
 				// print success msg
 				System.out.println("Success! New Menu Item:");
 				newItem.print();
-				break; //end of case 2 Create Menu Item
+				break; // end of case 2 Create Menu Item
 
 			case 3: // 3 Edit Menu Item
 				MenuItem menuItem = null;
@@ -240,9 +240,10 @@ public class RRPSSApp {
 					break; // go back to === View/Edit Menu Item ===
 				}
 
+				System.out.println("Select a Menu Item by Id:");
 				for (i = 0; i < menuItems.size(); i++) { // print all Menu Item
 					MenuItem item = menuItems.get(i);
-					System.out.print((i + 1) + "): ");
+					System.out.print((i + 1) + ") ");
 					item.print();
 				}
 				do { // choose a Menu Item to edit
@@ -251,12 +252,12 @@ public class RRPSSApp {
 						printInvalidInputMsg();
 					}
 					// user entered int
-					option = sc.nextInt();
+					id = sc.nextInt();
 					sc.nextLine(); // get rid of \n
-					if (option <= 0 || option > menuItems.size()) { // invalid value
+					menuItem = MenuItem.getMenuItemById(menuItems, id);
+					if (menuItem == null) { // invalid value
 						printInvalidInputMsg();
 					} else { // valid value
-						menuItem = menuItems.get(i - 1);
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
@@ -342,14 +343,14 @@ public class RRPSSApp {
 
 				System.out.println("\nCurrent menu type: " + menuItem.getMenuType().toString());
 				menuType = MenuItem.chooseMenuType();
-				if(menuType == menuItem.getMenuType()) {
+				if (menuType == menuItem.getMenuType()) {
 					System.out.println("Input value is same as current value: " + menuItem.getMenuType().toString());
 				} else {
 					menuItem.setMenuType(menuType);
 					System.out.println("New value: " + menuItem.getMenuType().toString());
 				}
-				
-				break; //end of case 3 Edit Menu Item
+
+				break; // end of case 3 Edit Menu Item
 
 			case 4: // 4 Delete Menu Item
 				break;

@@ -54,6 +54,22 @@ public class MenuItem {
 		return true;
 	}
 
+	/**
+	 * return MenuItem by its Id
+	 * 
+	 * @param menuItems
+	 * @param id
+	 * @return null if MenuItem not found;
+	 */
+	public static MenuItem getMenuItemById(ArrayList<MenuItem> menuItems, int id) {
+		for (int i = 0; i < menuItems.size(); i++) {
+			if (menuItems.get(i).getMenuItemId() == id) {
+				return menuItems.get(i);
+			}
+		}
+		return null;
+	}
+
 	public static MenuType chooseMenuType() {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
@@ -64,7 +80,7 @@ public class MenuItem {
 		for (int i = 0; i < MenuType.values().length; i++) {
 			System.out.println(i + 1 + ") " + MenuType.values()[i].toString());
 		}
-		
+
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
