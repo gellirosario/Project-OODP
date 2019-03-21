@@ -1,4 +1,7 @@
 MenuItem|11|Cheese Beef Burger|Beef patty with melted cheddar cheese, tomatoes and lettuce|20.45|MAIN
 MenuItem|21|Caesar Salad|Lettuce, eggs, parmesan cheese and cheese croutons with Caesar dressing|6.4|SIDE
 MenuItem|31|Ice Lemon Tea|Homemade fresh ice lemon tea|1.8|DRINK
-MenuItem|41|Cheesecake|Homemade cheesy fluffy cake|1.8|DESSERT
+MenuItem|41|Cheesecake|Homemade cheesy fluffy cake|5.8|DESSERT
+Promotion|1|Lunch Set A|All time popular lunch set!|18.5|11,31
+Promotion|2|Lunch Set B|Classic beef burger and end it with delicious cheesecake|22.3|11,41
+Promotion|5|Dinner Set Alpha|V.Good for dates|35.9|11,31,41

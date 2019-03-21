@@ -3,12 +3,7 @@ package RRPSS;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MenuItem {
-	private int menuItemId;
-	private String name;
-	private String description;
-	private double price;
-
+public class MenuItem extends SaleItem {
 	private MenuType menuType;
 
 	public enum MenuType {
@@ -25,12 +20,8 @@ public class MenuItem {
 		}
 	}
 
-	public MenuItem(int menuItemId, String name, String description, double price, MenuType menuType) {
-//		super(); //TODO remove?
-		this.menuItemId = menuItemId;
-		this.name = name;
-		this.description = description;
-		this.price = price;
+	public MenuItem(int id, String name, String description, double price, MenuType menuType) {
+		super(id, name, description, price);
 		this.menuType = menuType;
 	}
 
@@ -47,7 +38,7 @@ public class MenuItem {
 	 */
 	public static boolean isValidId(ArrayList<MenuItem> menuItems, int id) {
 		for (int i = 0; i < menuItems.size(); i++) {
-			if (menuItems.get(i).getMenuItemId() == id) {
+			if (menuItems.get(i).getId() == id) {
 				return false;
 			}
 		}
@@ -63,7 +54,7 @@ public class MenuItem {
 	 */
 	public static MenuItem getMenuItemById(ArrayList<MenuItem> menuItems, int id) {
 		for (int i = 0; i < menuItems.size(); i++) {
-			if (menuItems.get(i).getMenuItemId() == id) {
+			if (menuItems.get(i).getId() == id) {
 				return menuItems.get(i);
 			}
 		}
@@ -100,13 +91,11 @@ public class MenuItem {
 	}
 
 	public void print() {
-		// eg Id: 1 | Name: Cheesecake | Description: Delicious fresh cheesecake |
-		// Price: $5.25 | Menu Type: Dessert
-		System.out.println("Id: " + menuItemId + " | Name: " + name + " | Description: " + description + " | Price: "
-				+ price + " | Menu Type: " + menuType.toString());
+		System.out.println("Id: " + getId() + " | Name: " + getName() + " | Description: " + getDescription()
+				+ " | Price: " + getPrice() + " | Menu Type: " + menuType.toString());
 	}
 
-	public static void printAllMenuItem(ArrayList<MenuItem> menuItems) {
+	public static void printAll(ArrayList<MenuItem> menuItems) {
 		for (int i = 0; i < menuItems.size(); i++) {
 			MenuItem item = menuItems.get(i);
 			System.out.print((i + 1) + ") ");
@@ -115,43 +104,11 @@ public class MenuItem {
 	}
 
 	public String toString() {
-		return "MenuItem|" + menuItemId + "|" + name + "|" + description + "|" + price + "|" + menuType.name();
+		return "MenuItem|" + getId() + "|" + getName() + "|" + getDescription() + "|" + getPrice() + "|"
+				+ menuType.name();
 	}
 
 	// getter and setters
-
-	public int getMenuItemId() {
-		return menuItemId;
-	}
-
-	public void setMenuItemId(int menuItemId) {
-		this.menuItemId = menuItemId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
 	public MenuType getMenuType() {
 		return menuType;
 	}
