@@ -345,7 +345,36 @@ public class RRPSSApp {
 				break; // end of case 3 Edit Menu Item
 
 			case 4: // 4 Delete Menu Item
-				break;
+				if (menuItems.size() == 0) {
+					System.out.println("No Menu Item available.");
+					break; // go back to === View/Edit Menu Item ===
+				}
+
+				System.out.println("Select a Menu Item by Id:");
+				MenuItem.printAllMenuItem(menuItems);
+				System.out.println("Enter 0 to cancel delete.");
+				do { // choose a Menu Item to delete
+					while (!sc.hasNextInt()) { // check if user entered int
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered int
+					id = sc.nextInt();
+					sc.nextLine(); // get rid of \n
+					if(id == 0) {
+						System.out.println("Cancelled delete.");
+						break; // exit/cancel delete
+					}
+					menuItem = MenuItem.getMenuItemById(menuItems, id);
+					if (menuItem == null) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						menuItems.remove(menuItem);
+						System.out.println("Menu Item Id: " + id + " has been deleted.");
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				break; //end of case 4 Delete Menu Item
 
 			default:
 				System.out.println("No such option");
