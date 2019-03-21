@@ -183,7 +183,7 @@ public class RRPSSApp {
 					System.out.println("No Menu Item available.");
 					break; // go back to === View/Edit Menu Item ===
 				}
-				MenuItem.printAllMenuItem(menuItems);
+				MenuItem.printAll(menuItems);
 				break;
 
 			case 2: // 2 Create Menu Item
@@ -258,7 +258,7 @@ public class RRPSSApp {
 				}
 
 				System.out.println("Select a Menu Item by Id:");
-				MenuItem.printAllMenuItem(menuItems);
+				MenuItem.printAll(menuItems);
 				do { // choose a Menu Item to edit
 					while (!sc.hasNextInt()) { // check if user entered int
 						sc.next(); // move buffer
@@ -375,7 +375,7 @@ public class RRPSSApp {
 				}
 
 				System.out.println("Select a Menu Item by Id:");
-				MenuItem.printAllMenuItem(menuItems);
+				MenuItem.printAll(menuItems);
 				System.out.println("Enter 0 to cancel delete.");
 				do { // choose a Menu Item to delete
 					while (!sc.hasNextInt()) { // check if user entered int
@@ -404,7 +404,6 @@ public class RRPSSApp {
 				System.out.println("No such option.");
 			}
 		} while (option != 0);
-		sc.close();
 	}
 
 	public static void displayPromotion() {
@@ -415,6 +414,7 @@ public class RRPSSApp {
 		String desc = "";
 		double price = 0;
 		ArrayList<MenuItem> promotionItems = null;
+		Promotion promotion = null;
 
 		do {
 			System.out.println("\n==============================");
@@ -445,7 +445,7 @@ public class RRPSSApp {
 					System.out.println("No Promotion available.");
 					break; // go back to === View/Edit Promotion ===
 				}
-				Promotion.printAllMenuItem(promotions);
+				Promotion.printAll(promotions);
 				break;
 
 			case 2: // 2 Create Promotion
@@ -517,16 +517,53 @@ public class RRPSSApp {
 				break;
 
 			case 3: // 3 Edit Promotion
+				if (menuItems.size() == 0) {
+					System.out.println("No Menu Item available. Cannot edit Promotion.");
+					break; // go back to === View/Edit Promotion ===
+				}
+				if (promotions.size() == 0) {
+					System.out.println("No Promotion available.");
+					break; // go back to === View/Edit Promotion ===
+				}
+				
 				break;
 
 			case 4: // 4 Delete Promotion
+				if (promotions.size() == 0) {
+					System.out.println("No Promotion available.");
+					break; // go back to === View/Edit Promotion ===
+				}
+
+				System.out.println("Select a Promotion by Id:");
+				Promotion.printAll(promotions);
+				System.out.println("Enter 0 to cancel delete.");
+				do { // choose a Promotion to delete
+					while (!sc.hasNextInt()) { // check if user entered int
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered int
+					id = sc.nextInt();
+					sc.nextLine(); // get rid of \n
+					if (id == 0) {
+						System.out.println("Cancelled delete.");
+						break; // exit/cancel delete
+					}
+					promotion = Promotion.getPromotionById(promotions, id);
+					if (promotion == null) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						promotions.remove(promotion);
+						System.out.println("Promotion Id: " + id + " has been deleted.");
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
 				break;
 
 			default:
 				System.out.println("No such option.");
 			}
 		} while (option != 0);
-		sc.close();
 	}
 
 }

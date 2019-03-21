@@ -106,7 +106,7 @@ public class MenuItem {
 				+ price + " | Menu Type: " + menuType.toString());
 	}
 
-	public static void printAllMenuItem(ArrayList<MenuItem> menuItems) {
+	public static void printAll(ArrayList<MenuItem> menuItems) {
 		for (int i = 0; i < menuItems.size(); i++) {
 			MenuItem item = menuItems.get(i);
 			System.out.print((i + 1) + ") ");

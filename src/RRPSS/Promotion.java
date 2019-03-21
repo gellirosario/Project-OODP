@@ -57,7 +57,7 @@ public class Promotion {
 		ArrayList<MenuItem> promoItems = new ArrayList<MenuItem>();
 
 		System.out.println("List of all Menu Item(s):");
-		MenuItem.printAllMenuItem(menuItems);
+		MenuItem.printAll(menuItems);
 		
 		System.out.println("Enter number of Menu Item(s) to be added into Promotion:");
 		do {
@@ -112,7 +112,7 @@ public class Promotion {
 		System.out.println(s);
 	}
 
-	public static void printAllMenuItem(ArrayList<Promotion> promotions) {
+	public static void printAll(ArrayList<Promotion> promotions) {
 		for (int i = 0; i < promotions.size(); i++) {
 			Promotion item = promotions.get(i);
 			System.out.print((i + 1) + ") ");
