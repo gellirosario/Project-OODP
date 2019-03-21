@@ -34,6 +34,12 @@ public class RRPSSApp {
 			System.out.println("0) Exit RRPSS");
 			System.out.println("==============================");
 
+			while (!sc.hasNextInt()) { // check if user entered int
+				sc.next(); // move buffer
+				printInvalidInputMsg();
+			}
+
+			// user entered int
 			option = sc.nextInt();
 
 			switch (option) {
@@ -131,6 +137,12 @@ public class RRPSSApp {
 			System.out.println("0) Return to RRPSS Main Menu");
 			System.out.println("==============================");
 
+			while (!sc.hasNextInt()) { // check if user entered int
+				sc.next(); // move buffer
+				printInvalidInputMsg();
+			}
+
+			// user entered int
 			option = sc.nextInt();
 
 			switch (option) {
@@ -286,7 +298,7 @@ public class RRPSSApp {
 				break;
 
 			default:
-				printInvalidInputMsg();
+				System.out.println("No such option");
 			}
 		} while (option != 0);
 	}
