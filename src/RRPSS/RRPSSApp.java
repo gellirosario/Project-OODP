@@ -65,7 +65,8 @@ public class RRPSSApp {
 
 		// save data when program ends
 		saveData();
-
+		
+		sc.close();
 	}// end of main
 
 	/**
@@ -250,7 +251,6 @@ public class RRPSSApp {
 
 			case 3: // 3 Edit Menu Item
 				MenuItem menuItem = null;
-				int i = 0;
 
 				if (menuItems.size() == 0) {
 					System.out.println("No Menu Item available.");
@@ -404,11 +404,17 @@ public class RRPSSApp {
 				System.out.println("No such option.");
 			}
 		} while (option != 0);
+		sc.close();
 	}
 
 	public static void displayPromotion() {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
+		int id = 0;
+		String name = "";
+		String desc = "";
+		double price = 0;
+		ArrayList<MenuItem> promotionItems = null;
 
 		do {
 			System.out.println("\n==============================");
@@ -443,6 +449,71 @@ public class RRPSSApp {
 				break;
 
 			case 2: // 2 Create Promotion
+				if (menuItems.size() == 0) {
+					System.out.println("No Menu Item available. Cannot create Promotion.");
+					break; // go back to === View/Edit Promotion ===
+				}
+				
+				System.out.println("Enter Promotion Id: ");
+				do {
+					while (!sc.hasNextInt()) { // check if user entered int
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered int
+					id = sc.nextInt();
+					sc.nextLine(); // get rid of \n
+					if (id <= 0 || !Promotion.isValidId(promotions, id)) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				System.out.println("Enter Promotion name: ");
+				do {
+					name = sc.nextLine();
+					if (name.isEmpty()) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				System.out.println("Enter Promotion description: ");
+				do {
+					desc = sc.nextLine();
+					if (desc.isEmpty()) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				System.out.println("Enter Promotion price: ");
+				do {
+					while (!sc.hasNextDouble()) { // check if user entered double
+						sc.next(); // move buffer
+						printInvalidInputMsg();
+					}
+					// user entered double
+					price = sc.nextDouble();
+					sc.nextLine(); // get rid of \n
+					if (price < 0) { // invalid value
+						printInvalidInputMsg();
+					} else { // valid value
+						break; // exit do while loop
+					}
+				} while (true); // only exit do while loop when user input is valid
+				
+				promotionItems = Promotion.createPromotionItems(menuItems);
+								
+				// add to ArrayList<Promotion> promotions
+				Promotion newPromotion = new Promotion(id, name, desc, price, promotionItems);
+				promotions.add(newPromotion);
+				// print success msg
+				System.out.println("\nSuccess! New Promotion:");
+				newPromotion.print();
 				break;
 
 			case 3: // 3 Edit Promotion
@@ -455,6 +526,7 @@ public class RRPSSApp {
 				System.out.println("No such option.");
 			}
 		} while (option != 0);
+		sc.close();
 	}
 
 }

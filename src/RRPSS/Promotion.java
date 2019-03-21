@@ -1,6 +1,7 @@
 package RRPSS;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Promotion {
 	private int id;
@@ -22,6 +23,22 @@ public class Promotion {
 		this.menuItems = menuItems;
 	}
 
+	/**
+	 * check if input id is valid; invalid if id already exist
+	 * 
+	 * @param promotions
+	 * @param id
+	 * @return
+	 */
+	public static boolean isValidId(ArrayList<Promotion> promotions, int id) {
+		for (int i = 0; i < promotions.size(); i++) {
+			if (promotions.get(i).getId() == id) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static Promotion getPromotionById(ArrayList<Promotion> promotions, int id) {
 		for (int i = 0; i < promotions.size(); i++) {
 			if (promotions.get(i).getId() == id) {
@@ -29,6 +46,55 @@ public class Promotion {
 			}
 		}
 		return null;
+	}
+
+	public static ArrayList<MenuItem> createPromotionItems(ArrayList<MenuItem> menuItems) {
+		Scanner sc = new Scanner(System.in);
+		int option = 0;
+		int menuItemId = 0;
+		int promoItemsSize = 0;
+		MenuItem promoItem = null;
+		ArrayList<MenuItem> promoItems = new ArrayList<MenuItem>();
+
+		System.out.println("List of all Menu Item(s):");
+		MenuItem.printAllMenuItem(menuItems);
+		
+		System.out.println("Enter number of Menu Item(s) to be added into Promotion:");
+		do {
+			while (!sc.hasNextInt()) { // check if user entered int
+				sc.next(); // move buffer
+				RRPSSApp.printInvalidInputMsg();
+			}
+			// user entered int
+			promoItemsSize = sc.nextInt();
+			sc.nextLine(); // get rid of \n
+			if (promoItemsSize < 0 || promoItemsSize >= menuItems.size()) { // invalid value
+				RRPSSApp.printInvalidInputMsg();
+			} else { // valid value
+				break; // exit do while loop
+			}
+		} while (true); // only exit do while loop when user input is valid
+		
+		for (int i = 0; i < promoItemsSize; i++) {
+			System.out.println("Enter Menu Item Id that will be added to Promotion:");
+			do {
+				while (!sc.hasNextInt()) { // check if user entered int
+					sc.next(); // move buffer
+					RRPSSApp.printInvalidInputMsg();
+				}
+				// user entered int
+				menuItemId = sc.nextInt();
+				sc.nextLine(); // get rid of \n
+				promoItem = MenuItem.getMenuItemById(menuItems, menuItemId);
+				if (promoItem == null) { // invalid value
+					RRPSSApp.printInvalidInputMsg();
+				} else { // valid value
+					promoItems.add(promoItem);
+					break; // exit do while loop
+				}				
+			} while (true); // only exit do while loop when user input is valid
+		}
+		return promoItems;
 	}
 
 	/**
