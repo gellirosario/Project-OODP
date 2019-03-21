@@ -56,7 +56,7 @@ public class RRPSSApp {
 				break;
 
 			default:
-				System.out.println("No such option");
+				System.out.println("No such option.");
 			}
 		} while (option != 0);
 
@@ -223,7 +223,7 @@ public class RRPSSApp {
 				MenuItem newItem = new MenuItem(id, name, desc, price, menuType);
 				menuItems.add(newItem);
 				// print success msg
-				System.out.println("Success! New Menu Item:");
+				System.out.println("\nSuccess! New Menu Item:");
 				newItem.print();
 				break; // end of case 2 Create Menu Item
 
@@ -341,6 +341,9 @@ public class RRPSSApp {
 					menuItem.setMenuType(menuType);
 					System.out.println("New value: " + menuItem.getMenuType().toString());
 				}
+				// print success msg
+				System.out.println("\nSuccess! Edited Menu Item:");
+				menuItem.print();
 
 				break; // end of case 3 Edit Menu Item
 
@@ -361,7 +364,7 @@ public class RRPSSApp {
 					// user entered int
 					id = sc.nextInt();
 					sc.nextLine(); // get rid of \n
-					if(id == 0) {
+					if (id == 0) {
 						System.out.println("Cancelled delete.");
 						break; // exit/cancel delete
 					}
@@ -374,10 +377,10 @@ public class RRPSSApp {
 						break; // exit do while loop
 					}
 				} while (true); // only exit do while loop when user input is valid
-				break; //end of case 4 Delete Menu Item
+				break; // end of case 4 Delete Menu Item
 
 			default:
-				System.out.println("No such option");
+				System.out.println("No such option.");
 			}
 		} while (option != 0);
 	}
