@@ -54,6 +54,22 @@ public class MenuItem {
 		return true;
 	}
 
+	/**
+	 * return MenuItem by its Id
+	 * 
+	 * @param menuItems
+	 * @param id
+	 * @return null if MenuItem not found;
+	 */
+	public static MenuItem getMenuItemById(ArrayList<MenuItem> menuItems, int id) {
+		for (int i = 0; i < menuItems.size(); i++) {
+			if (menuItems.get(i).getMenuItemId() == id) {
+				return menuItems.get(i);
+			}
+		}
+		return null;
+	}
+
 	public static MenuType chooseMenuType() {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
@@ -66,16 +82,19 @@ public class MenuItem {
 		}
 
 		do {
-//			try {				
-			option = sc.nextInt(); // TODO input int error checking
-//			} catch (Exception e) {
-//				System.out.println("Error! Try again");
-//			}
-
-			if (option <= 0 || option > MenuType.values().length) { // invalid input
-				System.out.println("Invalid input, enter again");
+			while (!sc.hasNextInt()) { // check if user entered int
+				sc.next(); // move buffer
+				RRPSSApp.printInvalidInputMsg();
 			}
-		} while (option <= 0 || option > MenuType.values().length);
+			// user entered int
+			option = sc.nextInt();
+			sc.nextLine(); // get rid of \n
+			if (option <= 0 || option > MenuType.values().length) { // invalid value
+				RRPSSApp.printInvalidInputMsg();
+			} else { // valid value
+				break; // exit do while loop
+			}
+		} while (true); // only exit do while loop when user input is valid
 
 		return MenuType.values()[option - 1];
 	}
@@ -85,6 +104,14 @@ public class MenuItem {
 		// Price: $5.25 | Menu Type: Dessert
 		System.out.println("Id: " + menuItemId + " | Name: " + name + " | Description: " + description + " | Price: "
 				+ price + " | Menu Type: " + menuType.toString());
+	}
+
+	public static void printAllMenuItem(ArrayList<MenuItem> menuItems) {
+		for (int i = 0; i < menuItems.size(); i++) {
+			MenuItem item = menuItems.get(i);
+			System.out.print((i + 1) + ") ");
+			item.print();
+		}
 	}
 
 	public String toString() {
