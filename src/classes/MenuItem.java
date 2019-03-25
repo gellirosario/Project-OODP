@@ -1,4 +1,4 @@
-package RRPSS;
+package classes;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -75,13 +75,13 @@ public class MenuItem extends SaleItem {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				RRPSSApp.printInvalidInputMsg();
+				//RRPSSApp.printInvalidInputMsg();
 			}
 			// user entered int
 			option = sc.nextInt();
 			sc.nextLine(); // get rid of \n
 			if (option <= 0 || option > MenuType.values().length) { // invalid value
-				RRPSSApp.printInvalidInputMsg();
+				//RRPSSApp.printInvalidInputMsg();
 			} else { // valid value
 				break; // exit do while loop
 			}

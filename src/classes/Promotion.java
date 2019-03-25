@@ -1,4 +1,4 @@
-package RRPSS;
+package classes;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -66,13 +66,13 @@ public class Promotion extends SaleItem {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				RRPSSApp.printInvalidInputMsg();
+				//RRPSSApp.printInvalidInputMsg();
 			}
 			// user entered int
 			promoItemsSize = sc.nextInt();
 			sc.nextLine(); // get rid of \n
 			if (promoItemsSize < 1 || promoItemsSize > menuItems.size()) { // invalid value
-				RRPSSApp.printInvalidInputMsg();
+				//RRPSSApp.printInvalidInputMsg();
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -83,14 +83,14 @@ public class Promotion extends SaleItem {
 			do {
 				while (!sc.hasNextInt()) { // check if user entered int
 					sc.next(); // move buffer
-					RRPSSApp.printInvalidInputMsg();
+					//RRPSSApp.printInvalidInputMsg();
 				}
 				// user entered int
 				menuItemId = sc.nextInt();
 				sc.nextLine(); // get rid of \n
 				promoItem = MenuItem.getMenuItemById(menuItems, menuItemId);
 				if (promoItem == null) { // invalid value
-					RRPSSApp.printInvalidInputMsg();
+					//RRPSSApp.printInvalidInputMsg();
 				} else { // valid value
 					promoItems.add(promoItem);
 					break; // exit do while loop

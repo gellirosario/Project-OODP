@@ -1,18 +1,18 @@
-package RRPSS;
+package classes;
 
 import java.sql.Date;
 import java.util.ArrayList;
 
 public class Order {
 	
-	private int orderId;
+	private int id;
 	private SaleItem[] items;
 	private Table table;
 	private Date orderDateTime;
 	
-	public Order(int orderId, SaleItem[] items, Table table, Date orderDateTime)
+	public Order(int id, SaleItem[] items, Table table, Date orderDateTime)
 	{
-		this.setOrderId(orderId);
+		this.setId(id);
 		this.setItems(items);
 		this.setTable(table);
 		this.setOrderDateTime(orderDateTime);
@@ -21,15 +21,15 @@ public class Order {
 	/**
 	 * @return the orderId
 	 */
-	public int getOrderId() {
-		return orderId;
+	public int getId() {
+		return id;
 	}
 
 	/**
 	 * @param orderId the orderId to set
 	 */
-	public void setOrderId(int orderId) {
-		this.orderId = orderId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class Order {
 	 */
 	public static boolean isValidId(ArrayList<Order> orders, int id) {
 		for (int i = 0; i < orders.size(); i++) {
-			if (orders.get(i).getOrderId() == id) {
+			if (orders.get(i).getId() == id) {
 				return false;
 			}
 		}

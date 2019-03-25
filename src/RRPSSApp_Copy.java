@@ -1,5 +1,3 @@
-package RRPSS;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import RRPSS.MenuItem.MenuType;
+import classes.*;
+import classes.MenuItem.MenuType;
+import ui.*;
 
-public class RRPSSApp {
+public class RRPSSApp_Copy {
 
 //	 DON'T add int option = 0 AND Scanner here, will affect all menu choice //TODO remove b4 submit
 

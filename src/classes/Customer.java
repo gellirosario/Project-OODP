@@ -1,11 +1,11 @@
-package RRPSS;
+package classes;
 
 public class Customer extends Person{
 	
 	private int customerNo;
 	
-	public Customer(int personId, String name, Gender gender, int customerNo) {
-		super(personId, name, gender);
+	public Customer(int id, String name, Gender gender, int customerNo) {
+		super(id, name, gender);
 		
 		// TODO Auto-generated constructor stub
 		this.setCustomerNo(customerNo);

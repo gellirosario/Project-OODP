@@ -1,4 +1,4 @@
-package RRPSS;
+package classes;
 
 public class Person {
 	

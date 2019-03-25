@@ -1,4 +1,4 @@
-package RRPSS;
+package classes;
 
 public class Table {
 	
@@ -20,6 +20,13 @@ public class Table {
 	private int tableId;
 	private Status status;
 	private int seatingCapacity;
+	
+	public Table(int tableId, Status status, int seatingCapacity)
+	{
+		this.tableId = tableId;
+		this.status = status;
+		this.seatingCapacity = seatingCapacity;
+	}
 	
 	public int getTableId() {
 		return tableId;

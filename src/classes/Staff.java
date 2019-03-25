@@ -1,11 +1,11 @@
-package RRPSS;
+package classes;
 
 public class Staff extends Person{
 	
 	private String jobTitle;
 	
-	public Staff(int personId, String name, Gender gender, String jobTitle) {
-		super(personId, name, gender);
+	public Staff(int id, String name, Gender gender, String jobTitle) {
+		super(id, name, gender);
 		// TODO Auto-generated constructor stub
 		
 		this.setJobTitle(jobTitle);
