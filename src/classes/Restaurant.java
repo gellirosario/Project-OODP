@@ -14,14 +14,18 @@ import classes.Table.Status;
  */
 public class Restaurant {
 	
+	public static ArrayList<SaleItem> saleItems;
 	public static ArrayList<MenuItem> menuItems;
 	public static ArrayList<Promotion> promotions;
 	
 	public static ArrayList<Order> orders;
 	//public static ArrayList<Order> previousOrders;
+	
 	public static ArrayList<Invoice> invoices;
+	
 	public static ArrayList<Reservation> reservations;
 	//public static ArrayList<Reservation> previousReservations;
+	
 	public static ArrayList<Table> tables;
 	
 	public static ArrayList<Staff> staffs;
@@ -36,6 +40,8 @@ public class Restaurant {
 	@SuppressWarnings("unchecked")
 	public static void loadRestaurant(){
 		initRestaurant();
+		
+		//enter code
 	}
 	
 	/**
@@ -46,10 +52,11 @@ public class Restaurant {
 	@SuppressWarnings("unchecked")
 	public static void saveRestaurant(){
 		
+		//enter code
 	}
 	
 	/**
-	 * Initialise restaurant static members
+	 * Initialize restaurant static members
 	 */
 	public static void initRestaurant(){
 		initMenu();
@@ -65,6 +72,7 @@ public class Restaurant {
 	 */
 	public static void initMenu(){
 		
+		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 		ArrayList<Promotion> promoItems = new ArrayList<Promotion>();
 		

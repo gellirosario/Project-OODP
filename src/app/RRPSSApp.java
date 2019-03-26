@@ -1,3 +1,4 @@
+package app;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,7 +14,7 @@ import ui.*;
  */
 public class RRPSSApp {
 	
-	private static Staff currentStaff = null;	
+	public static Staff currentStaff = null;	
 	
 	public static void main(String[] args) {
 		
@@ -28,11 +29,11 @@ public class RRPSSApp {
 		
 		showMainMenu();
 		
-		//System.out.println("Saving system information...");
+		System.out.println("Saving system information...");
 		//Restaurant.saveRestaurant();
 		
-		//System.out.println("Exiting system...");
-		//System.exit(0);
+		System.out.println("Exiting system...");
+		System.exit(0);
 	}
 	
 	/**
@@ -90,6 +91,8 @@ public class RRPSSApp {
 			System.out.println("[2] Orders");
 			System.out.println("[3] Reservations");
 			System.out.println("[4] Sales Revenue Report");
+			//System.out.println("[5] Manage Staffs");
+			//System.out.println("[6] Manage Customers");
 			System.out.println("[0] Exit RRPSS");
 			System.out.println("================================");
 			
@@ -99,12 +102,13 @@ public class RRPSSApp {
 				case 1: //Restaurant Menu
 					break;
 				case 2: //Orders
+					OrderUI.showOrderUI();
 					break;
 				case 3: //Reservations
 					break;
 				case 4: //Sales Revenue Report
 					break;
-					
+
 				default: 
 					System.out.println("No such option.");
 					break;
