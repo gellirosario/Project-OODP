@@ -1,6 +1,9 @@
 package ui;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 import app.RRPSSApp;
@@ -65,6 +68,8 @@ public class OrderUI {
 		}while(option != 0);
 	}
 	
+	//Add to Manager?
+	//Incomplete
 	public static void viewOrder() {
 		System.out.println("\n[View all Orders]\n");
 		
@@ -72,8 +77,8 @@ public class OrderUI {
 		{
 			for(int i = 0; i < Restaurant.orders.size();i++)
 			{
-				System.out.println("("+ Restaurant.orders.get(i).getId() + ") " + Restaurant.orders.get(i).getItems() + " | " 
-									+ Restaurant.orders.get(i).getTable() + " | " + Restaurant.orders.get(i).getOrderDateTime());
+				System.out.println("("+ Restaurant.orders.get(i).getId() + ") " + Restaurant.orders.get(i).getItems() + " | Table No." 
+									+ Restaurant.orders.get(i).getTable().getId() + " | " + Restaurant.orders.get(i).getOrderDateTime());
 			}
 		}
 		else
@@ -81,11 +86,13 @@ public class OrderUI {
 			System.out.println("No orders found.");
 		}
 	}
-	
+
+	//Add to Manager?
+	//Incomplete
 	public static void createOrder() {
 		
 		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
-		ArrayList<Order> orders = new ArrayList<Order>();
+		Order order;
 		int choice = 0, orderSize = 0;
 		char option;
 		
@@ -132,9 +139,14 @@ public class OrderUI {
 			
 		}while(option=='Y');
 		
-		orders.get(Restaurant.orders.size()).setId(Restaurant.orders.size());
-		orders.get(Restaurant.orders.size()).setItems(saleItems);
-		orders.get(Restaurant.orders.size()).setStaff(RRPSSApp.currentStaff);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		System.out.println(dateFormat.format(date));
+		
+		//need change - according to reservation?
+		order = new Order(Restaurant.orders.size()+1,RRPSSApp.currentStaff,saleItems,Restaurant.tables.get(Restaurant.orders.size()),date);
+		
+		Restaurant.orders.add(order);
 		
 		System.out.print("Order complete!");
 		
