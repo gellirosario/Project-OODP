@@ -20,12 +20,15 @@ public class RRPSSApp {
 		
 		System.out.println("Starting RRPSS System....");
 		
-		Restaurant.loadRestaurant();
+		Restaurant.loadData();
 		
+		/*
 		while(currentStaff == null)
 			currentStaff = getStaffIdentity(Restaurant.staffs); //Get staff's identity
 		
+		
 		System.out.println("\nWelcome Back, " + currentStaff.getName() + "!"); //Staff successfully logged in
+		*/
 		
 		showMainMenu();
 		

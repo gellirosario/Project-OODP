@@ -15,7 +15,8 @@ public class Table {
 	 */
 	public static enum Status{
 		Occupied("Occupied"),
-		Vacated("Vacated");
+		Vacated("Vacated"),
+		Reserved("Reserved");
 		
 		private final String value;
 		  

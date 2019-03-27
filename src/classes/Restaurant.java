@@ -1,6 +1,11 @@
 package classes;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import classes.*;
 import classes.MenuItem.MenuType;
@@ -19,12 +24,13 @@ public class Restaurant {
 	public static ArrayList<Promotion> promotions;
 	
 	public static ArrayList<Order> orders;
-	//public static ArrayList<Order> previousOrders;
+	public static ArrayList<Order> completedOrders;
 	
 	public static ArrayList<Invoice> invoices;
 	
 	public static ArrayList<Reservation> reservations;
-	//public static ArrayList<Reservation> previousReservations;
+	//public static ArrayList<Reservation> completedReservations;
+	//public static ArrayList<Reservation> expiredReservations;
 	
 	public static ArrayList<Table> tables;
 	
@@ -38,10 +44,10 @@ public class Restaurant {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void loadRestaurant(){
+	public static void loadData(){
 		initRestaurant();
 		
-		//enter code
+		//add code here
 	}
 	
 	/**
@@ -50,9 +56,8 @@ public class Restaurant {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void saveRestaurant(){
-		
-		//enter code
+	public static void saveData(){
+		//add code here
 	}
 	
 	/**
@@ -63,6 +68,7 @@ public class Restaurant {
 		initPeople();
 		initTables();
 		initOrders();
+		initCompletedOrders();
 		initInvoices();
 		initReservations();
 	}
@@ -72,13 +78,16 @@ public class Restaurant {
 	 */
 	public static void initMenu(){
 		
-		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
+		//ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
+		
 		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 		ArrayList<Promotion> promoItems = new ArrayList<Promotion>();
 		
 		MenuItem foodExample = new MenuItem(11,"Cheese Beef Burger","Beef patty with melted cheddar cheese, tomatoes and lettuce",20.45,MenuType.MAIN);
+		MenuItem foodExample2 = new MenuItem(21,"Caesar Salad","Lettuce, eggs, parmesan cheese and cheese croutons with Caesar dressing",6.4,MenuType.SIDE);
 		
 		menuItems.add(foodExample);
+		menuItems.add(foodExample2);
 		
 		Promotion promoExample = new Promotion(101,"Lunch Set A","All time popular lunch set!",18.5,menuItems);
 		
@@ -128,18 +137,17 @@ public class Restaurant {
 		
 		ArrayList<Table> tables = new ArrayList<Table>();
 		
-		for(int i=0; i<5; i++) //5 x 10 seats
-			tables.add(new Table(i, Status.Vacated, 10));	
+		for(int i=1; i<6; i++) //5 x 2 seats [ID: 1-5]
+			tables.add(new Table(i, Status.Vacated, 2));	
 		
-		for(int i=5; i<10; i++) //5 x 8 seats
-			
+		for(int i=6; i<11; i++) //5 x 4 seats [ID: 6-10]
+			tables.add(new Table(i, Status.Vacated, 4)); 
+		
+		for(int i=11; i<21; i++) //10 x 8 seats [ID: 11-20]
 			tables.add(new Table(i, Status.Vacated, 8));
 		
-		for(int i=10; i<20; i++) //10 x 4 seats
-			tables.add(new Table(i, Status.Vacated, 4));
-		
-		for(int i=20; i<30; i++) //10 x 2 seats
-			tables.add(new Table(i, Status.Vacated, 2));
+		for(int i=21; i<31; i++) //10 x 10 seats [ID: 21-30]
+			tables.add(new Table(i, Status.Vacated, 10));
 		
 		Restaurant.tables = tables;
 	}
@@ -157,6 +165,14 @@ public class Restaurant {
 	public static void initOrders(){
 		Restaurant.orders = new ArrayList<Order>();
 	}
+	
+	/**
+	 * Initialize restaurant completed orders
+	 */
+	public static void initCompletedOrders(){
+		Restaurant.completedOrders = new ArrayList<Order>();
+	}
+
 
 	/**
 	 * Initialize restaurant reservations
