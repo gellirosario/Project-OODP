@@ -1,9 +1,13 @@
 package classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class MenuItem extends SaleItem {
+public class MenuItem extends SaleItem implements Serializable{
+	
+	private static final long serialVersionUID = 4L;
+	
 	private MenuType menuType;
 
 	public enum MenuType {

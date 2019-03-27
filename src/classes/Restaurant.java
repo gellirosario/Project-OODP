@@ -4,8 +4,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import classes.*;
 import classes.MenuItem.MenuType;
@@ -18,6 +26,15 @@ import classes.Table.Status;
  * 
  */
 public class Restaurant {
+	
+	public static final int		BOOKING_MTHINADVANCE		= 1;
+	public static final	int		SESSION_AMSTARTTIME			= 11;
+	public static final	int		SESSION_AMENDTIME			= 15;
+	public static final	int		SESSION_PMSTARTTIME			= 18;
+	public static final	int		SESSION_PMENDTIME			= 22;
+	
+	public static final Path 	DATAPATH 					= Paths.get(System.getProperty("user.dir"), "data");
+	public static final String 	RESTAURANT_FILE_NAME		= "data.dat";	
 	
 	public static ArrayList<SaleItem> saleItems;
 	public static ArrayList<MenuItem> menuItems;
@@ -48,6 +65,35 @@ public class Restaurant {
 		initRestaurant();
 		
 		//add code here
+		Object[] restaurantMember 	= null;
+		Path saveData 				= Paths.get(DATAPATH.toString(), RESTAURANT_FILE_NAME);
+		FileInputStream fis 		= null;
+		ObjectInputStream ois 		= null;
+		
+		try {
+			fis = new FileInputStream(saveData.toString());
+			ois = new ObjectInputStream(fis);
+			restaurantMember = (Object[]) ois.readObject();			
+			if(restaurantMember != null){
+				customers = (ArrayList<Customer>) restaurantMember[0];
+				staffs = (ArrayList<Staff>) restaurantMember[1];
+				menuItems = (ArrayList<MenuItem>) restaurantMember[2];
+				promotions = (ArrayList<Promotion>) restaurantMember[3];
+				invoices = (ArrayList<Invoice>) restaurantMember[4];
+				orders = (ArrayList<Order>) restaurantMember[5];
+				completedOrders = (ArrayList<Order>) restaurantMember[6];
+				reservations = (ArrayList<Reservation>) restaurantMember[7];
+				tables = (ArrayList<Table>) restaurantMember[8];
+			}
+			ois.close();
+		} catch (IOException ex) {
+			System.out.println(RESTAURANT_FILE_NAME + " not found or does not exists. Default settings will be loaded.");
+			initRestaurant();
+		} catch (ClassCastException|ClassNotFoundException ex) {
+			System.out.println("Data file " + RESTAURANT_FILE_NAME + " is corrupted. Default settings will be loaded instead.");
+			initRestaurant();
+		}
+
 	}
 	
 	/**
@@ -58,6 +104,37 @@ public class Restaurant {
 	@SuppressWarnings("unchecked")
 	public static void saveData(){
 		//add code here
+		
+		if(!Files.exists(DATAPATH)){
+			System.out.println("Data folder not found!");
+			File dir = new File(DATAPATH.toString());
+			if(dir.mkdir()){
+				System.out.println("Directory " + DATAPATH + " created...");
+			}
+		}
+		
+		Object[] restaurantMember 	= {customers,
+										staffs, 
+										menuItems,
+										promotions,
+										invoices, 
+										orders, 
+										completedOrders, 
+										reservations,
+										tables};
+		
+		Path 				saveFileName 	= Paths.get(DATAPATH.toString(), RESTAURANT_FILE_NAME);
+		FileOutputStream   	fos 			= null;
+		ObjectOutputStream 	oos 			= null;
+		
+		try {
+			fos = new FileOutputStream(saveFileName.toString());
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject((Object[])restaurantMember);
+			oos.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 	
 	/**

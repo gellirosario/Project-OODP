@@ -1,8 +1,12 @@
 package classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SaleItem {
+public class SaleItem implements Serializable{
+	
+	private static final long serialVersionUID = 4L;
+	
 	private int id;
 	private String name;
 	private String description;

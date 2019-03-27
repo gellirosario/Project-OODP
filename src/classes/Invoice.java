@@ -8,6 +8,8 @@ package classes;
  */
 public class Invoice {
 	
+	private static final long serialVersionUID = 4L;
+	
 	/**
 	 * The id of the Invoice
 	 * 

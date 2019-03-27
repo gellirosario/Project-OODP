@@ -1,12 +1,16 @@
 package classes;
 
+import java.io.Serializable;
+
 /**
  * Represents a customer who is at the restaurant
  * 
  * @author Ann
  *
  */
-public class Customer extends Person{
+public class Customer extends Person implements Serializable{
+	
+	private static final long serialVersionUID = 4L;
 	
 	/**
 	 * The customerNo of the Customer

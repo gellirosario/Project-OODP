@@ -1,5 +1,7 @@
 package classes;
 
+import java.io.Serializable;
+
 /**
  * Represents a table in the restaurant
  * The table can be occupied or vacated
@@ -7,7 +9,9 @@ package classes;
  * @author Ann
  *
  */
-public class Table {
+public class Table implements Serializable{
+	
+	private static final long serialVersionUID = 4L;
 	
 	/**
 	 * Enumeration type used to determine the status of the table

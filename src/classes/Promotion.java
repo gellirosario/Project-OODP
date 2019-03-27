@@ -1,9 +1,13 @@
 package classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Promotion extends SaleItem {
+public class Promotion extends SaleItem implements Serializable{
+	
+	private static final long serialVersionUID = 4L;
+	
 	private ArrayList<MenuItem> menuItems;
 
 	public Promotion() {

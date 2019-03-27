@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.Date;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -9,7 +10,9 @@ import java.util.ArrayList;
  * @author Ann
  *
  */
-public class Order {
+public class Order implements Serializable{
+	
+	private static final long serialVersionUID = 4L;
 	
 	/**
 	 * The id of the order

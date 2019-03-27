@@ -1,5 +1,7 @@
 package classes;
 
+import java.io.Serializable;
+
 /**
  * Represents a person who is at the restaurant
  * A person can be a customer or a staff of the restaurant
@@ -7,7 +9,9 @@ package classes;
  * @author Ann
  *
  */
-public class Person {
+public class Person implements Serializable{
+	
+	private static final long serialVersionUID = 4L;
 	
 	/**
 	 * Enumeration type used to determine the gender of the person

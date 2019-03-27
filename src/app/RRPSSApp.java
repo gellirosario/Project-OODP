@@ -33,7 +33,7 @@ public class RRPSSApp {
 		showMainMenu();
 		
 		System.out.println("Saving system information...");
-		//Restaurant.saveRestaurant();
+		Restaurant.saveData();
 		
 		System.out.println("Exiting system...");
 		System.exit(0);
@@ -112,8 +112,7 @@ public class RRPSSApp {
 				case 4: //Sales Revenue Report
 					break;
 
-				default: 
-					System.out.println("No such option.");
+				default: System.exit(0);
 					break;
 			}
 			

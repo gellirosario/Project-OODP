@@ -51,12 +51,15 @@ public class OrderUI {
 					break;
 				case 2: //Create an order
 					OrderManager.createOrder();
+					Restaurant.saveData();
 					break;
 				case 3: //Edit an order
 					OrderManager.updateOrder();
+					Restaurant.saveData();
 					break;
 				case 4: //Remove an order
 					OrderManager.removeOrder();
+					Restaurant.saveData();
 					break;
 				case 5: //Print invoice
 					break;
@@ -65,7 +68,7 @@ public class OrderUI {
 					break;
 					
 				default: 
-					System.out.println("No such option.");
+					System.exit(0);
 					break;
 			}
 			
