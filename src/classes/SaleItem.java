@@ -2,7 +2,7 @@ package classes;
 
 import java.util.ArrayList;
 
-public class SaleItem {
+public abstract class SaleItem {
 	private int id;
 	private String name;
 	private String description;
@@ -50,6 +50,10 @@ public class SaleItem {
 //		}
 //		return null;
 //	}
+	
+	public abstract void print();
+	
+	public abstract String toString();
 
 	// getter and setters
 	public int getId() {
