@@ -2,20 +2,38 @@ package classes;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a (Food Menu) Set <br>
+ * A Set is a SaleItem, that is made up of 1 or more MenuItem. <br>
+ * There can be duplicated MenuItem in a Set
+ * @author Kailing
+ *
+ */
 public class Set extends SaleItem {
 	private ArrayList<MenuItem> menuItems;
 
+	/**
+	 * Default constructor of Set
+	 */
 	public Set() {
 
 	}
 
+	/**
+	 * Constructor with all attributes of Set
+	 * @param id
+	 * @param name
+	 * @param description
+	 * @param price
+	 * @param menuItems
+	 */
 	public Set(int id, String name, String description, double price, ArrayList<MenuItem> menuItems) {
 		super(id, name, description, price);
 		this.menuItems = menuItems;
 	}
 
 	/**
-	 * check if input id is valid; invalid if id already exist
+	 * Check if input id is valid; invalid if id already exist
 	 * 
 	 * @param sets
 	 * @param id
@@ -51,6 +69,9 @@ public class Set extends SaleItem {
 		System.out.println(s);
 	}
 
+	/**
+	 * returns a String of a Set, including all of its attributes
+	 */
 	public String toString() {
 		String s = "";
 		s = "Set|" + getId() + "|" + getName() + "|" + getDescription() + "|" + getPrice();
@@ -66,11 +87,18 @@ public class Set extends SaleItem {
 		return s;
 	}
 
-	// getter and setters
+	/**
+	 * Get menuItems of Set
+	 * @return menuItems of Set
+	 */
 	public ArrayList<MenuItem> getMenuItems() {
 		return menuItems;
 	}
 
+	/**
+	 * Change menuItems of Set
+	 * @param menuItems new menuItems of Set
+	 */
 	public void setMenuItems(ArrayList<MenuItem> menuItems) {
 		this.menuItems = menuItems;
 	}

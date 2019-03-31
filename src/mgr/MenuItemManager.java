@@ -6,13 +6,18 @@ import java.util.Scanner;
 import classes.MenuItem;
 import classes.MenuItem.MenuType;
 
+/**
+ * Handles manipulation of MenuItem
+ * @author Kailing
+ *
+ */
 public class MenuItemManager {
 
 	/**
 	 * prints all available MenuItem, from parameter menuItems <br>
 	 * print "No Menu Item available." if menuItems size == 0 or menuItems == null
 	 * 
-	 * @param menuItems
+	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 */
 	public void viewAllMenuItem(ArrayList<MenuItem> menuItems) {
 		if (menuItems.size() == 0 || menuItems == null) {
@@ -29,7 +34,7 @@ public class MenuItemManager {
 	/**
 	 * Create new Menu Item from user's inputs
 	 * 
-	 * @param menuItems, available ArrayList<MenuItem> menuItems
+	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 * @return new Menu Item created from user's inputs
 	 */
 	public MenuItem createMenuItem(ArrayList<MenuItem> menuItems) {
@@ -109,7 +114,7 @@ public class MenuItemManager {
 	 * user choose a Menu Item from menuItems, <br>
 	 * user enter new values for chosen Menu Item
 	 * 
-	 * @param menuItems, available ArrayList<MenuItem> menuItems
+	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 * @return updated ArrayList<MenuItem> menuItems, where one of the MenuItem is
 	 *         updated
 	 */
@@ -242,7 +247,7 @@ public class MenuItemManager {
 	 * user choose a Menu Item from menuItems that will be deleted, <br>
 	 * user can enter 0 to terminate delete process
 	 * 
-	 * @param menuItems
+	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 * @return updated ArrayList <MenuItem> menuItems, where one of the MenuItem is
 	 *         deleted <br>
 	 *         null, if menuItems size == 0 or menuItems == null
@@ -303,6 +308,11 @@ public class MenuItemManager {
 		return null;
 	}
 
+	/**
+	 * prints all MenuType <br>
+	 * user choose a MenuType
+	 * @return MenuType chosen by user
+	 */
 	public MenuType chooseMenuType() {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
@@ -317,13 +327,13 @@ public class MenuItemManager {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				// RRPSSApp.System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			option = sc.nextInt();
 			sc.nextLine(); // get rid of \n
 			if (option <= 0 || option > MenuType.values().length) { // invalid value
-				// RRPSSApp.System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}

@@ -8,9 +8,19 @@ import classes.Restaurant;
 import classes.Set;
 import mgr.SetManager;
 
+/**
+ * Handles UI related to Set
+ * 
+ * @author Kailing
+ *
+ */
 public class SetUI {
 	private static SetManager setManager = new SetManager();
 
+	/**
+	 * Display UI related to Set
+	 * @param restaurant
+	 */
 	public static void showSetUI(Restaurant restaurant) {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;

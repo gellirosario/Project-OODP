@@ -7,9 +7,19 @@ import classes.MenuItem;
 import classes.Restaurant;
 import mgr.MenuItemManager;
 
+/**
+ * Handles UI related to MenuItem
+ * 
+ * @author Kailing
+ *
+ */
 public class MenuItemUI {
 	private static MenuItemManager menuItemManager = new MenuItemManager();
 
+	/**
+	 * Display UI related to MenuItem
+	 * @param restaurant
+	 */
 	public static void showMenuItemUI(Restaurant restaurant) {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;

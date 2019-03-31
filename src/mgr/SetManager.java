@@ -6,6 +6,12 @@ import java.util.Scanner;
 import classes.MenuItem;
 import classes.Set;
 
+/**
+ * Handles manipulation of Set
+ * 
+ * @author Kailing
+ *
+ */
 public class SetManager {
 
 	private static MenuItemManager menuItemManager = new MenuItemManager();
@@ -14,7 +20,7 @@ public class SetManager {
 	 * prints all available Set, from parameter sets <br>
 	 * print "No Set available." if sets size == 0 or sets == null
 	 * 
-	 * @param sets
+	 * @param sets available ArrayList<Set> sets
 	 */
 	public void viewAllSet(ArrayList<Set> sets) {
 		if (sets.size() == 0 || sets == null) {
@@ -31,8 +37,8 @@ public class SetManager {
 	/**
 	 * Create new Set from user's inputs
 	 * 
-	 * @param menuItems, available ArrayList<MenuItem> menuItems
-	 * @param sets, available ArrayList<Set> sets
+	 * @param menuItems available ArrayList<MenuItem> menuItems
+	 * @param sets      available ArrayList<Set> sets
 	 * @return null if menuItems size == 0 or menuItems == null <br>
 	 *         new Set created from user's inputs
 	 */
@@ -113,12 +119,12 @@ public class SetManager {
 	}
 
 	/**
-	 * Update a Set from parameter, ArrayList<Set> sets, <br>
+	 * Update a Set from parameter, ArrayList<Set> sets
 	 * 
-	 * @param menuItems, available ArrayList<MenuItem> menuItems
-	 * @param sets, available ArrayList<Set> sets
-	 * @return null, if menuItems size == 0 or menuItems == null or sets size == 0
-	 *         or sets == null; <br>
+	 * @param menuItems available ArrayList<MenuItem> menuItems
+	 * @param sets      available ArrayList<Set> sets
+	 * @return null if menuItems size == 0 or menuItems == null or sets size == 0 or
+	 *         sets == null; <br>
 	 *         updated ArrayList<Set> sets, where one of the Set is updated
 	 */
 	public ArrayList<Set> updateSet(ArrayList<MenuItem> menuItems, ArrayList<Set> sets) {
@@ -257,9 +263,9 @@ public class SetManager {
 	 * user choose a Set from sets that will be deleted, <br>
 	 * user can enter 0 to terminate delete process
 	 * 
-	 * @param sets
-	 * @return updated ArrayList <Set> sets, where one of the Set is deleted;<br>
-	 *         null, if sets size == 0 or sets == null;
+	 * @param sets available ArrayList<Set> sets
+	 * @return updated ArrayList <Set> sets where one of the Set is deleted;<br>
+	 *         null if sets size == 0 or sets == null;
 	 */
 	public ArrayList<Set> deleteSet(ArrayList<Set> sets) {
 		Scanner sc = new Scanner(System.in);
@@ -303,9 +309,10 @@ public class SetManager {
 	/**
 	 * return a Set by its Id
 	 * 
-	 * @param sets
-	 * @param id
-	 * @return null if Set not found
+	 * @param sets available ArrayList<Set> sets
+	 * @param id   id of Set
+	 * @return null if Set not found; <br>
+	 *         Set that has id same as parameter id;
 	 */
 	public Set getSetById(ArrayList<Set> sets, int id) {
 		for (int i = 0; i < sets.size(); i++) {
@@ -321,9 +328,9 @@ public class SetManager {
 	 * Each Set must have at least 1 MenuItem <br>
 	 * Each Set can have duplicate MenuItems
 	 * 
-	 * @param menuItems
+	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 * @return null if input menuItems size == 0 or menuItems == null; <br>
-	 *         valid ArrayList<MenuItem>
+	 *         valid ArrayList<MenuItem> setItems
 	 */
 	public static ArrayList<MenuItem> createSetItems(ArrayList<MenuItem> menuItems) {
 		Scanner sc = new Scanner(System.in);

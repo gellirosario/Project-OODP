@@ -4,8 +4,18 @@ import java.util.Scanner;
 
 import classes.Restaurant;
 
+/**
+ * Handles UI related to SaleItem
+ * 
+ * @author Kailing
+ *
+ */
 public class SaleItemUI {
 
+	/**
+	 * Display UI related to SaleItem
+	 * @param restaurant
+	 */
 	public static void showSaleItemUI(Restaurant restaurant) {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
