@@ -9,12 +9,13 @@ import classes.MenuItem.MenuType;
 public class MenuItemManager {
 
 	/**
-	 * prints all available MenuItem
+	 * prints all available MenuItem, from parameter menuItems <br>
+	 * print "No Menu Item available." if menuItems size == 0 or menuItems == null
 	 * 
 	 * @param menuItems
 	 */
 	public void viewAllMenuItem(ArrayList<MenuItem> menuItems) {
-		if (menuItems.size() == 0) {
+		if (menuItems.size() == 0 || menuItems == null) {
 			System.out.println("No Menu Item available.");
 			return;
 		}
@@ -109,7 +110,8 @@ public class MenuItemManager {
 	 * user enter new values for chosen Menu Item
 	 * 
 	 * @param menuItems, available ArrayList<MenuItem> menuItems
-	 * @return updated ArrayList<MenuItem>, where one of the MenuItem is updated
+	 * @return updated ArrayList<MenuItem> menuItems, where one of the MenuItem is
+	 *         updated
 	 */
 	public ArrayList<MenuItem> updateMenuItem(ArrayList<MenuItem> menuItems) {
 		Scanner sc = new Scanner(System.in);
@@ -241,13 +243,20 @@ public class MenuItemManager {
 	 * user can enter 0 to terminate delete process
 	 * 
 	 * @param menuItems
-	 * @return updated ArrayList <MenuItem>, where one of the MenuItem is deleted
+	 * @return updated ArrayList <MenuItem> menuItems, where one of the MenuItem is
+	 *         deleted <br>
+	 *         null, if menuItems size == 0 or menuItems == null
 	 */
 	public ArrayList<MenuItem> deleteMenuItem(ArrayList<MenuItem> menuItems) {
 		Scanner sc = new Scanner(System.in);
 
 		int id = 0;
 		MenuItem menuItem = null;
+
+		if (menuItems.size() == 0 || menuItems == null) {
+			System.out.println("No Menu item available.");
+			return null;
+		}
 
 		viewAllMenuItem(menuItems);
 		System.out.println("Select a Menu Item by Id:");
@@ -279,13 +288,13 @@ public class MenuItemManager {
 	}
 
 	/**
-	 * return MenuItem by its Id
+	 * return a MenuItem by its Id
 	 * 
 	 * @param menuItems
 	 * @param id
 	 * @return null if MenuItem not found;
 	 */
-	public static MenuItem getMenuItemById(ArrayList<MenuItem> menuItems, int id) {
+	public MenuItem getMenuItemById(ArrayList<MenuItem> menuItems, int id) {
 		for (int i = 0; i < menuItems.size(); i++) {
 			if (menuItems.get(i).getId() == id) {
 				return menuItems.get(i);

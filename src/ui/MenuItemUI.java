@@ -8,7 +8,7 @@ import classes.Restaurant;
 import mgr.MenuItemManager;
 
 public class MenuItemUI {
-	static MenuItemManager menuItemManager = new MenuItemManager();
+	private static MenuItemManager menuItemManager = new MenuItemManager();
 
 	public static void showMenuItemUI(Restaurant restaurant) {
 		Scanner sc = new Scanner(System.in);

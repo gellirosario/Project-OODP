@@ -18,9 +18,9 @@ import mgr.MenuItemManager;
  * 
  */
 public class Restaurant {
-
+	// ArrayList of objects
 	private static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-	private static ArrayList<Promotion> promotions = new ArrayList<Promotion>();
+	private static ArrayList<Set> sets = new ArrayList<Set>();
 
 	private static ArrayList<Order> orders = new ArrayList<Order>();
 	// private static ArrayList<Order> previousOrders;
@@ -31,6 +31,9 @@ public class Restaurant {
 
 	private static ArrayList<Staff> staffs = new ArrayList<Staff>();
 	private static ArrayList<Customer> customers = new ArrayList<Customer>();
+
+	// Manager classes
+	private static MenuItemManager menuItemManager = new MenuItemManager();
 
 	public Restaurant() {
 		loadRestaurant();
@@ -73,22 +76,22 @@ public class Restaurant {
 	}
 
 	/**
-	 * Initialize restaurant's SaleItem: MenuItem and Promotion
+	 * Initialize restaurant's SaleItem: MenuItem and Set
 	 */
 	private void initSaleItem() {
 //		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-//		ArrayList<Promotion> promoItems = new ArrayList<Promotion>();
+//		ArrayList<Set> sets = new ArrayList<Set>();
 //		
 //		MenuItem foodExample = new MenuItem(11,"Cheese Beef Burger","Beef patty with melted cheddar cheese, tomatoes and lettuce",20.45,MenuType.MAIN);
 //		
 //		menuItems.add(foodExample);
 //		
-//		Promotion promoExample = new Promotion(101,"Lunch Set A","All time popular lunch set!",18.5,menuItems);
+//		Set setExample = new Set(101,"Lunch Set A","All time popular lunch set!",18.5,menuItems);
 //		
-//		promoItems.add(promoExample);
+//		setItems.add(setExample);
 //		
 //		Restaurant.menuItems = menuItems;
-//		Restaurant.promotions = promoItems;
+//		Restaurant.sets = setItems;
 
 		// ========== PLACEHOLDER VALUES ========== //TODO remove when not needed
 //		menuItems.add(new MenuItem(31, "Ice Lemon Tea", "Homemade fresh ice lemon tea", 1.8, MenuType.DRINK));
@@ -107,17 +110,17 @@ public class Restaurant {
 				if (tokens[0].equals("MenuItem")) { // MenuItem
 					menuItems.add(new MenuItem(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
 							Double.parseDouble(tokens[4]), MenuType.valueOf(tokens[5])));
-				} else if (tokens[0].equals("Promotion")) { // Promotion
+				} else if (tokens[0].equals("Set")) { // Set
 					String[] stringIds = tokens[5].split(","); // menuItemIds are split by ','
 					int[] menuItemIds = Arrays.asList(stringIds).stream().mapToInt(Integer::parseInt).toArray();
-					MenuItem promotionItem = null;
-					ArrayList<MenuItem> promotionItems = new ArrayList<MenuItem>();
+					MenuItem setItem = null;
+					ArrayList<MenuItem> setItems = new ArrayList<MenuItem>();
 					for (int i = 0; i < menuItemIds.length; i++) {
-						promotionItem = MenuItemManager.getMenuItemById(menuItems, menuItemIds[i]);
-						promotionItems.add(promotionItem);
+						setItem = menuItemManager.getMenuItemById(menuItems, menuItemIds[i]);
+						setItems.add(setItem);
 					}
-					promotions.add(new Promotion(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
-							Double.parseDouble(tokens[4]), promotionItems));
+					sets.add(new Set(Integer.parseInt(tokens[1]), tokens[2], tokens[3], Double.parseDouble(tokens[4]),
+							setItems));
 				}
 				// ####### u can ADD YOUR OWN READ DATA HERE ####### //TODO remove b4 submit
 				else {
@@ -206,7 +209,7 @@ public class Restaurant {
 	}
 
 	/**
-	 * Save all SaleItem: MenuItem and Promotion, into data.txt
+	 * Save all SaleItem: MenuItem and Set, into data.txt
 	 */
 	private void saveSaleItem() {
 		// output to text
@@ -218,9 +221,9 @@ public class Restaurant {
 				String line = menuItems.get(i).toString(); // generate line
 				out.println(line); // add a line to text file
 			}
-			// save all Promotion
-			for (int i = 0; i < promotions.size(); i++) {
-				String line = promotions.get(i).toString(); // generate line
+			// save all Set
+			for (int i = 0; i < sets.size(); i++) {
+				String line = sets.get(i).toString(); // generate line
 				out.println(line); // add a line to text file
 			}
 			// ####### u can ADD YOUR OWN SAVE DATA HERE ####### //TODO remove b4 submit
@@ -239,12 +242,12 @@ public class Restaurant {
 		Restaurant.menuItems = menuItems;
 	}
 
-	public ArrayList<Promotion> getPromotions() {
-		return promotions;
+	public ArrayList<Set> getSets() {
+		return sets;
 	}
 
-	public void setPromotions(ArrayList<Promotion> promotions) {
-		Restaurant.promotions = promotions;
+	public void setSets(ArrayList<Set> sets) {
+		Restaurant.sets = sets;
 	}
 
 	public ArrayList<Order> getOrders() {

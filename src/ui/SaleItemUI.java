@@ -15,7 +15,7 @@ public class SaleItemUI {
 			System.out.println("=== [Sale Item] ===");
 			System.out.println("Choose an option:");
 			System.out.println("[1] Menu Item");
-			System.out.println("[2] Promotion");
+			System.out.println("[2] Set");
 			System.out.println("[0] Return to Main Menu");
 			System.out.println("==============================");
 
@@ -35,6 +35,7 @@ public class SaleItemUI {
 				MenuItemUI.showMenuItemUI(restaurant);
 				break;
 			case 2:
+				SetUI.showSetUI(restaurant);
 				break;
 			default:
 				System.out.println("No such option.");
