@@ -14,24 +14,24 @@ import ui.*;
 public class RRPSSApp {
 
 	private static Staff currentStaff = null;
+	private static Restaurant restaurant = null;
 
 	public static void main(String[] args) {
 
 		System.out.println("Starting RRPSS System....");
 
-		Restaurant.loadRestaurant();
+//		Restaurant.loadRestaurant();
+		restaurant = new Restaurant();
 
 		while (currentStaff == null)
-			currentStaff = getStaffIdentity(Restaurant.staffs); // Get staff's identity
+			currentStaff = getStaffIdentity(restaurant.getStaffs()); // Get staff's identity
 
 		System.out.println("\nWelcome Back, " + currentStaff.getName() + "!"); // Staff successfully logged in
 
 		showMainMenu();
 
-		// System.out.println("Saving system information...");
-		// Restaurant.saveRestaurant();
+		restaurant.saveRestaurant();
 
-		// System.out.println("Exiting system...");
 		// System.exit(0);
 	}
 
@@ -82,7 +82,7 @@ public class RRPSSApp {
 			System.out.println("\n================================");
 			System.out.println("=== [RRPSS System Main Menu] ===");
 			System.out.println("Choose an option:");
-			System.out.println("[1] Restaurant Menu");
+			System.out.println("[1] Restaurant's Sale Items");
 			System.out.println("[2] Orders");
 			System.out.println("[3] Reservations");
 			System.out.println("[4] Sales Revenue Report");
@@ -95,7 +95,8 @@ public class RRPSSApp {
 			case 0:
 				System.out.println("Exiting RRPSS System...");
 				break;
-			case 1: // Restaurant Menu
+			case 1: // Restaurant's Sale Items
+				SaleItemUI.showSaleItemUI(restaurant);
 				break;
 			case 2: // Orders
 				break;

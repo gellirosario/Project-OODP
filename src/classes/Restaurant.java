@@ -1,11 +1,16 @@
 package classes;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import classes.*;
 import classes.MenuItem.MenuType;
 import classes.Person.Gender;
 import classes.Table.Status;
+import mgr.MenuItemManager;
 
 /**
  * 
@@ -13,148 +18,281 @@ import classes.Table.Status;
  * 
  */
 public class Restaurant {
-	
-	public static ArrayList<MenuItem> menuItems;
-	public static ArrayList<Promotion> promotions;
-	
-	public static ArrayList<Order> orders;
-	//public static ArrayList<Order> previousOrders;
-	public static ArrayList<Invoice> invoices;
-	public static ArrayList<Reservation> reservations;
-	//public static ArrayList<Reservation> previousReservations;
-	public static ArrayList<Table> tables;
-	
-	public static ArrayList<Staff> staffs;
-	public static ArrayList<Customer> customers;
-	
-	
+
+	private static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+	private static ArrayList<Promotion> promotions = new ArrayList<Promotion>();
+
+	private static ArrayList<Order> orders = new ArrayList<Order>();
+	// private static ArrayList<Order> previousOrders;
+	private static ArrayList<Invoice> invoices = new ArrayList<Invoice>();
+	private static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+	// private static ArrayList<Reservation> previousReservations;
+	private static ArrayList<Table> tables = new ArrayList<Table>();
+
+	private static ArrayList<Staff> staffs = new ArrayList<Staff>();
+	private static ArrayList<Customer> customers = new ArrayList<Customer>();
+
+	public Restaurant() {
+		loadRestaurant();
+	}
+
 	/**
 	 * 
 	 * Load restaurant data from previous saved data.
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void loadRestaurant(){
+	public void loadRestaurant() {
+		System.out.println("Loading data...");
 		initRestaurant();
+		System.out.println("Loading data done.");
 	}
-	
+
 	/**
 	 * 
 	 * Save restaurant data
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public static void saveRestaurant(){
-		
+	public void saveRestaurant() {
+		System.out.println("Saving data...");
+		saveSaleItem();
+		System.out.println("Saving data done.");
 	}
-	
+
 	/**
 	 * Initialise restaurant static members
 	 */
-	public static void initRestaurant(){
-		initMenu();
+	private void initRestaurant() {
+		initSaleItem();
 		initPeople();
 		initTables();
 		initOrders();
 		initInvoices();
 		initReservations();
 	}
-	
+
 	/**
-	 * Initialize restaurant menu
+	 * Initialize restaurant's SaleItem: MenuItem and Promotion
 	 */
-	public static void initMenu(){
-		
-		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-		ArrayList<Promotion> promoItems = new ArrayList<Promotion>();
-		
-		MenuItem foodExample = new MenuItem(11,"Cheese Beef Burger","Beef patty with melted cheddar cheese, tomatoes and lettuce",20.45,MenuType.MAIN);
-		
-		menuItems.add(foodExample);
-		
-		Promotion promoExample = new Promotion(101,"Lunch Set A","All time popular lunch set!",18.5,menuItems);
-		
-		promoItems.add(promoExample);
-		
-		Restaurant.menuItems = menuItems;
-		Restaurant.promotions = promoItems;
-		
+	private void initSaleItem() {
+//		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+//		ArrayList<Promotion> promoItems = new ArrayList<Promotion>();
+//		
+//		MenuItem foodExample = new MenuItem(11,"Cheese Beef Burger","Beef patty with melted cheddar cheese, tomatoes and lettuce",20.45,MenuType.MAIN);
+//		
+//		menuItems.add(foodExample);
+//		
+//		Promotion promoExample = new Promotion(101,"Lunch Set A","All time popular lunch set!",18.5,menuItems);
+//		
+//		promoItems.add(promoExample);
+//		
+//		Restaurant.menuItems = menuItems;
+//		Restaurant.promotions = promoItems;
+
+		// ========== PLACEHOLDER VALUES ========== //TODO remove when not needed
+//		menuItems.add(new MenuItem(31, "Ice Lemon Tea", "Homemade fresh ice lemon tea", 1.8, MenuType.DRINK));
+
+		// read/load data from text file, data.txt
+		try {
+			String line = "";
+			BufferedReader reader = new BufferedReader(new FileReader("data.txt"));
+			while ((line = reader.readLine()) != null) { // check and read next line
+//				System.out.println("Line: " + line); //TODO remove b4 submit
+
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("MenuItem")) { // MenuItem
+					menuItems.add(new MenuItem(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
+							Double.parseDouble(tokens[4]), MenuType.valueOf(tokens[5])));
+				} else if (tokens[0].equals("Promotion")) { // Promotion
+					String[] stringIds = tokens[5].split(","); // menuItemIds are split by ','
+					int[] menuItemIds = Arrays.asList(stringIds).stream().mapToInt(Integer::parseInt).toArray();
+					MenuItem promotionItem = null;
+					ArrayList<MenuItem> promotionItems = new ArrayList<MenuItem>();
+					for (int i = 0; i < menuItemIds.length; i++) {
+						promotionItem = MenuItemManager.getMenuItemById(menuItems, menuItemIds[i]);
+						promotionItems.add(promotionItem);
+					}
+					promotions.add(new Promotion(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
+							Double.parseDouble(tokens[4]), promotionItems));
+				}
+				// ####### u can ADD YOUR OWN READ DATA HERE ####### //TODO remove b4 submit
+				else {
+					System.out.println("Error reading data.");
+				}
+
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
 	 * Initialize restaurant staff and customers
 	 */
-	public static void initPeople(){
-		
+	private void initPeople() {
+
 		ArrayList<Staff> staffs = new ArrayList<Staff>();
-		
-		String[] name = {"John", "Mary", "Susan", "Henry"};
-		Gender[] gender = {Gender.Male, Gender.Female, Gender.Female, Gender.Male};
-		String[] jobTitle = {"Manager", "Chef", "Waiter", "Waiter"};
-		
-		for(int i=0; i<4; i++)
-		{
-			staffs.add(new Staff(i+1,name[i],gender[i],jobTitle[i]));
+
+		String[] name = { "John", "Mary", "Susan", "Henry" };
+		Gender[] gender = { Gender.Male, Gender.Female, Gender.Female, Gender.Male };
+		String[] jobTitle = { "Manager", "Chef", "Waiter", "Waiter" };
+
+		for (int i = 0; i < 4; i++) {
+			staffs.add(new Staff(i + 1, name[i], gender[i], jobTitle[i]));
 		}
-		
+
 		Restaurant.staffs = staffs;
-		
+
 		ArrayList<Customer> customers = new ArrayList<Customer>();
-		
-		String[] cName = {"Kannan", "Jennifer", "Jackson", "Katarina"};
-		Gender[] cGender = {Gender.Female, Gender.Female, Gender.Male, Gender.Female};
-		int[] cNo = {91234567,91234566,91234565,91234564};
-		
-		for(int i=0; i<4; i++) 
-		{
-			customers.add(new Customer(i+1,cName[i],cGender[i],cNo[i]));
+
+		String[] cName = { "Kannan", "Jennifer", "Jackson", "Katarina" };
+		Gender[] cGender = { Gender.Female, Gender.Female, Gender.Male, Gender.Female };
+		int[] cNo = { 91234567, 91234566, 91234565, 91234564 };
+
+		for (int i = 0; i < 4; i++) {
+			customers.add(new Customer(i + 1, cName[i], cGender[i], cNo[i]));
 		}
-		
+
 		Restaurant.customers = customers;
 	}
-	
+
 	/**
 	 * Initialize restaurant tables
 	 */
-	public static void initTables(){
-		
+	private void initTables() {
+
 		ArrayList<Table> tables = new ArrayList<Table>();
-		
-		for(int i=0; i<5; i++) //5 x 10 seats
-			tables.add(new Table(i, Status.Vacated, 10));	
-		
-		for(int i=5; i<10; i++) //5 x 8 seats
-			
+
+		for (int i = 0; i < 5; i++) // 5 x 10 seats
+			tables.add(new Table(i, Status.Vacated, 10));
+
+		for (int i = 5; i < 10; i++) // 5 x 8 seats
+
 			tables.add(new Table(i, Status.Vacated, 8));
-		
-		for(int i=10; i<20; i++) //10 x 4 seats
+
+		for (int i = 10; i < 20; i++) // 10 x 4 seats
 			tables.add(new Table(i, Status.Vacated, 4));
-		
-		for(int i=20; i<30; i++) //10 x 2 seats
+
+		for (int i = 20; i < 30; i++) // 10 x 2 seats
 			tables.add(new Table(i, Status.Vacated, 2));
-		
+
 		Restaurant.tables = tables;
 	}
-	
+
 	/**
 	 * Initialize restaurant invoices
 	 */
-	public static void initInvoices(){
-        Restaurant.invoices = new ArrayList<Invoice>();
+	private void initInvoices() {
+		Restaurant.invoices = new ArrayList<Invoice>();
 	}
 
 	/**
 	 * Initialize restaurant orders
 	 */
-	public static void initOrders(){
+	private void initOrders() {
 		Restaurant.orders = new ArrayList<Order>();
 	}
 
 	/**
 	 * Initialize restaurant reservations
 	 */
-	public static void initReservations(){
-        Restaurant.reservations = new ArrayList<Reservation>();
+	private void initReservations() {
+		Restaurant.reservations = new ArrayList<Reservation>();
+	}
+
+	/**
+	 * Save all SaleItem: MenuItem and Promotion, into data.txt
+	 */
+	private void saveSaleItem() {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter("data.txt");
+
+			// save all MenuItem
+			for (int i = 0; i < menuItems.size(); i++) {
+				String line = menuItems.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+			// save all Promotion
+			for (int i = 0; i < promotions.size(); i++) {
+				String line = promotions.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+			// ####### u can ADD YOUR OWN SAVE DATA HERE ####### //TODO remove b4 submit
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<MenuItem> getMenuItems() {
+		return menuItems;
+	}
+
+	public void setMenuItems(ArrayList<MenuItem> menuItems) {
+		Restaurant.menuItems = menuItems;
+	}
+
+	public ArrayList<Promotion> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(ArrayList<Promotion> promotions) {
+		Restaurant.promotions = promotions;
+	}
+
+	public ArrayList<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(ArrayList<Order> orders) {
+		Restaurant.orders = orders;
+	}
+
+	public ArrayList<Invoice> getInvoices() {
+		return invoices;
+	}
+
+	public void setInvoices(ArrayList<Invoice> invoices) {
+		Restaurant.invoices = invoices;
+	}
+
+	public ArrayList<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(ArrayList<Reservation> reservations) {
+		Restaurant.reservations = reservations;
+	}
+
+	public ArrayList<Table> getTables() {
+		return tables;
+	}
+
+	public void setTables(ArrayList<Table> tables) {
+		Restaurant.tables = tables;
+	}
+
+	public ArrayList<Staff> getStaffs() {
+		return staffs;
+	}
+
+	public void setStaffs(ArrayList<Staff> staffs) {
+		Restaurant.staffs = staffs;
+	}
+
+	public ArrayList<Customer> getCustomers() {
+		return customers;
+	}
+
+	public void setCustomers(ArrayList<Customer> customers) {
+		Restaurant.customers = customers;
 	}
 
 }
