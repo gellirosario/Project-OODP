@@ -7,7 +7,7 @@ package classes;
  * @author Kailing
  *
  */
-public abstract class SaleItem {    
+public abstract class SaleItem {//TODO remove
 	/**
 	 * id of SaleItem
 	 */
