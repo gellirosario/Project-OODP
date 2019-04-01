@@ -1,6 +1,8 @@
 package classes;
 
-public class Invoice {
+import java.io.Serializable;
+
+public class Invoice implements Serializable {
 	private static final long serialVersionUID = 4L;
 	
 	private int id;
