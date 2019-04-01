@@ -20,7 +20,7 @@ public class RRPSSApp {
 
 		System.out.println("Starting RRPSS System....");
 
-//		Restaurant.loadRestaurant();
+		//		Restaurant.loadRestaurant();
 		restaurant = new Restaurant();
 
 		while (currentStaff == null)
@@ -47,7 +47,7 @@ public class RRPSSApp {
 
 		Staff existingStaff = null;
 
-		System.out.println("Please enter your Staff ID:");
+		System.out.println("\nPlease enter your Staff ID:");
 
 		Scanner sc = new Scanner(System.in);
 		int id = sc.nextInt();
@@ -99,6 +99,7 @@ public class RRPSSApp {
 				SaleItemUI.showSaleItemUI(restaurant);
 				break;
 			case 2: // Orders
+				OrderUI.showOrderUI(restaurant,currentStaff);
 				break;
 			case 3: // Reservations
 				break;
