@@ -1,21 +1,18 @@
 package classes;
 
+/**
+ * Represents a person who is at the restaurant
+ * A person can be a customer or a staff of the restaurant
+ * 
+ * @author Ann
+ *
+ */
 public class Person {
-	
-	/**
-	 * Represents a person who is at the restaurant
-	 * A person can be a customer or a staff of the restaurant
-	 * 
-	 * @author Rosario Gelli Ann Rosario
-	 *
-	 */
-	
 	
 	/**
 	 * Enumeration type used to determine the gender of the person
 	 * 
 	 */
-	
 	public static enum Gender{
 		Male("Male"),
 		Female("Female");

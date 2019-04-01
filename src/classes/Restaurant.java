@@ -64,7 +64,7 @@ public class Restaurant {
 	}
 
 	/**
-	 * Initialise restaurant static members
+	 * Initialize restaurant static members
 	 */
 	private void initRestaurant() {
 		initSaleItem();
@@ -171,18 +171,17 @@ public class Restaurant {
 
 		ArrayList<Table> tables = new ArrayList<Table>();
 
-		for (int i = 0; i < 5; i++) // 5 x 10 seats
-			tables.add(new Table(i, Status.Vacated, 10));
+        for(int i=1; i<6; i++) //5 x 2 seats [ID: 1-5]
+            tables.add(new Table(i, Status.Vacated, 2));    
 
-		for (int i = 5; i < 10; i++) // 5 x 8 seats
+        for(int i=6; i<11; i++) //5 x 4 seats [ID: 6-10]
+            tables.add(new Table(i, Status.Vacated, 4)); 
 
-			tables.add(new Table(i, Status.Vacated, 8));
-
-		for (int i = 10; i < 20; i++) // 10 x 4 seats
-			tables.add(new Table(i, Status.Vacated, 4));
-
-		for (int i = 20; i < 30; i++) // 10 x 2 seats
-			tables.add(new Table(i, Status.Vacated, 2));
+        for(int i=11; i<21; i++) //10 x 8 seats [ID: 11-20]
+            tables.add(new Table(i, Status.Vacated, 8));
+        
+        for(int i=21; i<31; i++) //10 x 10 seats [ID: 21-30]
+            tables.add(new Table(i, Status.Vacated, 10));
 
 		Restaurant.tables = tables;
 	}
