@@ -21,12 +21,31 @@ public class InvoiceManager {
 		
 		//check 2 - if there is no such orderId
 		for(int i = 0; i < Restaurant.orders.size(); i++) {
-			
+		
 			if(Restaurant.orders.get(i).getId() == orderId) {
 				return true;
 			}
 		}
 		return false;
 	}
+	
+	public static void printInvoice(int orderId) {
+		
+		Order order = null;
+		
+		//retrieve order
+		for(int i = 0; i < Restaurant.orders.size(); i++) {
+			
+			if(Restaurant.orders.get(i).getId() == orderId) {
+				order = Restaurant.orders.get(i);
+			}
+		}
+		//retrieve total tax
+		//retrieve total svcChrg
+		//retrieve subTotal
+		
+		
+	}
+	
 	
 }
