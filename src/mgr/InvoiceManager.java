@@ -9,31 +9,13 @@ import classes.Restaurant;
 import classes.Invoice;
 import classes.SaleItem;
 import mgr.OrderMgr;
+import ui.InvoiceUI;
 
 
 
 public class InvoiceManager {
 	
-	public static boolean checkId(int orderId) {
-
-		//check 1 - if there are no orders
-		if(Restaurant.orders.size() == 0) {
-			return false;
-		}
-		
-		//check 2 - if there is no such orderId
-		for(int i = 0; i < Restaurant.orders.size(); i++) {
-		
-			if(Restaurant.orders.get(i).getId() == orderId) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public static void printInvoice(int orderId) {
-		
-		Order order = null;
+	public static void printInvoice(Order order) {
 		
 		//retrieve order
 		for(int i = 0; i < Restaurant.orders.size(); i++) {
@@ -45,7 +27,6 @@ public class InvoiceManager {
 		//retrieve total tax
 		//retrieve total svcChrg
 		//retrieve subTotal
-		
 		
 	}
 	
