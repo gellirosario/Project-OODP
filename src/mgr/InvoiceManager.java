@@ -1,11 +1,13 @@
 package mgr;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 //import app.RRPSSApp;
 import classes.Order;
 import classes.Restaurant;
 import classes.Invoice;
+import classes.SaleItem;
 import mgr.OrderMgr;
 
 
@@ -45,6 +47,19 @@ public class InvoiceManager {
 		//retrieve subTotal
 		
 		
+	}
+	
+	public static double calSubTotal(Order order) {
+		
+		double subTotal = 0.0;
+		
+		SaleItem[] items = order.getItems();
+		
+		for(SaleItem item : items) {
+			subTotal += item.getPrice();
+		}
+		
+		return subTotal;
 	}
 	
 	
