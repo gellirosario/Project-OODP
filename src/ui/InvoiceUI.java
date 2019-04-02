@@ -33,7 +33,7 @@ public class InvoiceUI {
 		for(int i = 0; i < orders.size(); i++) {
 			if(orders.get(i).getId() == orderId) {
 				order = orders.get(i);
-				InvoiceManager.printInvoice(orderId);
+				InvoiceManager.printInvoice(order);
 			}
 			if(i+1 == orders.size()){
 				System.out.println("Order not found. Unable to print invoice");
