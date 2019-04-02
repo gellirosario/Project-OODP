@@ -13,11 +13,14 @@ public class Invoice implements Serializable {
 	
 	private double svcChrg;
 	
-	public Invoice(int id, Order order, double tax, double svcChrg) {
+	private double subTotal;
+	
+	public Invoice(int id, Order order, double tax, double svcChrg, double subTotal) {
 		this.setId(id);
 		this.setOrder(order);
 		this.setTax(tax);
 		this.setSvcChrg(svcChrg);
+		this.setSubTotal(subTotal);
 	}
 	
 	public int getId() {
@@ -50,5 +53,13 @@ public class Invoice implements Serializable {
 	
 	public void setSvcChrg(double svcChrg) {
 		this.svcChrg = svcChrg;
+	}
+	
+	public double getSubTotal() {
+		return subTotal;
+	}
+	
+	public void setSubTotal(double subTotal) {
+		this.subTotal = subTotal;
 	}
 }
