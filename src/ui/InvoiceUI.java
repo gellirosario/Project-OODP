@@ -33,16 +33,13 @@ public class InvoiceUI {
 			if(orders.get(i).getId() == orderId) {
 				order = orders.get(i);
 				InvoiceManager.printInvoice(order);
+				
+				//after printing
+				completedOrders.add(order);
+				orders.remove(order);
 			}
-			if(i+1 == orders.size()){
-				for(int j = 0; j < completedOrders.size(); j++) {
-					if(completedOrders.get(j).getId() == orderId) {
-						System.out.println("This order has already been checked out.");
-						break;
-						return; //call from order
-					}
-				}
-				System.out.println("Order not found. Unable to print invoice");
+			else if(i+1 == orders.size()){
+				System.out.println("Order not in current orders. Unable to print invoice.");
 			}
 		}
 	}
