@@ -1,7 +1,8 @@
 package mgr;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 import classes.Order;
 import classes.Restaurant;
@@ -9,7 +10,6 @@ import classes.Invoice;
 import classes.SaleItem;
 import mgr.OrderMgr;
 import ui.InvoiceUI;
-
 
 
 public class InvoiceManager {
@@ -21,9 +21,15 @@ public class InvoiceManager {
 	
 	public static void printInvoice(Order order) {
 		
+		String itemName;
+		
+		int qty = 0;
+		
 		double tax = 0.0;
 		double svcChrg = 0.0;
 		double subTotal = 0.0;
+		double grandTotal = 0.0;
+		double price = 0.0;
 		
 		Invoice invoice = null;
 		
@@ -40,6 +46,8 @@ public class InvoiceManager {
 		
 		svcChrg = SVC_CHRG * subTotal;
 		
+		grandTotal = subTotal + tax + svcChrg;
+		
 		//Create new invoice, append to arraylist invoices
 		invoice = new Invoice(invoices.size()+1, order, tax, svcChrg, subTotal);
 		
@@ -50,15 +58,45 @@ public class InvoiceManager {
 		
 		saleItems = removeDuplicate(saleItems);
 		
-		//print invoice
+		//need to add time
+		Date curDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		String paymentDate = dateFormat.format(curDate);
 		
+		//start of print
+		System.out.println("****************************************");
+		System.out.println("                 INVOICE                ");
+		System.out.println("****************************************");
+		System.out.println("Table: " + order.getTable().getTableId());
+		System.out.println("Date-Time: " + paymentDate);
+		System.out.print("\n");
+		System.out.println("-----------------------------------------");
 		
+		for(int i = 0; i < saleItems.size(); i++) {
+			itemName = saleItems.get(i).getName();
+			qty = count.get(i);
+			price = saleItems.get(i).getPrice();
+			price *= qty;
+			
+			System.out.println(String.format("%s %-30.30s %8.2f", qty, itemName, price));
+		}
 		
+		System.out.println("-----------------------------------------");
+		System.out.println(String.format("%30.30s: %9.2f", "Sub-Total", subTotal));
+		System.out.println(String.format("%30.30s: %9.2f", "GST", tax));
+		System.out.println(String.format("%30.30s: %9.2f", "Svc Chrg", svcChrg));
+		System.out.println("-----------------------------------------");
+		System.out.println(String.format("%30.30s: %9.2f", "TOTAL", grandTotal));
+		System.out.print("\n");
+		System.out.println("*****************************************");
+		System.out.println("      Thank you for dining with us!      ");
+		System.out.println("*****************************************");
+		//end of print
 		
-		
-
-		
+		//uncomment in ordermanager
+		moveToCompletedOrder(order);
 	}
+		
 	
 	public static double calSubTotal(Order order) {
 		
@@ -113,7 +151,6 @@ public class InvoiceManager {
 			}
 		}
 		return count;
-		
 	}
 	
 	
