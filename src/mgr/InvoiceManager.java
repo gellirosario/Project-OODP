@@ -31,15 +31,31 @@ public class InvoiceManager {
 		
 		ArrayList<SaleItem> saleItems = order.getItems();
 		
+		ArrayList<Integer> count = new ArrayList<Integer>();
+		
+		//Calculations
 		subTotal = calSubTotal(order);
 		
 		tax = GST * subTotal;
 		
 		svcChrg = SVC_CHRG * subTotal;
 		
+		//Create new invoice, append to arraylist invoices
 		invoice = new Invoice(invoices.size()+1, order, tax, svcChrg, subTotal);
 		
 		invoices.add(invoice);
+		
+		//count quantity of each saleitem
+		count = countItems(saleItems);
+		
+		saleItems = removeDuplicate(saleItems);
+		
+		//print invoice
+		
+		
+		
+		
+		
 
 		
 	}
@@ -70,6 +86,37 @@ public class InvoiceManager {
 		
 		return newItems;
 	}
+	
+	//counts the quantity of each sale item from the list of sale items.
+	//count quantity in arraylist count corresponds to first instance of each saleitem
+	public static ArrayList<Integer> countItems(ArrayList<SaleItem> items) {
+		
+		Integer value = 0;
+		
+		ArrayList<Integer> count = new ArrayList<Integer>();
+		
+		ArrayList<SaleItem> temp = new ArrayList<SaleItem>();
+		
+		for(int i = 0; i < items.size(); i++) {
+			if(temp.contains(items.get(i))) {
+				for(int j = 0; j < temp.size(); j++) {
+					if(items.get(i).getId() == temp.get(j).getId()) {
+						value = count.get(j);
+						value += 1;
+						count.set(j, value);
+					}
+				}
+			}
+			else if(!temp.contains(items.get(i))) {
+				temp.add(items.get(i));
+				count.add(1);
+			}
+		}
+		return count;
+		
+	}
+	
+	
 	
 	
 }
