@@ -15,12 +15,15 @@ public class Invoice implements Serializable {
 	
 	private double subTotal;
 	
-	public Invoice(int id, Order order, double tax, double svcChrg, double subTotal) {
+	private double grandTotal;
+	
+	public Invoice(int id, Order order, double tax, double svcChrg, double subTotal, double grandTotal) {
 		this.setId(id);
 		this.setOrder(order);
 		this.setTax(tax);
 		this.setSvcChrg(svcChrg);
 		this.setSubTotal(subTotal);
+		this.setGrandTotal(grandTotal);
 	}
 	
 	public int getId() {
@@ -61,5 +64,13 @@ public class Invoice implements Serializable {
 	
 	public void setSubTotal(double subTotal) {
 		this.subTotal = subTotal;
+	}
+	
+	public double getGrandTotal() {
+		return grandTotal;
+	}
+	
+	public void setGrandTotal(double grandTotal) {
+		this.grandTotal = grandTotal;
 	}
 }
