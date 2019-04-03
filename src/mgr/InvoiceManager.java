@@ -158,8 +158,6 @@ public class InvoiceManager {
 	//print sales revenue report
 	public static void printByDate(String tgtDate) {//dd/MM/yyyy
 		
-		Date date;
-		String dateStr = null;
 		SaleItem item;
 		
 		double totalRevenue = 0.0;
@@ -168,16 +166,7 @@ public class InvoiceManager {
 		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
 		ArrayList<SaleItem> totalSaleItems = new ArrayList<SaleItem>();
 		
-		for(int i = 0; i < invoices.size(); i++) {
-			
-			date = invoices.get(i).getOrder().getOrderDateTime();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			dateStr = dateFormat.format(date);
-			
-			if(tgtDate.equals(dateStr)){
-				foundInvoices.add(invoices.get(i));
-			}
-		}
+		foundInvoices = findInvoices(tgtDate, 0);
 		
 		if(foundInvoices.size() == 0) {
 			//print no records found
@@ -231,7 +220,10 @@ public class InvoiceManager {
 		}
 	}
 	
-	public static void printByMonth() {
+	public static void printByMonth(String tgtMonth) {//MM/yyyy
+		Date date;
+		String dateStr = null;
+		
 		
 	}
 	
@@ -246,8 +238,42 @@ public class InvoiceManager {
 		return totalRevenue;
 	}
 	
-	
-	
+	public static ArrayList<Invoice> findInvoices(String tgtDate, int value){
+		
+		Date date;
+		String dateStr = null;
+		
+		double totalRevenue = 0.0;
+		
+		ArrayList<Invoice> foundInvoices = new ArrayList<Invoice>();
+		
+		if(value == 0) {
+			for(int i = 0; i < invoices.size(); i++) {
+			
+				date = invoices.get(i).getOrder().getOrderDateTime();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				dateStr = dateFormat.format(date);
+			
+				if(tgtDate.equals(dateStr)){
+					foundInvoices.add(invoices.get(i));
+				}
+			}
+		}
+		
+		else {
+			for(int i = 0; i < invoices.size(); i++) {
+				
+				date = invoices.get(i).getOrder().getOrderDateTime();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+				dateStr = dateFormat.format(date);
+			
+				if(tgtDate.equals(dateStr)){
+					foundInvoices.add(invoices.get(i));
+				}
+			}
+		}
+		return foundInvoices;
+	}
 	
 	
 	
