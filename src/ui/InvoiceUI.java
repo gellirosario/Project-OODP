@@ -12,13 +12,12 @@ public class InvoiceUI {
 	
 	public static Scanner sc = new Scanner(System.in);
 	
-	private static Restaurant restaurant;
-	
-	public static void showInvoiceUI() {
+	public static void showInvoiceUI(Restaurant restaurant) {
 		
 		int orderId = 0;
 		
 		ArrayList<Order> orders = restaurant.getOrders();
+		ArrayList<Order> completedOrders = restaurant.getOrders();
 		
 		Order order = null;
 		
@@ -26,7 +25,7 @@ public class InvoiceUI {
 			System.out.println("No orders found. Unable to print invoice.");
 		}
 		
-		//need to add check for integer input only
+		//need to prevent error - non int/neg int
 		System.out.println("Please enter the order ID: ");
 		orderId = sc.nextInt();
 
@@ -36,6 +35,13 @@ public class InvoiceUI {
 				InvoiceManager.printInvoice(order);
 			}
 			if(i+1 == orders.size()){
+				for(int j = 0; j < completedOrders.size(); j++) {
+					if(completedOrders.get(j).getId() == orderId) {
+						System.out.println("This order has already been checked out.");
+						break;
+						return; //call from order
+					}
+				}
 				System.out.println("Order not found. Unable to print invoice");
 			}
 		}
