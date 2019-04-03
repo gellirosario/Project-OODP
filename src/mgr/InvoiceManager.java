@@ -158,7 +158,8 @@ public class InvoiceManager {
 	//print sales revenue report
 	public static void printByDate(String tgtDate) {//dd/MM/yyyy
 		
-		SaleItem item;
+		Date date;
+		String dateStr = null;
 		
 		double totalRevenue = 0.0;
 		
@@ -166,7 +167,16 @@ public class InvoiceManager {
 		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
 		ArrayList<SaleItem> totalSaleItems = new ArrayList<SaleItem>();
 		
-		foundInvoices = findInvoices(tgtDate, 0);
+		for(int i = 0; i < invoices.size(); i++) {
+			
+			date = invoices.get(i).getOrder().getOrderDateTime();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			dateStr = dateFormat.format(date);
+		
+			if(tgtDate.equals(dateStr)){
+				foundInvoices.add(invoices.get(i));
+			}
+		}
 		
 		if(foundInvoices.size() == 0) {
 			//print no records found
@@ -221,8 +231,74 @@ public class InvoiceManager {
 	}
 	
 	public static void printByMonth(String tgtMonth) {//MM/yyyy
+		
 		Date date;
 		String dateStr = null;
+		
+		double totalRevenue = 0.0;
+		
+		ArrayList<Invoice> foundInvoices = new ArrayList<Invoice>();
+		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
+		ArrayList<SaleItem> totalSaleItems = new ArrayList<SaleItem>();
+		
+		for(int i = 0; i < invoices.size(); i++) {
+			
+			date = invoices.get(i).getOrder().getOrderDateTime();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			dateStr = dateFormat.format(date);
+		
+			if(tgtMonth.equals(dateStr)){
+				foundInvoices.add(invoices.get(i));
+			}
+		}
+		
+		if(foundInvoices.size() == 0) {
+			//print no records found
+			System.out.println("No sales recorded on " + tgtMonth);
+		}
+		
+		else {
+			String itemName;
+			int qty = 0;
+			double price = 0.0;
+			
+			for(int j = 0; j < foundInvoices.size(); j++) {
+				
+				saleItems = foundInvoices.get(j).getOrder().getItems();
+				
+				for(int k = 0; k < saleItems.size(); k++) {
+					totalSaleItems.add(saleItems.get(k));
+				}
+			}
+			
+			ArrayList<Integer> count = new ArrayList<Integer>();
+			
+			count = countItems(totalSaleItems);
+			totalSaleItems = removeDuplicate(totalSaleItems);
+			
+			totalRevenue = calTotalRevenue(foundInvoices);
+			
+			//start print
+			System.out.println("------------------------------------------------------------------");
+			System.out.println("                SALE REVENUE REPORT                   ");
+			System.out.println("------------------------------------------------------------------");
+			System.out.println("Month: " + dateStr + "\n");
+			System.out.println("------------------------------------------------------------------");
+			System.out.println(String.format("%s %15.30s %30.20s %15.20s", "Qty", "Item", "Price per qty", "Price*Qty"));
+			System.out.println("------------------------------------------------------------------");
+			
+			for(int k = 0; k < totalSaleItems.size(); k++) {
+				itemName = totalSaleItems.get(k).getName();
+				qty = count.get(k);
+				price = totalSaleItems.get(k).getPrice();
+				
+				System.out.println(String.format("%-8s %-32.30s %-16.2f %-30.2f", qty, itemName, price, price*qty));
+			}
+			
+			System.out.println("------------------------------------------------------------------");
+			System.out.println(String.format("%56s %8.2f", "TOTAL REVENUE: ", totalRevenue));
+			//end print
+		}
 		
 		
 	}
@@ -238,42 +314,6 @@ public class InvoiceManager {
 		return totalRevenue;
 	}
 	
-	public static ArrayList<Invoice> findInvoices(String tgtDate, int value){
-		
-		Date date;
-		String dateStr = null;
-		
-		double totalRevenue = 0.0;
-		
-		ArrayList<Invoice> foundInvoices = new ArrayList<Invoice>();
-		
-		if(value == 0) {
-			for(int i = 0; i < invoices.size(); i++) {
-			
-				date = invoices.get(i).getOrder().getOrderDateTime();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-				dateStr = dateFormat.format(date);
-			
-				if(tgtDate.equals(dateStr)){
-					foundInvoices.add(invoices.get(i));
-				}
-			}
-		}
-		
-		else {
-			for(int i = 0; i < invoices.size(); i++) {
-				
-				date = invoices.get(i).getOrder().getOrderDateTime();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
-				dateStr = dateFormat.format(date);
-			
-				if(tgtDate.equals(dateStr)){
-					foundInvoices.add(invoices.get(i));
-				}
-			}
-		}
-		return foundInvoices;
-	}
 	
 	
 	
