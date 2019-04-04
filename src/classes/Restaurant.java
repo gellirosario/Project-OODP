@@ -18,16 +18,24 @@ import mgr.MenuItemManager;
  * 
  */
 public class Restaurant {
+	
+	public static final int		BOOKING_MTHINADVANCE		= 1;
+	public static final	int		SESSION_AMSTARTTIME			= 11;
+	public static final	int		SESSION_AMENDTIME			= 15;
+	public static final	int		SESSION_PMSTARTTIME			= 18;
+	public static final	int		SESSION_PMENDTIME			= 22;
+	
+
 	// ArrayList of objects
 	private static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
 	private static ArrayList<Set> sets = new ArrayList<Set>();
 
-	private static ArrayList<Order> orders = new ArrayList<Order>();
+	public static ArrayList<Order> orders = new ArrayList<Order>();
 	// private static ArrayList<Order> previousOrders;
 	private static ArrayList<Invoice> invoices = new ArrayList<Invoice>();
-	private static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-	// private static ArrayList<Reservation> previousReservations;
-	private static ArrayList<Table> tables = new ArrayList<Table>();
+	public static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+	public static ArrayList<Reservation> pastReservations;
+	public static ArrayList<Table> tables = new ArrayList<Table>();
 
 	private static ArrayList<Staff> staffs = new ArrayList<Staff>();
 	private static ArrayList<Customer> customers = new ArrayList<Customer>();
@@ -73,6 +81,7 @@ public class Restaurant {
 		initOrders();
 		initInvoices();
 		initReservations();
+		initPastReservations();
 	}
 
 	/**
@@ -206,6 +215,13 @@ public class Restaurant {
 	private void initReservations() {
 		Restaurant.reservations = new ArrayList<Reservation>();
 	}
+	
+	/**
+	 * Initialize completed restaurant reservations
+	 */
+	private void initPastReservations() {
+		Restaurant.pastReservations = new ArrayList<Reservation>();
+	}
 
 	/**
 	 * Save all SaleItem: MenuItem and Set, into data.txt
@@ -224,9 +240,11 @@ public class Restaurant {
 			for (int i = 0; i < sets.size(); i++) {
 				String line = sets.get(i).toString(); // generate line
 				out.println(line); // add a line to text file
+			
 			}
+			
 			// ####### u can ADD YOUR OWN SAVE DATA HERE ####### //TODO remove b4 submit
-
+			
 			out.close(); // close before exit
 		} catch (Exception e) {
 			e.printStackTrace();

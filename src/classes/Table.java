@@ -1,25 +1,25 @@
 package classes;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Represents a table in the restaurant
  * The table can be occupied or vacated
  * 
- * @author Ann
+ * @author Ann & Lexx
  *
  */
-public class Table{
+public class Table implements Serializable{
 	
-	
+	private static final long serialVersionUID = 4L;
 	/**
 	 * Enumeration type used to determine the status of the table
 	 * 
 	 */
 	public static enum Status{
 		Occupied("Occupied"),
-		Vacated("Vacated"),
-		Reserved("Reserved");
+		Vacated("Vacated");
 		
 		private final String value;
 		  
@@ -51,10 +51,16 @@ public class Table{
 	private int seatingCapacity;
 	
 	/**
+	 * ArrayList of all reservations of the table
+	 */
+	private ArrayList<Reservation> tableReservation;
+	
+	/**
 	 * Creates a new Table with the given id, status and seatingCapacity
 	 * @param id This is Table's id
 	 * @param status This is Table's status
 	 * @param seatingCapacity This is Table's seating capacity
+	 * @param tableReservation empty ArrayList
 	 * 
 	 */
 	public Table(int id, Status status, int seatingCapacity)
@@ -62,6 +68,8 @@ public class Table{
 		this.setId(id);
 		this.setStatus(status);
 		this.setSeatingCapacity(seatingCapacity);
+		this.tableReservation = new ArrayList<Reservation>();
+
 	}
 
 	/**
@@ -89,6 +97,7 @@ public class Table{
 	 * @param status the status to set
 	 */
 	public void setStatus(Status status) {
+		status = Status.Vacated;
 		this.status = status;
 	}
 
@@ -105,5 +114,33 @@ public class Table{
 	public void setSeatingCapacity(int seatingCapacity) {
 		this.seatingCapacity = seatingCapacity;
 	}
+	
+	/**
+	 * get the ArrayList of reservations
+	 * @return this table's reservations
+	 */	
+	public ArrayList<Reservation> getTableReservation()
+	{ 
+		return this.tableReservation; 
+	}
+	
+	/**
+	 * add a reservation to the table's list
+	 * @param reservation New table reservation
+	 */
+	public void addTableReservation(Reservation reservation)
+	{ 
+		this.tableReservation.add(reservation); 
+	}
+	
+	/**
+	 * Remove a reservation from the reservation list
+	 * @param reservation Delete table reservation
+	 */
+	public void removeTableReservation(Reservation reservation)
+	{ 
+		this.tableReservation.remove(reservation); 
+	}
+
 	
 }
