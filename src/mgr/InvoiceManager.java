@@ -1,28 +1,24 @@
 package mgr;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.Scanner;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import classes.Order;
-import classes.Restaurant;
 import classes.Invoice;
 import classes.SaleItem;
-import mgr.OrderMgr;
-import ui.InvoiceUI;
 
 
 public class InvoiceManager {
 	
+	public static Scanner sc = new Scanner(System.in);
+	
 	public static final double GST = 0.07;
 	public static final double SVC_CHRG = 0.10;
 	
-	private static Restaurant restaurant;
-	
-	private static ArrayList<Invoice> invoices = restaurant.getInvoices();
-	
-	public static void printInvoice(Order order) {
+	public static void printInvoice(Order order, ArrayList<Invoice> invoices) {
 		
 		String itemName;
 		
@@ -43,11 +39,11 @@ public class InvoiceManager {
 		//Calculations
 		subTotal = calSubTotal(order);
 		
-		tax = GST * subTotal;
-		
 		svcChrg = SVC_CHRG * subTotal;
 		
-		grandTotal = subTotal + tax + svcChrg;
+		tax = GST * (subTotal + svcChrg);
+		
+		grandTotal = subTotal + tax;
 		
 		//Create new invoice, append to arraylist invoices
 		invoice = new Invoice(invoices.size()+1, order, tax, svcChrg, subTotal, grandTotal);
@@ -59,7 +55,6 @@ public class InvoiceManager {
 		
 		saleItems = removeDuplicate(saleItems);
 		
-		//need to add time
 		Date curDate = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		String paymentDate = dateFormat.format(curDate);
@@ -68,7 +63,7 @@ public class InvoiceManager {
 		System.out.println("****************************************");
 		System.out.println("                 INVOICE                ");
 		System.out.println("****************************************");
-		System.out.println("Table: " + order.getTable().getTableId());
+		System.out.println("Table: " + order.getTable().getId());
 		System.out.println("Date-Time: " + paymentDate);
 		System.out.print("\n");
 		System.out.println("-----------------------------------------");
@@ -84,8 +79,8 @@ public class InvoiceManager {
 		
 		System.out.println("-----------------------------------------");
 		System.out.println(String.format("%30.30s: %9.2f", "Sub-Total", subTotal));
-		System.out.println(String.format("%30.30s: %9.2f", "GST", tax));
-		System.out.println(String.format("%30.30s: %9.2f", "Svc Chrg", svcChrg));
+		System.out.println(String.format("%30.30s: %9.2f", "Svc Chrg 10%", svcChrg));
+		System.out.println(String.format("%30.30s: %9.2f", "GST 7%", tax));
 		System.out.println("-----------------------------------------");
 		System.out.println(String.format("%30.30s: %9.2f", "TOTAL", grandTotal));
 		System.out.print("\n");
@@ -94,9 +89,6 @@ public class InvoiceManager {
 		System.out.println("*****************************************");
 		//end of print
 		
-		//uncomment in ordermanager
-		moveToCompletedOrder(order);
-		//need to update table to available?
 	}
 		
 	
@@ -155,8 +147,86 @@ public class InvoiceManager {
 		return count;
 	}
 	
+	public static boolean checkDate(String date) {
+		
+		Date curDate;
+		Date tgtDate;
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		dateFormat.setLenient(false);
+		
+		try {
+			//check if date in correct format
+			dateFormat.parse(date);
+			
+			tgtDate = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+			
+			curDate = new Date();
+			
+			//check if date is in the future
+			if(curDate.compareTo(tgtDate) < 0) {
+				System.out.println("Invalid input, date entered is in the future.");
+				System.out.println("Please try again.\n");
+				return false;
+			}
+			
+			//accounts for cases like 4/4/19 instead of 04/04/2019
+			if(date.length() != 10) {
+				System.out.println("Invalid input, please try again.");
+				System.out.println("Sample input: 05/03/2019 \n");
+				return false;
+			}
+			return true;
+			
+		}
+		catch (ParseException e) {
+			System.out.println("Invalid input, please try again.");
+			System.out.println("Sample input: 18/03/2019 \n");
+			return false;
+		}
+	}
+	
+	public static boolean checkMonth(String month) {
+		Date curMonth;
+		Date tgtMonth;
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+		dateFormat.setLenient(false);
+		
+		try {
+			//check if input is in correct format
+			dateFormat.parse(month);
+			
+			tgtMonth = new SimpleDateFormat("MM/yyyy").parse(month);
+			
+			curMonth = new Date();
+			
+			//check if date is in the future
+			if(curMonth.compareTo(tgtMonth) < 0) {
+				System.out.println("Invalid input, month entered is in the future.");
+				System.out.println("Please try again.\n");
+				return false;
+			}
+			
+			//accounts for cases like 4/19 instead of 04/2019
+			if(month.length() != 7) {
+				System.out.println("Invalid input, please try again.");
+				System.out.println("Sample input: 03/2019 \n");
+				return false;
+			}
+			
+			return true;
+			
+		}
+		catch (ParseException e) {
+			System.out.println("Invalid input, please try again.");
+			System.out.println("Sample input: 03/2019 \n");
+			return false;
+		}
+	}
+	
 	//print sales revenue report
-	public static void printByDate(String tgtDate) {//dd/MM/yyyy
+	public static void printByDay(String day, ArrayList<Invoice> invoices) {//dd/MM/yyyy
 		
 		Date date;
 		String dateStr = null;
@@ -173,14 +243,14 @@ public class InvoiceManager {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			dateStr = dateFormat.format(date);
 		
-			if(tgtDate.equals(dateStr)){
+			if(day.equals(dateStr)){
 				foundInvoices.add(invoices.get(i));
 			}
 		}
 		
 		if(foundInvoices.size() == 0) {
 			//print no records found
-			System.out.println("No sales recorded on " + tgtDate);
+			System.out.println("No sales recorded on " + day);
 		}
 		
 		else {
@@ -205,9 +275,10 @@ public class InvoiceManager {
 			
 			totalRevenue = calTotalRevenue(foundInvoices);
 			
+			System.out.println("generating...\n");
 			//start print
 			System.out.println("------------------------------------------------------------------");
-			System.out.println("                SALE REVENUE REPORT                   ");
+			System.out.println("                         SALE REVENUE REPORT                      ");
 			System.out.println("------------------------------------------------------------------");
 			System.out.println("Date: " + dateStr + "\n");
 			System.out.println("------------------------------------------------------------------");
@@ -223,17 +294,17 @@ public class InvoiceManager {
 			}
 			
 			System.out.println("------------------------------------------------------------------");
-			System.out.println(String.format("%56s %8.2f", "TOTAL REVENUE: ", totalRevenue));
+			System.out.println(String.format("%s %8.2f", "TOTAL REVENUE (incl. gst & svcChrg): ", totalRevenue));
 			//end print
 			
 			
 		}
 	}
 	
-	public static void printByMonth(String tgtMonth) {//MM/yyyy
+	public static void printByMonth(String month, ArrayList<Invoice> invoices) {//MM/yyyy
 		
 		Date date;
-		String dateStr = null;
+		String monthStr = null;
 		
 		double totalRevenue = 0.0;
 		
@@ -244,17 +315,17 @@ public class InvoiceManager {
 		for(int i = 0; i < invoices.size(); i++) {
 			
 			date = invoices.get(i).getOrder().getOrderDateTime();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			dateStr = dateFormat.format(date);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+			monthStr = dateFormat.format(date);
 		
-			if(tgtMonth.equals(dateStr)){
+			if(month.equals(monthStr)){
 				foundInvoices.add(invoices.get(i));
 			}
 		}
 		
 		if(foundInvoices.size() == 0) {
 			//print no records found
-			System.out.println("No sales recorded on " + tgtMonth);
+			System.out.println("No sales recorded on " + month);
 		}
 		
 		else {
@@ -278,11 +349,12 @@ public class InvoiceManager {
 			
 			totalRevenue = calTotalRevenue(foundInvoices);
 			
+			System.out.println("generating...\n");
 			//start print
 			System.out.println("------------------------------------------------------------------");
-			System.out.println("                SALE REVENUE REPORT                   ");
+			System.out.println("                         SALE REVENUE REPORT                      ");
 			System.out.println("------------------------------------------------------------------");
-			System.out.println("Month: " + dateStr + "\n");
+			System.out.println("Month: " + monthStr + "\n");
 			System.out.println("------------------------------------------------------------------");
 			System.out.println(String.format("%s %15.30s %30.20s %15.20s", "Qty", "Item", "Price per qty", "Price*Qty"));
 			System.out.println("------------------------------------------------------------------");
@@ -296,10 +368,9 @@ public class InvoiceManager {
 			}
 			
 			System.out.println("------------------------------------------------------------------");
-			System.out.println(String.format("%56s %8.2f", "TOTAL REVENUE: ", totalRevenue));
+			System.out.println(String.format("%s %8.2f", "TOTAL REVENUE (incl. gst & svcChrg): ", totalRevenue));
 			//end print
 		}
-		
 		
 	}
 	
@@ -313,8 +384,5 @@ public class InvoiceManager {
 		
 		return totalRevenue;
 	}
-	
-	
-	
 	
 }
