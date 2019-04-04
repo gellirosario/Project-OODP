@@ -8,10 +8,22 @@ import classes.Restaurant;
 import classes.Invoice;
 import mgr.InvoiceManager;
 
+/**
+ * Displays UI to the staff when generating sales revenue report
+ * 
+ * @author wongwanting
+ *
+ */
 public class SaleReportUI {
 	
 	public static Scanner sc = new Scanner(System.in);
 	
+	/**
+	 * Displays options for staff
+	 * 
+	 * prints "Nothing to display" if no orders found in ArrayList<Order> previousOrders
+	 * @param restaurant
+	 */
 	public static void showSaleReportUI(Restaurant restaurant) {
 		
 		int option = 0;

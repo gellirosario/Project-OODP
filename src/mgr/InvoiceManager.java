@@ -10,6 +10,12 @@ import classes.Order;
 import classes.Invoice;
 import classes.SaleItem;
 
+/**
+ * Managers the printing of invoice and sale revenue report
+ * 
+ * @author wongwanting
+ *
+ */
 
 public class InvoiceManager {
 	
@@ -18,6 +24,12 @@ public class InvoiceManager {
 	public static final double GST = 0.07;
 	public static final double SVC_CHRG = 0.10;
 	
+	/**
+	 * prints the invoice of an order
+	 * 
+	 * @param order the order for printing this Invoice 
+	 * @param invoices available ArrayList<Invoice> invoices
+	 */
 	public static void printInvoice(Order order, ArrayList<Invoice> invoices) {
 		
 		String itemName;
@@ -45,12 +57,11 @@ public class InvoiceManager {
 		
 		grandTotal = subTotal + tax;
 		
-		//Create new invoice, append to arraylist invoices
+		//Create new invoice, append to ArrayList<Invoice> invoices
 		invoice = new Invoice(invoices.size()+1, order, tax, svcChrg, subTotal, grandTotal);
 		
 		invoices.add(invoice);
 		
-		//count quantity of each saleitem
 		count = countItems(saleItems);
 		
 		saleItems = removeDuplicate(saleItems);
@@ -91,7 +102,13 @@ public class InvoiceManager {
 		
 	}
 		
-	
+	/**
+	 * Gets the sub-total of this order
+	 * sums up the prices of each sale item in the order
+	 * 
+	 * @param order the order for calculating this sub-total
+	 * @return the subTotal
+	 */
 	public static double calSubTotal(Order order) {
 		
 		double subTotal = 0.0;
@@ -105,10 +122,19 @@ public class InvoiceManager {
 		return subTotal;
 	}
 	
+	/**
+	 * Gets list newItems
+	 * removes all duplicates from ArrayList<SaleItems> items
+	 * 
+	 * 
+	 * @param items list of items ordered
+	 * @return the ArrayList<SaleItem> newItems
+	 */
 	public static ArrayList<SaleItem> removeDuplicate(ArrayList<SaleItem> items){
 		
 		ArrayList<SaleItem> newItems = new ArrayList<SaleItem>();
 		
+		//traverses each item and add into newItems if it is not found in newItems
 		for(SaleItem item : items) {
 			
 			if(!newItems.contains(item)) {
@@ -119,8 +145,13 @@ public class InvoiceManager {
 		return newItems;
 	}
 	
-	//counts the quantity of each sale item from the list of sale items.
-	//count quantity in arraylist count corresponds to first instance of each saleitem
+	
+	/**
+	 * Gets an array list consisting of the quantity of each item ordered
+	 * 
+	 * @param items list of items ordered
+	 * @return count array list
+	 */
 	public static ArrayList<Integer> countItems(ArrayList<SaleItem> items) {
 		
 		Integer value = 0;
@@ -147,6 +178,14 @@ public class InvoiceManager {
 		return count;
 	}
 	
+	/**
+	 * checks if this date is in the correct format
+	 * returns false if date is in the wrong format or in the future
+	 * returns true if date is in the correct format
+	 * 
+	 * @param date date to be checked
+	 * @return true or false
+	 */
 	public static boolean checkDate(String date) {
 		
 		Date curDate;
@@ -186,6 +225,14 @@ public class InvoiceManager {
 		}
 	}
 	
+	/**
+	 * checks if this month is in the correct format
+	 * returns false if month is in the wrong format or in the future
+	 * returns true if month is in the correct format
+	 * 
+	 * @param month month to be checked
+	 * @return true or false
+	 */
 	public static boolean checkMonth(String month) {
 		Date curMonth;
 		Date tgtMonth;
@@ -225,7 +272,12 @@ public class InvoiceManager {
 		}
 	}
 	
-	//print sales revenue report
+	/**
+	 * generates the sale revenue report for this day
+	 * 
+	 * @param day the day for generating this report
+	 * @param invoices available ArrayList<Invoice> invoices
+	 */
 	public static void printByDay(String day, ArrayList<Invoice> invoices) {//dd/MM/yyyy
 		
 		Date date;
@@ -249,7 +301,6 @@ public class InvoiceManager {
 		}
 		
 		if(foundInvoices.size() == 0) {
-			//print no records found
 			System.out.println("No sales recorded on " + day);
 		}
 		
@@ -258,7 +309,6 @@ public class InvoiceManager {
 			int qty = 0;
 			double price = 0.0;
 			
-			//maybe can be a separate function
 			for(int j = 0; j < foundInvoices.size(); j++) {
 				
 				saleItems = foundInvoices.get(j).getOrder().getItems();
@@ -301,6 +351,12 @@ public class InvoiceManager {
 		}
 	}
 	
+	/**
+	 * generates the sale revenue report for this month
+	 * 
+	 * @param month the month for generating this report
+	 * @param invoices available ArrayList<Invoices> invoices
+	 */
 	public static void printByMonth(String month, ArrayList<Invoice> invoices) {//MM/yyyy
 		
 		Date date;
@@ -374,6 +430,13 @@ public class InvoiceManager {
 		
 	}
 	
+	/**
+	 * Gets total revenue of all orders in the invoices
+	 * sums up grand total of each invoice
+	 * 
+	 * @param foundInvoices all invoices to calculate total revenue from
+	 * @return total revenue
+	 */
 	public static double calTotalRevenue(ArrayList<Invoice> foundInvoices) {
 		
 		double totalRevenue = 0.0;

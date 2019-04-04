@@ -9,11 +9,22 @@ import classes.Invoice;
 import mgr.InvoiceManager;
 import mgr.OrderMgr;
 
-
+/**
+ * Displays UI to the staff when printing order invoices 
+ * @author wongwanting
+ *
+ */
 public class InvoiceUI {
 	
 	public static Scanner sc = new Scanner(System.in);
 	
+	/**
+	 * Displays prompts to the staff to input the order ID
+	 * 
+	 * if print is successful, order is added to ArrayList<Order> previousOrder
+	 * and removed from current order
+	 * @param restaurant
+	 */
 	public static void showInvoiceUI(Restaurant restaurant) {
 		
 		int orderId = 0;
@@ -29,9 +40,29 @@ public class InvoiceUI {
 			return;
 		}
 		
-		//need to prevent error - non int/neg int
+		Boolean checkInput = false;
+		
 		System.out.println("Please enter the order ID: ");
-		orderId = sc.nextInt();
+		
+		do{
+			if(sc.hasNextInt()) {
+				orderId = sc.nextInt();
+				if(orderId > 0) {
+					checkInput = false;
+				}
+				else {
+					System.out.println("Invalid Input. Please enter a valid order ID.");
+					checkInput = true;
+				}
+			}
+			else {
+				System.out.println("Invalid Input. Please enter a valid order ID.");
+				checkInput = true;
+				sc.next();
+			}
+			
+		}while(checkInput);
+		
 
 		for(int i = 0; i < orders.size(); i++) {
 			if(orders.get(i).getId() == orderId) {

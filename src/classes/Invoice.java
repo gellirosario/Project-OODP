@@ -2,6 +2,13 @@ package classes;
 
 import java.io.Serializable;
 
+/**
+ * Represents the Invoice of an Order
+ * 
+ * @author wongwanting
+ *
+ */
+
 public class Invoice implements Serializable {
 	private static final long serialVersionUID = 4L;
 	
@@ -56,7 +63,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Gets the id of this Invoice
 	 * @return the invoiceId
 	 */
 	public int getId() {
@@ -64,7 +71,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Changes the id of this Invoice
 	 * @param invoiceId set invoiceId
 	 */
 	public void setId(int id) {
@@ -72,7 +79,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Gets the order for this Invoice
 	 * @return the order
 	 */
 	public Order getOrder() {
@@ -80,7 +87,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Changes the order for this Invoice
 	 * @param order set order
 	 */
 	public void setOrder(Order order) {
@@ -88,7 +95,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Gets the tax charged of this Invoice
 	 * @return the tax
 	 */
 	public double getTax() {
@@ -96,7 +103,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Changes the tax of this Invoice
 	 * @param tax set tax
 	 */
 	public void setTax(double tax) {
@@ -104,15 +111,15 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
-	 * @return the svcChrg
+	 * Gets the service charge of this Invoice
+	 * @return the service charge
 	 */
 	public double getSvcChrg() {
 		return svcChrg;
 	}
 	
 	/**
-	 * 
+	 * Changes the service charge of this Invoice
 	 * @param svcChrg set svcChrg
 	 */
 	public void setSvcChrg(double svcChrg) {
@@ -120,7 +127,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Gets the sub-total of this Invoice
 	 * @return the subTotal
 	 */
 	public double getSubTotal() {
@@ -128,7 +135,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Changes the sub-total of this Invoice
 	 * @param subTotal set subTotal
 	 */
 	public void setSubTotal(double subTotal) {
@@ -136,7 +143,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Gets the grand total of this Invoice
 	 * @return the grandTotal
 	 */
 	public double getGrandTotal() {
@@ -144,7 +151,7 @@ public class Invoice implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Changes the grand total of this Invoice
 	 * @param grandTotal set grandTotal
 	 */
 	public void setGrandTotal(double grandTotal) {
