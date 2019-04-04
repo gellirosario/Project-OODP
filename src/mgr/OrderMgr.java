@@ -285,14 +285,17 @@ public class OrderMgr {
 
 	}
 
-	// for invoice printing
+	/**
+	 * adds this order to completed orders and removes this order from current orders
+	 * 
+	 * called after successfully printing the invoice 
+	 * @param order
+	 * @param orders
+	 * @param previousOrders
+	 */
 	public static void moveToCompletedOrder(Order order, ArrayList<Order> orders, ArrayList<Order> previousOrders) {
 		
 		previousOrders.add(order);
 		orders.remove(order);
 	}
-	/*
-	 * public static void moveToCompletedOrder(Order order){
-	 * Restaurant.completedOrders.add(order); Restaurant.orders.remove(order); }
-	 */
 }
