@@ -23,7 +23,7 @@ public class Restaurant {
 	private static ArrayList<Set> sets = new ArrayList<Set>();
 
 	private static ArrayList<Order> orders = new ArrayList<Order>();
-	// private static ArrayList<Order> previousOrders;
+	private static ArrayList<Order> previousOrders = new ArrayList<Order>();
 	private static ArrayList<Invoice> invoices = new ArrayList<Invoice>();
 	private static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 	// private static ArrayList<Reservation> previousReservations;
@@ -256,6 +256,14 @@ public class Restaurant {
 
 	public void setOrders(ArrayList<Order> orders) {
 		Restaurant.orders = orders;
+	}
+	
+	public ArrayList<Order> getPreviousOrders() {
+		return previousOrders;
+	}
+	
+	public void setPreviousOrders(ArrayList<Order> previousOrders) {
+		Restaurant.previousOrders = previousOrders;
 	}
 
 	public ArrayList<Invoice> getInvoices() {
