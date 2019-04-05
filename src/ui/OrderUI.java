@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import classes.*;
-import mgr.OrderMgr;
+import mgr.OrderManager;
 import mgr.MenuItemManager;
 
 /**
@@ -20,7 +20,8 @@ import mgr.MenuItemManager;
  */
 public class OrderUI {
 
-	private static OrderMgr orderManager = new OrderMgr();
+
+	private static OrderManager orderManager = new OrderManager();
 
 	/**
 	 * 
@@ -57,16 +58,16 @@ public class OrderUI {
 
 			switch (option) {
 			case 1: // View list of Orders
-				OrderMgr.viewOrder(orders);
+				OrderManager.viewOrder(orders);
 				break;
 			case 2: // Create an order
-				OrderMgr.createOrder(menuItems, orders, tables, currentStaff);
+				OrderManager.createOrder(menuItems, orders, tables, currentStaff);
 				break;
 			case 3: // Edit an order
-				OrderMgr.updateOrder(menuItems, orders);
+				OrderManager.updateOrder(menuItems, orders);
 				break;
 			case 4: // Remove an order
-				OrderMgr.removeOrder(menuItems, orders);
+				OrderManager.removeOrder(menuItems, orders);
 				break;
 			case 5: // Print invoice after order is completed
 				InvoiceUI.showInvoiceUI(restaurant);
@@ -78,5 +79,5 @@ public class OrderUI {
 
 		} while (option != 0);
 	}
-
 }
+
