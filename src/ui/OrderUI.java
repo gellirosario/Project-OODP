@@ -20,6 +20,7 @@ import mgr.MenuItemManager;
  */
 public class OrderUI {
 
+
 	private static OrderManager orderManager = new OrderManager();
 
 	/**
@@ -69,6 +70,7 @@ public class OrderUI {
 				OrderManager.removeOrder(menuItems, orders);
 				break;
 			case 5: // Print invoice after order is completed
+				InvoiceUI.showInvoiceUI(restaurant);
 				break;
 			default:
 				System.out.println("No such option.");
@@ -77,5 +79,5 @@ public class OrderUI {
 
 		} while (option != 0);
 	}
-
 }
+

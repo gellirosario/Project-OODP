@@ -105,6 +105,7 @@ public class RRPSSApp {
 				ReservationUI.showReservationUI(currentStaff);
 				break;
 			case 4: // Sales Revenue Report
+				SaleReportUI.showSaleReportUI(restaurant);
 				break;
 
 			default:
