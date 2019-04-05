@@ -7,7 +7,7 @@ import classes.Order;
 import classes.Restaurant;
 import classes.Invoice;
 import mgr.InvoiceManager;
-import mgr.OrderMgr;
+import mgr.OrderManager;
 
 /**
  * Displays UI to the staff when printing order invoices
@@ -70,7 +70,7 @@ public class InvoiceUI {
 				InvoiceManager.printInvoice(order, invoices);
 
 				// after printing
-				OrderMgr.moveToCompletedOrder(order, orders, previousOrders);
+				OrderManager.moveToCompletedOrder(order, orders, previousOrders);
 				System.out.println("\nCheckout Complete!");
 				return;
 			}
