@@ -3,7 +3,6 @@ package mgr;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -15,10 +14,31 @@ import classes.Staff;
 import classes.Table;
 import classes.Table.Status;
 
+/**
+ * 
+ * Handles the order's create/update/remove functions
+ * 
+ * @author Ann
+ * 
+ */
 public class OrderManager {
 
+	/**
+	 * 
+	 * Static scanner variable
+	 * For shortening code and prevents creating new scanner variable for each function 
+	 * 
+	 */
 	public static Scanner sc = new Scanner(System.in);
 
+	/**
+	 * 
+	 * View existing orders
+	 * Prints out all existing orders
+	 * 
+	 * @param ArrayList<Order> orders
+	 * 
+	 */
 	public static void viewOrder(ArrayList<Order> orders) {
 		System.out.println("\n[View all Orders]\n");
 
@@ -42,7 +62,18 @@ public class OrderManager {
 			System.out.println("No orders found.");
 		}
 	}
-
+	
+	/**
+	 * 
+	 * Creates a new order according to reservation and walk in orders
+	 * 
+	 * @param ArrayList<MenuItem> menuItems
+	 * @param ArrayList<Order> orders
+	 * @param ArrayList<Table> tables
+	 * @param ArrayList<Reservation> reservations
+	 * @param Staff currentStaff
+	 * 
+	 */
 	public static void createOrder(ArrayList<MenuItem> menuItems, ArrayList<Order> orders, ArrayList<Table> tables,
 			ArrayList<Reservation> reservations, Staff currentStaff) {
 
@@ -165,6 +196,14 @@ public class OrderManager {
 
 	}
 
+	/**
+	 * 
+	 * Update order by adding or removing order item
+	 * 
+	 * @param ArrayList<MenuItem> menuItems
+	 * @param ArrayList<Order> orders
+	 * 
+	 */
 	public static void updateOrder(ArrayList<MenuItem> menuItems, ArrayList<Order> orders) {
 
 		int choice = 0;
@@ -225,7 +264,16 @@ public class OrderManager {
 		}
 
 	}
-
+	
+	/**
+	 * 
+	 * Add item to existing/new order 
+	 * 
+	 * @param ArrayList<MenuItem> menuItems
+	 * @param ArrayList<SaleItem> items
+	 * @return ArrayList<SaleItem> list of sale items
+	 * 
+	 */
 	public static ArrayList<SaleItem> addItemToOrder(ArrayList<MenuItem> menuItems, ArrayList<SaleItem> items) {
 
 		ArrayList<SaleItem> saleItems = items;
@@ -266,6 +314,14 @@ public class OrderManager {
 		return saleItems;
 	}
 
+	/**
+	 * 
+	 * Remove item from existing order 
+	 * 
+	 * @param ArrayList<MenuItem> menuItems
+	 * @param ArrayList<SaleItem> items
+	 * 
+	 */
 	public static void removeItemFromOrder(ArrayList<MenuItem> menuItems, ArrayList<SaleItem> items) {
 		ArrayList<SaleItem> saleItems = items;
 
@@ -310,6 +366,14 @@ public class OrderManager {
 
 	}
 
+	/**
+	 * 
+	 * Remove existing order
+	 * 
+	 * @param ArrayList<MenuItem> menuItems
+	 * @param ArrayList<Order> orders
+	 * 
+	 */
 	public static void removeOrder(ArrayList<MenuItem> menuItems, ArrayList<Order> orders) {
 
 		int choice = 0;
@@ -348,10 +412,10 @@ public class OrderManager {
 	}
 
 	/**
-	 * adds this order to completed orders and removes this order from current
+	 * Adds this order to completed orders and removes this order from current
 	 * orders
 	 * 
-	 * called after successfully printing the invoice
+	 * Called after successfully printing the invoice
 	 * 
 	 * @param order
 	 * @param orders
