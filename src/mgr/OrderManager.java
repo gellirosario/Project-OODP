@@ -3,11 +3,13 @@ package mgr;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
 import classes.MenuItem;
 import classes.Order;
+import classes.Reservation;
 import classes.SaleItem;
 import classes.Staff;
 import classes.Table;
@@ -42,52 +44,120 @@ public class OrderManager {
 	}
 
 	public static void createOrder(ArrayList<MenuItem> menuItems, ArrayList<Order> orders, ArrayList<Table> tables,
-			Staff currentStaff) { 
-		
-		//need check if user has any reservation
+			ArrayList<Reservation> reservations, Staff currentStaff) {
 
 		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
 		Order order = null;
 		Table occupiedTable = null;
-
+		Reservation reserved = null;
+		int option = 0;
 		int pax = 0;
+		int contactNo = 0;
 
 		Date date = new Date();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-		saleItems = addItemToOrder(menuItems, new ArrayList<SaleItem>());
-
 		do {
-			System.out.print("Please enter pax: ");
-			pax = sc.nextInt();
+			// Check for customer's reservation
+			System.out.println("Customer has reservations? (Y/N)");
+			option = Character.toUpperCase(sc.next().charAt(0)); // Check if user input is char
 
-			if (pax < 1 || pax > 10) {
-				System.out.println("No tables found for this amount of pax. Please try again.");
-			}
+		} while (option != 'Y' && option != 'N');
 
-		} while (pax < 1 || pax > 10);
+		if (option == 'Y') // Customer has reservation
+		{
+			do {
 
-		for (int i = 0; i < tables.size(); i++) {
-			if (tables.get(i).getSeatingCapacity() >= pax && tables.get(i).getStatus() == Status.Vacated) {
-				occupiedTable = tables.get(i);
+				System.out.println("Please enter the Customer's contact number: (Enter -1 to exit)");
+				contactNo = sc.nextInt();
 
-				break;
-			}
+				if (contactNo < 0) {
+					break;
+				}
 
-			if (i + 1 == tables.size()) {
-				System.out.println("Table is all occupied. Please wait for a vacated table.");
+				for (int i = 0; i < reservations.size(); i++) // Check if Reservation exist
+				{
+					if ((int) contactNo == reservations.get(i).getCustContact()) {
+						reserved = reservations.get(i);
+
+						long curTimeInMs = reserved.getReservationTime().getTime().getTime();
+						Date expiredTime = new Date(curTimeInMs + (30 * 60000));
+
+						if (date.before(expiredTime)) // Check if Reservation is within reservation time after 30 minutes
+						{
+							System.out.println("Reservation found!");
+							
+							occupiedTable = reserved.getTableReservation();
+							
+						} else {
+							System.out.println("Reservation has expired.");
+							reserved = null;
+							option = 'N';
+						}
+
+						break;
+					}
+
+					if (i + 1 == reservations.size()) {
+						System.out.println("Reservation not found. Please try again.");
+						break;
+					}
+				}
+
+				if (reserved == null && reservations.size() == 0) {
+					System.out.println("Reservation not found. Please try again.");
+					break;
+				}
+
+			} while (reserved == null);
+		}
+		
+		if(reserved != null)
+		{
+			saleItems = addItemToOrder(menuItems, new ArrayList<SaleItem>()); // Add menu items to order
+		}
+		
+		if (option == 'N') // Customer has no reservation
+		{
+			saleItems = addItemToOrder(menuItems, new ArrayList<SaleItem>()); // Add menu items to order
+			
+			do {
+				// Get pax
+				System.out.print("Please enter pax: ");
+				pax = sc.nextInt();
+
+				if (pax < 1 || pax > 10) {
+					System.out.println("No tables found for this amount of pax. Please try again.");
+				}
+
+			} while (pax < 1 || pax > 10);
+
+			// Auto allocation of table according to pax
+			for (int i = 0; i < tables.size(); i++) {
+				if (tables.get(i).getSeatingCapacity() >= pax && tables.get(i).getStatus() == Status.Vacated) {
+					occupiedTable = tables.get(i);
+
+					break;
+				}
+
+				if (i + 1 == tables.size()) {
+					System.out.println("Table is all occupied. Please wait for a vacated table.");
+				}
 			}
 		}
 
+		// Adds to order
 		if (currentStaff != null && occupiedTable != null && saleItems != null) {
-			
+
 			order = new Order(orders.size() + 1, currentStaff, saleItems, occupiedTable, date);
 
-			orders.add(order);
+			if (order != null) {
+				orders.add(order);
 
-			System.out.println("Order complete!");
-			System.out.println("[Order No." + orders.size() + " | Created by " + currentStaff.getName() + " on "
-					+ dateFormat.format(date) + "]");
+				System.out.println("Order complete!");
+				System.out.println("[Order No." + orders.size() + " | Created by " + currentStaff.getName() + " on "
+						+ dateFormat.format(date) + "]");
+			}
 
 		} else {
 			System.out.println("Order incomplete. Please try again later.");
@@ -120,7 +190,7 @@ public class OrderManager {
 
 				for (int i = 0; i < orders.size(); i++) {
 					if (orders.get(i).getId() == orderId) {
-						order = orders.get(i); // order data retrieved
+						order = orders.get(i); // Order data retrieved
 						saleItems = order.getItems();
 						break;
 					}
@@ -187,14 +257,6 @@ public class OrderManager {
 				}
 
 			}
-
-			/*
-			 * System.out.println("Quantity of " + saleItems.get(orderSize).getName() +
-			 * ": "); quantity = sc.nextInt();
-			 * 
-			 * for(int i = 0; i < quantity; i++) {
-			 * saleItems.add(Restaurant.menuItems.get(i)); }
-			 */
 
 			System.out.print("Continue adding to order? (Y/N): ");
 			option = Character.toUpperCase(sc.next().charAt(0)); // check if user input is char
@@ -286,15 +348,17 @@ public class OrderManager {
 	}
 
 	/**
-	 * adds this order to completed orders and removes this order from current orders
+	 * adds this order to completed orders and removes this order from current
+	 * orders
 	 * 
-	 * called after successfully printing the invoice 
+	 * called after successfully printing the invoice
+	 * 
 	 * @param order
 	 * @param orders
 	 * @param previousOrders
 	 */
 	public static void moveToCompletedOrder(Order order, ArrayList<Order> orders, ArrayList<Order> previousOrders) {
-		
+
 		previousOrders.add(order);
 		orders.remove(order);
 	}

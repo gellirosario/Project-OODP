@@ -1,14 +1,10 @@
 package ui;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Scanner;
 
 import classes.*;
 import mgr.OrderManager;
-import mgr.MenuItemManager;
 
 /**
  * 
@@ -33,6 +29,7 @@ public class OrderUI {
 		ArrayList<Order> orders = restaurant.getOrders();
 		ArrayList<Table> tables = restaurant.getTables();
 		ArrayList<MenuItem> menuItems = restaurant.getMenuItems();
+		ArrayList<Reservation> reservations = restaurant.getReservations();
 
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
@@ -61,7 +58,7 @@ public class OrderUI {
 				OrderManager.viewOrder(orders);
 				break;
 			case 2: // Create an order
-				OrderManager.createOrder(menuItems, orders, tables, currentStaff);
+				OrderManager.createOrder(menuItems, orders, tables, reservations, currentStaff);
 				break;
 			case 3: // Edit an order
 				OrderManager.updateOrder(menuItems, orders);

@@ -27,8 +27,8 @@ public class ReservationUI {
 			System.out.println("[3] Make Reservation");
 			System.out.println("[4] Accept Reservation");
 			System.out.println("[5] Remove Reservation");
-			//System.out.println("[6] Return to Main Menu");
-			System.out.println("[0] Exit RRPSS");
+			System.out.println("[0] Return to Main Menu");
+			//System.out.println("[0] Exit RRPSS");
 			System.out.println("================================");
 			
         	option = sc.nextInt();
@@ -49,13 +49,9 @@ public class ReservationUI {
                 case 5:
                 		ReservationManager.removeReservation();
                 		break;
-                /*case 6: 
-						RRPSSApp.showMainMenu();
-						break;
-						*/
-				default: 
-						System.exit(0);
-						break;
+                default:
+    				System.out.println("No such option.");
+    				break;
 			}
 			
 		}while(option != 0);
