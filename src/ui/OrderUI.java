@@ -34,7 +34,7 @@ public class OrderUI {
 		ArrayList<Order> orders = restaurant.getOrders();
 		ArrayList<Table> tables = restaurant.getTables();
 		ArrayList<MenuItem> menuItems = restaurant.getMenuItems();
-		ArrayList<Reservation> reservations = restaurant.getReservations();
+		ArrayList<Set> setItems = restaurant.getSets();
 		
 		int option = 0;
 
@@ -62,10 +62,10 @@ public class OrderUI {
 				OrderManager.viewOrder(orders);
 				break;
 			case 2: // Create an order
-				OrderManager.createOrder(menuItems, orders, tables, null, currentStaff);
+				OrderManager.createOrder(menuItems,setItems, orders, tables, null, currentStaff);
 				break;
 			case 3: // Edit an order
-				OrderManager.updateOrder(menuItems, orders);
+				OrderManager.updateOrder(menuItems,setItems, orders);
 				break;
 			case 4: // Remove an order
 				OrderManager.removeOrder(menuItems, orders);

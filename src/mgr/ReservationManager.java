@@ -334,7 +334,7 @@ public class ReservationManager {
 				//Order newOrder = new Order(staff, ar);
 				//Restaurant.orders.add(newOrder);
 				
-				OrderManager.createOrder(Restaurant.menuItems, Restaurant.orders, Restaurant.tables, ar, staff);
+				OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders, Restaurant.tables, ar, staff);
 				
 				moveToPastReservation(ar);
 			
