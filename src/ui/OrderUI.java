@@ -15,10 +15,15 @@ import mgr.OrderManager;
  * 
  */
 public class OrderUI {
-
-
-	private static OrderManager orderManager = new OrderManager();
-
+	
+	/**
+	 * 
+	 * Static scanner variable For shortening code and prevents creating new scanner
+	 * variable for each method
+	 * 
+	 */
+	private static Scanner sc = new Scanner(System.in);
+	
 	/**
 	 * 
 	 * Displays options for staff.
@@ -30,15 +35,14 @@ public class OrderUI {
 		ArrayList<Table> tables = restaurant.getTables();
 		ArrayList<MenuItem> menuItems = restaurant.getMenuItems();
 		ArrayList<Reservation> reservations = restaurant.getReservations();
-
-		Scanner sc = new Scanner(System.in);
+		
 		int option = 0;
 
 		do {
 			System.out.println("\n================================");
 			System.out.println("=== [Orders] ===");
 			System.out.println("Choose an option:");
-			System.out.println("[1] View all Orders"); // maybe can do for current/completed orders?
+			System.out.println("[1] View all Orders"); 
 			System.out.println("[2] Create Order"); 
 			System.out.println("[3] Update Order");
 			System.out.println("[4] Remove Order");
@@ -58,7 +62,7 @@ public class OrderUI {
 				OrderManager.viewOrder(orders);
 				break;
 			case 2: // Create an order
-				OrderManager.createOrder(menuItems, orders, tables, reservations, currentStaff);
+				OrderManager.createOrder(menuItems, orders, tables, null, currentStaff);
 				break;
 			case 3: // Edit an order
 				OrderManager.updateOrder(menuItems, orders);

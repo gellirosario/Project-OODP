@@ -1,6 +1,7 @@
 package mgr;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 import java.util.Date;
 import java.text.ParseException;
@@ -274,7 +275,7 @@ public class InvoiceManager {
 	 */
 	public static void printByDay(String day, ArrayList<Invoice> invoices) {// dd/MM/yyyy
 
-		Date date;
+		Calendar date;
 		String dateStr = null;
 
 		double totalRevenue = 0.0;
@@ -287,7 +288,7 @@ public class InvoiceManager {
 
 			date = invoices.get(i).getOrder().getOrderDateTime();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			dateStr = dateFormat.format(date);
+			dateStr = dateFormat.format(date.getTime());
 
 			if (day.equals(dateStr)) {
 				foundInvoices.add(invoices.get(i));
@@ -353,7 +354,7 @@ public class InvoiceManager {
 	 */
 	public static void printByMonth(String month, ArrayList<Invoice> invoices) {// MM/yyyy
 
-		Date date;
+		Calendar date;
 		String monthStr = null;
 
 		double totalRevenue = 0.0;
@@ -366,7 +367,7 @@ public class InvoiceManager {
 
 			date = invoices.get(i).getOrder().getOrderDateTime();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
-			monthStr = dateFormat.format(date);
+			monthStr = dateFormat.format(date.getTime());
 
 			if (month.equals(monthStr)) {
 				foundInvoices.add(invoices.get(i));

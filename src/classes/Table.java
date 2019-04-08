@@ -1,6 +1,5 @@
 package classes;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -10,9 +9,8 @@ import java.util.ArrayList;
  * @author Ann & Lexx
  *
  */
-public class Table implements Serializable{
+public class Table{
 	
-	private static final long serialVersionUID = 4L;
 	/**
 	 * Enumeration type used to determine the status of the table
 	 * 
@@ -97,7 +95,7 @@ public class Table implements Serializable{
 	 * @param status the status to set
 	 */
 	public void setStatus(Status status) {
-		status = Status.Vacated;
+		//status = Status.Vacated;
 		this.status = status;
 	}
 

@@ -1,8 +1,6 @@
 package classes;
 
-import java.io.Serializable;
 import java.util.Calendar;
-
 import classes.Table.Status;
 
 
@@ -13,10 +11,7 @@ import classes.Table.Status;
  * 
  *
  */
-
-public class Reservation implements Serializable{
-	
-	private static final long serialVersionUID = 4L;
+public class Reservation{
 	
 	/**
 	 * The unique id of the reservation

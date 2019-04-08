@@ -1,16 +1,12 @@
 package classes;
 
-import java.io.Serializable;
-
 /**
  * Represents the Invoice of an Order
  * 
  * @author wongwanting
  *
  */
-
-public class Invoice implements Serializable {
-	private static final long serialVersionUID = 4L;
+public class Invoice {
 
 	/**
 	 * The id of the invoice

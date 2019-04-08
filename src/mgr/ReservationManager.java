@@ -19,8 +19,6 @@ import classes.Staff;
  * @author Lexx Audrey Pecson Manalansan
  * 
  */
-
-
 public class ReservationManager {
 
 	private static Scanner sc = new Scanner (System.in);
@@ -335,6 +333,9 @@ public class ReservationManager {
 				ar.setAccepted(true);
 				//Order newOrder = new Order(staff, ar);
 				//Restaurant.orders.add(newOrder);
+				
+				OrderManager.createOrder(Restaurant.menuItems, Restaurant.orders, Restaurant.tables, ar, staff);
+				
 				moveToPastReservation(ar);
 			
 				System.out.println("***Reservation accepted.");

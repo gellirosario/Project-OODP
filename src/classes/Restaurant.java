@@ -27,13 +27,13 @@ public class Restaurant {
 	
 
 	// ArrayList of objects
-	private static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-	private static ArrayList<Set> sets = new ArrayList<Set>();
+	public static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
+	public static ArrayList<Set> sets = new ArrayList<Set>();
 
-	private static ArrayList<Order> orders = new ArrayList<Order>();
-	private static ArrayList<Order> previousOrders = new ArrayList<Order>();
+	public static ArrayList<Order> orders = new ArrayList<Order>();
+	public static ArrayList<Order> previousOrders = new ArrayList<Order>();
 
-	private static ArrayList<Invoice> invoices = new ArrayList<Invoice>();
+	public static ArrayList<Invoice> invoices = new ArrayList<Invoice>();
 	public static ArrayList<Reservation> reservations = new ArrayList<Reservation>();
 	public static ArrayList<Reservation> pastReservations;
 	public static ArrayList<Table> tables = new ArrayList<Table>();
@@ -181,16 +181,16 @@ public class Restaurant {
 
 		ArrayList<Table> tables = new ArrayList<Table>();
 
-        for(int i=1; i<6; i++) //5 x 2 seats [ID: 1-5]
+        for(int i=1; i<11; i++) //10 x 2 seats [ID: 1-5]
             tables.add(new Table(i, Status.Vacated, 2));    
 
-        for(int i=6; i<11; i++) //5 x 4 seats [ID: 6-10]
+        for(int i=11; i<21; i++) //10 x 4 seats [ID: 6-10]
             tables.add(new Table(i, Status.Vacated, 4)); 
 
-        for(int i=11; i<21; i++) //10 x 8 seats [ID: 11-20]
+        for(int i=21; i<26; i++) //5 x 8 seats [ID: 11-20]
             tables.add(new Table(i, Status.Vacated, 8));
         
-        for(int i=21; i<31; i++) //10 x 10 seats [ID: 21-30]
+        for(int i=26; i<31; i++) //5 x 10 seats [ID: 21-30]
             tables.add(new Table(i, Status.Vacated, 10));
 
 		Restaurant.tables = tables;

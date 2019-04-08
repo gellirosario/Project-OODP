@@ -3,6 +3,7 @@ package classes;
 import java.util.Date;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Represents the order at the restaurant
@@ -40,7 +41,7 @@ public class Order{
 	 * The orderDateTime of the order
 	 * 
 	 */
-	private Date orderDateTime;
+	private Calendar orderDateTime;
 	
 	
 	/**
@@ -52,7 +53,7 @@ public class Order{
 	 * 
 	 * 
 	 */
-	public Order(int id, Staff staff,ArrayList<SaleItem> items, Table table, Date orderDateTime)
+	public Order(int id, Staff staff,ArrayList<SaleItem> items, Table table, Calendar orderDateTime)
 	{
 		this.setId(id);
 		this.setStaff(staff);
@@ -136,7 +137,7 @@ public class Order{
 	/**
 	 * @return the orderDateTime
 	 */
-	public Date getOrderDateTime() {
+	public Calendar getOrderDateTime() {
 		return orderDateTime;
 	}
 
@@ -145,7 +146,7 @@ public class Order{
 	/**
 	 * @param orderDateTime the orderDateTime to set
 	 */
-	public void setOrderDateTime(Date orderDateTime) {
+	public void setOrderDateTime(Calendar orderDateTime) {
 		this.orderDateTime = orderDateTime;
 	}
 	

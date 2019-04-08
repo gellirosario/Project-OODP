@@ -3,6 +3,7 @@ package mgr;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -25,21 +26,21 @@ public class OrderManager {
 
 	/**
 	 * 
-	 * Static scanner variable
-	 * For shortening code and prevents creating new scanner variable for each function 
+	 * Static scanner variable For shortening code and prevents creating new scanner
+	 * variable for each method
 	 * 
 	 */
 	public static Scanner sc = new Scanner(System.in);
 
 	/**
 	 * 
-	 * View existing orders
-	 * Prints out all existing orders
+	 * View existing orders Prints out all existing orders
 	 * 
 	 * @param ArrayList<Order> orders
 	 * 
 	 */
 	public static void viewOrder(ArrayList<Order> orders) {
+
 		System.out.println("\n[View all Orders]\n");
 
 		if (orders.size() > 0) {
@@ -54,108 +55,57 @@ public class OrderManager {
 				}
 				System.out.println("----------------------------");
 
-				System.out.println(
-						"Created by " + orders.get(i).getStaff().getName() + "\n" + orders.get(i).getOrderDateTime());
+				System.out.println("Created by " + orders.get(i).getStaff().getName() + "\n"
+						+ orders.get(i).getOrderDateTime().getTime());
 				System.out.println("================================\n");
 			}
 		} else {
 			System.out.println("No orders found.");
 		}
 	}
-	
+
 	/**
 	 * 
 	 * Creates a new order according to reservation and walk in orders
 	 * 
-	 * @param ArrayList<MenuItem> menuItems
-	 * @param ArrayList<Order> orders
-	 * @param ArrayList<Table> tables
+	 * @param ArrayList<MenuItem>    menuItems
+	 * @param ArrayList<Order>       orders
+	 * @param ArrayList
+	 *                               <Table>
+	 *                               tables
 	 * @param ArrayList<Reservation> reservations
-	 * @param Staff currentStaff
+	 * @param Staff                  currentStaff
 	 * 
 	 */
 	public static void createOrder(ArrayList<MenuItem> menuItems, ArrayList<Order> orders, ArrayList<Table> tables,
-			ArrayList<Reservation> reservations, Staff currentStaff) {
+			Reservation reservation, Staff currentStaff) {
 
 		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
 		Order order = null;
 		Table occupiedTable = null;
-		Reservation reserved = null;
-		int option = 0;
 		int pax = 0;
-		int contactNo = 0;
 
-		Date date = new Date();
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Calendar date = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-		do {
-			// Check for customer's reservation
-			System.out.println("Customer has reservations? (Y/N)");
-			option = Character.toUpperCase(sc.next().charAt(0)); // Check if user input is char
-
-		} while (option != 'Y' && option != 'N');
-
-		if (option == 'Y') // Customer has reservation
+		if (reservation != null) // Customer has reservation
 		{
-			do {
-
-				System.out.println("Please enter the Customer's contact number: (Enter -1 to exit)");
-				contactNo = sc.nextInt();
-
-				if (contactNo < 0) {
-					break;
-				}
-
-				for (int i = 0; i < reservations.size(); i++) // Check if Reservation exist
-				{
-					if ((int) contactNo == reservations.get(i).getCustContact()) {
-						reserved = reservations.get(i);
-
-						long curTimeInMs = reserved.getReservationTime().getTime().getTime();
-						Date expiredTime = new Date(curTimeInMs + (30 * 60000));
-
-						if (date.before(expiredTime)) // Check if Reservation is within reservation time after 30 minutes
-						{
-							System.out.println("Reservation found!");
-							
-							occupiedTable = reserved.getTableReservation();
-							
-						} else {
-							System.out.println("Reservation has expired.");
-							reserved = null;
-							option = 'N';
-						}
-
-						break;
-					}
-
-					if (i + 1 == reservations.size()) {
-						System.out.println("Reservation not found. Please try again.");
-						break;
-					}
-				}
-
-				if (reserved == null && reservations.size() == 0) {
-					System.out.println("Reservation not found. Please try again.");
-					break;
-				}
-
-			} while (reserved == null);
-		}
-		
-		if(reserved != null)
+			occupiedTable = reservation.getTableReservation();
+			pax = reservation.getNumOfPax();
+			saleItems = addItemToOrder(menuItems, new ArrayList<SaleItem>()); // Add menu items to order
+		} else if (reservation == null) // Customer has no reservation
 		{
 			saleItems = addItemToOrder(menuItems, new ArrayList<SaleItem>()); // Add menu items to order
-		}
-		
-		if (option == 'N') // Customer has no reservation
-		{
-			saleItems = addItemToOrder(menuItems, new ArrayList<SaleItem>()); // Add menu items to order
-			
+
 			do {
 				// Get pax
-				System.out.print("Please enter pax: ");
+				System.out.println("Please enter pax: (Enter -1 to exit)");
 				pax = sc.nextInt();
+
+				if (pax < 0) {
+					pax = 0;
+					break;
+				}
 
 				if (pax < 1 || pax > 10) {
 					System.out.println("No tables found for this amount of pax. Please try again.");
@@ -167,6 +117,7 @@ public class OrderManager {
 			for (int i = 0; i < tables.size(); i++) {
 				if (tables.get(i).getSeatingCapacity() >= pax && tables.get(i).getStatus() == Status.Vacated) {
 					occupiedTable = tables.get(i);
+					occupiedTable.setStatus(Status.Occupied);
 
 					break;
 				}
@@ -178,20 +129,20 @@ public class OrderManager {
 		}
 
 		// Adds to order
-		if (currentStaff != null && occupiedTable != null && saleItems != null) {
+		if (currentStaff != null && occupiedTable != null && saleItems != null && pax != 0) {
 
 			order = new Order(orders.size() + 1, currentStaff, saleItems, occupiedTable, date);
 
 			if (order != null) {
-				orders.add(order);
 
+				orders.add(order);
 				System.out.println("Order complete!");
-				System.out.println("[Order No." + orders.size() + " | Created by " + currentStaff.getName() + " on "
-						+ dateFormat.format(date) + "]");
+				System.out.println("[Order No." + orders.size() + " | Table No." + occupiedTable.getId()
+						+ " | Created by " + currentStaff.getName() + " on " + dateFormat.format(date.getTime()) + "]");
 			}
 
 		} else {
-			System.out.println("Order incomplete. Please try again later.");
+			System.out.println("Unable to create an Order. Please try again.");
 		}
 
 	}
@@ -201,7 +152,7 @@ public class OrderManager {
 	 * Update order by adding or removing order item
 	 * 
 	 * @param ArrayList<MenuItem> menuItems
-	 * @param ArrayList<Order> orders
+	 * @param ArrayList<Order>    orders
 	 * 
 	 */
 	public static void updateOrder(ArrayList<MenuItem> menuItems, ArrayList<Order> orders) {
@@ -250,6 +201,8 @@ public class OrderManager {
 				choice = sc.nextInt();
 
 				switch (choice) {
+				case 0:
+					break;
 				case 1:
 					saleItems = addItemToOrder(menuItems, saleItems);
 					break;
@@ -264,10 +217,10 @@ public class OrderManager {
 		}
 
 	}
-	
+
 	/**
 	 * 
-	 * Add item to existing/new order 
+	 * Add item to existing/new order
 	 * 
 	 * @param ArrayList<MenuItem> menuItems
 	 * @param ArrayList<SaleItem> items
@@ -290,8 +243,12 @@ public class OrderManager {
 		System.out.println("================================\n");
 
 		do {
-			System.out.println("Add menu item to order: ");
+			System.out.println("Add menu item to order: (Enter -1 to exit)");
 			choice = sc.nextInt();
+
+			if (choice < 0) {
+				break;
+			}
 
 			for (int i = 0; i < menuItems.size(); i++) {
 				if (menuItems.get(i).getId() == choice) {
@@ -316,7 +273,7 @@ public class OrderManager {
 
 	/**
 	 * 
-	 * Remove item from existing order 
+	 * Remove item from existing order
 	 * 
 	 * @param ArrayList<MenuItem> menuItems
 	 * @param ArrayList<SaleItem> items
@@ -338,8 +295,12 @@ public class OrderManager {
 
 		do {
 
-			System.out.println("Remove menu item from order: ");
+			System.out.println("Remove menu item from order: (Enter -1 to exit)");
 			choice = sc.nextInt();
+
+			if (choice < 0) {
+				break;
+			}
 
 			if (saleItems.size() == 1) {
 				System.out.println("You can't delete the last item from the order.");
@@ -371,12 +332,14 @@ public class OrderManager {
 	 * Remove existing order
 	 * 
 	 * @param ArrayList<MenuItem> menuItems
-	 * @param ArrayList<Order> orders
+	 * @param ArrayList<Order>    orders
 	 * 
 	 */
 	public static void removeOrder(ArrayList<MenuItem> menuItems, ArrayList<Order> orders) {
 
 		int choice = 0;
+		char option;
+
 		if (orders.size() == 0) {
 			System.out.println("No orders found. Unable to remove any orders.");
 		} else {
@@ -392,20 +355,30 @@ public class OrderManager {
 
 			System.out.println("\n[Remove Orders]\n");
 
-			System.out.println("Please enter the order ID you want to remove : ");
-			choice = sc.nextInt();
+			do {
+				System.out.println("Please enter the order ID you want to remove : (Enter -1 to exit)");
+				choice = sc.nextInt();
 
-			for (int i = 0; i < orders.size(); i++) {
-				if (orders.get(i).getId() == choice) {
-					orders.remove(orders.get(i));
-					System.out.println("Order successfully removed!");
+				if (choice < 0) {
 					break;
 				}
 
-				if (i + 1 == orders.size()) {
-					System.out.println("Order not found.");
+				for (int i = 0; i < orders.size(); i++) {
+					if (orders.get(i).getId() == choice) {
+						orders.remove(orders.get(i));
+						System.out.println("Order successfully removed!");
+						break;
+					}
+
+					if (i + 1 == orders.size()) {
+						System.out.println("Order not found.");
+					}
 				}
-			}
+
+				System.out.print("Continue removing from order? (Y/N): ");
+				option = Character.toUpperCase(sc.next().charAt(0)); // check if user input is char
+
+			} while (option == 'Y');
 
 		}
 
