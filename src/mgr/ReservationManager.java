@@ -12,8 +12,6 @@ import classes.Table;
 import classes.Reservation;
 import classes.Staff;
 
-
-
 /**
  * Represents the Reservation Manager of the restaurant
  * Create, Edit, Delete Reservations
@@ -21,6 +19,8 @@ import classes.Staff;
  * @author Lexx Audrey Pecson Manalansan
  * 
  */
+
+
 public class ReservationManager {
 
 	private static Scanner sc = new Scanner (System.in);
@@ -118,7 +118,7 @@ public class ReservationManager {
 			System.out.println("Reservation DateTime: " + r.getReservationTime().getTime());
 			System.out.println("Table: " + r.getTableReservation().getId());
 		}else{
-			System.out.println("No table available on " + reservationTime.getTime() + " for " + numOfPax + " people.");
+			System.out.println("***No table available on " + reservationTime.getTime() + " for " + numOfPax + " people.");
 		}
 	
 	}
@@ -133,7 +133,7 @@ public class ReservationManager {
 		Calendar current = Calendar.getInstance();
 		
 		if(date.before(current)){
-    		System.out.println("Please key in current or future date or time.");
+    		System.out.println("***Please key in current or future date or time.");
     		return false;
 		}
 		
@@ -141,9 +141,9 @@ public class ReservationManager {
 		current.add(Calendar.DAY_OF_MONTH, 30);
 	    
     	if(date.after(current))
-    		System.out.println("You are only allowed to make a reservation for a maximum of 30 days in advance");
+    		System.out.println("***You are only allowed to make a reservation for a maximum of 30 days in advance");
     	else if (getReservationTimeSession(date) == 0)
-    		System.out.println("Reservation time invalid. Please key in a reservation time during operating hours.");
+    		System.out.println("***Reservation time invalid. Please key in a reservation time during operating hours.");
     	else
     		validDate = true;
 	    
@@ -203,16 +203,20 @@ public class ReservationManager {
 		Calendar reservationTime = Calendar.getInstance();
 		SimpleDateFormat format = null;
 		Date parsed = null;
-		
+		String exit = "*";
 		do{
-			System.out.print("Enter reservation DateTime [dd/MM/yyyy HH:mm]: ");	
+			System.out.println("Enter reservation DateTime [dd/MM/yyyy HH:mm]: (Press * to exit)");	
 			String date  = sc.nextLine();
+			
 		    
+			if(exit.equals(date))
+				return null;
+			
 		    format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		    try {
 		    	parsed = format.parse(date);
 		    } catch (ParseException e) {
-		        System.out.println("Date " + date + " is not valid according to [" +
+		        System.out.println("***Entered date [" + date + "] is not valid according to [" +
 		                ((SimpleDateFormat) format).toPattern() + "] pattern.");
 		        continue;
 		    }
@@ -259,21 +263,41 @@ public class ReservationManager {
 			return;
 		}
 		
-		System.out.println("Choose which reservation to cancel:");
-		int choice = sc.nextInt();
+		
+		System.out.println("Choose which reservation to cancel: (Press * to exit)");
+		
+		boolean validIndex = false;
 		
 		int count = 0;
 		for(Reservation r : reservation){
 			System.out.println("["+ (count++) + "] " + r);
 		}
-		try {
-			Reservation rr = reservation.get(choice);
-			moveToPastReservation(rr);
-			System.out.println("Reservation is successfully cancelled.");
-		}catch(IndexOutOfBoundsException e){
-			System.out.println("Fail to cancel reservation! (Invalid index provided)");
-		}
 		
+		String choice = sc.nextLine();
+		String exit = "*";
+		do {
+			if(exit.equals(choice))
+				break;
+			
+			try {
+				Reservation rr = reservation.get(Integer.parseInt(choice));
+				moveToPastReservation(rr);
+				System.out.println("***Reservation is successfully cancelled.");
+				}
+			catch (NumberFormatException e)  {
+				System.out.println("***Please key in a valid index only");
+				System.out.println("Choose which reservation to cancel: (Press * to exit)");
+				choice = sc.nextLine();
+				continue;
+			}catch(IndexOutOfBoundsException e){
+				System.out.println("***Failed to cancel reservation! (Invalid index provided)");
+				System.out.println("Choose which reservation to cancel: (Press * to exit)");
+				choice = sc.nextLine();
+				continue;
+			}
+		
+			validIndex = true;
+		}while(!validIndex);
 	}
 	
 	/**
@@ -291,26 +315,43 @@ public class ReservationManager {
 			return;
 		}
 
-		System.out.println("Choose which reservation to accept:");		
+		System.out.println("Choose which reservation to accept: (Press * to exit)");	
+		
+		boolean validIndex = false;
 		
 		int count = 0;
-		for(Reservation r : reservation)
+		for(Reservation r : reservation){
 			System.out.println("["+ (count++) + "] " + r);
-		int choice = sc.nextInt();
-		try {
-			Reservation ar = reservation.get(choice);
-			
-			ar.setAccepted(true);
-			//Order newOrder = new Order(staff, reservation);
-			//Restaurant.orders.add(newOrder);
-			moveToPastReservation(ar);
-		
-			System.out.println("Reservation accepted.");
-			
-		}catch(IndexOutOfBoundsException e){
-			System.out.println("Fail to accept reservation! (Invalid index provided)");
 		}
 		
+		String choice = sc.nextLine();
+		String exit = "*";
+		do {
+			if(exit.equals(choice))
+				break;
+			try {
+				Reservation ar = reservation.get(Integer.parseInt(choice));
+				
+				ar.setAccepted(true);
+				//Order newOrder = new Order(staff, ar);
+				//Restaurant.orders.add(newOrder);
+				moveToPastReservation(ar);
+			
+				System.out.println("***Reservation accepted.");
+			}
+			catch (NumberFormatException e)  {
+				System.out.println("***Please key in a valid index only");
+				System.out.println("Choose which reservation to cancel: (Press * to exit)");
+				choice = sc.nextLine();
+				continue;
+			}catch(IndexOutOfBoundsException e){
+				System.out.println("***Failed to accept reservation! (Invalid index provided)");
+				System.out.println("Choose which reservation to cancel: (Press * to exit)");
+				choice = sc.nextLine();
+				continue;
+			}
+			validIndex = true;
+		}while(!validIndex);
 	}
 	
 	/**
@@ -319,57 +360,118 @@ public class ReservationManager {
 	 */
 	public static void makeReservation(){
 		
-		System.out.println("Enter customer's name: "); 
-		String custName = sc.nextLine();
+		String custName = null;
+		String exit = "*";
+		do {
+			System.out.println("Enter customer's name:  (Press * to exit)"); 
+			custName = sc.nextLine();
 		
-		System.out.println("Enter customer's contact number: ");
-		int custContact = sc.nextInt();
-		
-		System.out.println("Enter number of pax: ");
-		int numOfPax = sc.nextInt();
-		
-		while (numOfPax > 10 || numOfPax < 1){
-			if (numOfPax < 1)
-				System.out.println("Minimum 1 pax per reservation");
-			else
-				System.out.println("Maximum of 10 pax per reservation");
+			if(exit.equals(custName))
+				return;
 			
+			if (custName.length() == 0)
+				System.out.println("***Please key in customer's name (Press * to exit)");
+		}while(custName.length() == 0);
+		
+		
+		String custContact = null;
+		boolean validNo = false;
+		do {
+			System.out.println("Enter customer's contact number:  (Press * to exit)");
+			custContact = sc.nextLine();
+			
+			if(exit.equals(custContact))
+				return;
+			
+			try {
+				   Integer.parseInt(custContact);
+				}
+				catch (NumberFormatException e)  {
+					System.out.println("***Please only enter 8-digit number");
+					continue;
+				}
+				if (custContact.length() != 8)
+					System.out.println("***Please only enter 8-digit number.");
+				else 
+					validNo = true;
+		}while(!validNo);
+		
+		
+		
+		String numOfPax = null;
+		boolean validPax = false;
+		do {
+			System.out.println("Enter number of pax:  (Press * to exit)");
+			numOfPax = sc.nextLine();
+		
+			if(exit.equals(numOfPax))
+				return;
+			
+			try {
+			   Integer.parseInt(numOfPax);
+			}
+			catch (NumberFormatException e)  {
+				System.out.println("***Please only enter number from 1 - 10");
+				continue;
+			}
+				if(Integer.parseInt(numOfPax) < 1)
+					System.out.println("***Minimum 1 pax per reservation");
+				else if(Integer.parseInt(numOfPax) > 10)
+					System.out.println("***Maximum of 10 pax per reservation");
+				else
+					validPax = true;
+		}while(!validPax);
+		
+		
+		Calendar reservationTime = checkValidDateTimeFormat();
 
-			System.out.println("Enter number of people: ");
-			numOfPax = sc.nextInt();
+		if (reservationTime == null) {
+			return;
 		}
-		
-		
-
-		Calendar reservationTime = checkValidDateTimeFormat();	
-		addReservation(custName, custContact, numOfPax, reservationTime);
-		
+		else
+			addReservation(custName, Integer.parseInt(custContact), Integer.parseInt(numOfPax), reservationTime);
 	}
+	
+	
 	
 	/**
 	 * Check available tables depending on the number of pax and DateTime
 	 */
 	public static void showAvailableTables(){
 		
-		System.out.println("Enter number of pax: ");
-		int numOfPax = sc.nextInt();
+		String numOfPax = null;
+		boolean validPax = false;
+		String exit = "*";
+		do {
+			System.out.println("Enter number of pax:  (Press * to exit)");
+			numOfPax = sc.nextLine();
 		
-		while (numOfPax > 10 || numOfPax < 1){
-			if (numOfPax < 1)
-				System.out.println("Minimum 1 pax per reservation");
-			else
-				System.out.println("Maximum of 10 pax per reservation");
+			if(exit.equals(numOfPax))
+				return;
 			
-
-			System.out.println("Enter number of people: ");
-			numOfPax = sc.nextInt();
-		}
+			try {
+			   Integer.parseInt(numOfPax);
+			}
+			catch (NumberFormatException e)  {
+				System.out.println("***Please only enter number from 1 - 10");
+				continue;
+			}
+				if(Integer.parseInt(numOfPax) < 1)
+					System.out.println("***Minimum 1 pax per reservation");
+				else if(Integer.parseInt(numOfPax) > 10)
+					System.out.println("***Maximum of 10 pax per reservation");
+				else
+					validPax = true;
+		}while(!validPax);
 		
 		Calendar reservationTime = checkValidDateTimeFormat();
+		if (reservationTime == null) {
+			return;
+		}
 		
-		ArrayList<Table> availTables = TableManager.availableTables(reservationTime, numOfPax);
+		ArrayList<Table> availTables = TableManager.availableTables(reservationTime, Integer.parseInt(numOfPax));
 		if(availTables == null || availTables.size() <= 0){
-			System.out.println("No tables available for reservation on datetime " + reservationTime.getTime());
+			System.out.println("***No tables available for reservation on datetime " + reservationTime.getTime());
 			return;
 		}
 		
