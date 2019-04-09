@@ -44,7 +44,7 @@ public class TableManager {
 			if(current.get(Calendar.MONTH)==reservationTime.get(Calendar.MONTH))
 				if(current.get(Calendar.DATE) == reservationTime.get(Calendar.DATE))
 					if(AM == (current.get(Calendar.HOUR_OF_DAY) < Restaurant.SESSION_AMENDTIME))
-						if(t.getStatus()==Status.Occupied)
+						if(t.getStatus()==Status.Occupied || t.getStatus()==Status.Reserved)
 							continue;
 			
 			if(t.getSeatingCapacity() < numOfPax) continue;
