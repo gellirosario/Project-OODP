@@ -18,6 +18,7 @@ public class MenuItemUI {
 
 	/**
 	 * Display UI related to MenuItem
+	 * 
 	 * @param restaurant
 	 */
 	public static void showMenuItemUI(Restaurant restaurant) {
@@ -55,18 +56,24 @@ public class MenuItemUI {
 			case 2: // 2 Create Menu Item
 				MenuItem newMenuItem = null;
 				newMenuItem = menuItemManager.createMenuItem(menuItems);
-				menuItems.add(newMenuItem);
-				restaurant.setMenuItems(menuItems);
+				if (newMenuItem != null) {
+					menuItems.add(newMenuItem);
+					restaurant.setMenuItems(menuItems);
+				}
 				break;
 			case 3: // 3 Update Menu Item
 				ArrayList<MenuItem> updateMenuItems = null;
 				updateMenuItems = menuItemManager.updateMenuItem(menuItems);
-				restaurant.setMenuItems(updateMenuItems);
+				if (updateMenuItems != null) {
+					restaurant.setMenuItems(updateMenuItems);
+				}
 				break;
 			case 4: // 4 Delete Menu Item
 				ArrayList<MenuItem> delMenuItems = null;
 				delMenuItems = menuItemManager.deleteMenuItem(menuItems);
-				restaurant.setMenuItems(delMenuItems);
+				if (delMenuItems != null) {
+					restaurant.setMenuItems(delMenuItems);
+				}
 				break;
 			default:
 				System.out.println("No such option.");

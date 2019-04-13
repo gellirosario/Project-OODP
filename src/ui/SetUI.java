@@ -19,6 +19,7 @@ public class SetUI {
 
 	/**
 	 * Display UI related to Set
+	 * 
 	 * @param restaurant
 	 */
 	public static void showSetUI(Restaurant restaurant) {
@@ -57,18 +58,24 @@ public class SetUI {
 			case 2: // 2 Create Set
 				Set newSet = null;
 				newSet = setManager.createSet(menuItems, sets);
-				sets.add(newSet);
-				restaurant.setSets(sets);
+				if (newSet != null) {
+					sets.add(newSet);
+					restaurant.setSets(sets);
+				}
 				break;
 			case 3: // 3 Update Set
 				ArrayList<Set> updateSets = null;
 				updateSets = setManager.updateSet(menuItems, sets);
-				restaurant.setSets(updateSets);
+				if (updateSets != null) {
+					restaurant.setSets(updateSets);
+				}
 				break;
 			case 4: // 4 Delete Set
 				ArrayList<Set> delSets = null;
 				delSets = setManager.deleteSet(sets);
-				restaurant.setSets(delSets);
+				if (delSets != null) {
+					restaurant.setSets(delSets);
+				}
 				break;
 			default:
 				System.out.println("No such option.");
