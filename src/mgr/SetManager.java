@@ -39,10 +39,11 @@ public class SetManager {
 	 * 
 	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 * @param sets      available ArrayList<Set> sets
-	 * @return null if menuItems size == 0 or menuItems == null <br>
+	 * @return null if menuItems size == 0 or menuItems == null or user exit<br>
 	 *         new Set created from user's inputs
 	 */
 	public Set createSet(ArrayList<MenuItem> menuItems, ArrayList<Set> sets) {
+		System.out.println("Enter -1 at any time to exit current action.");
 		Scanner sc = new Scanner(System.in);
 
 		int id = 0;
@@ -65,6 +66,9 @@ public class SetManager {
 			// user entered int
 			id = sc.nextInt();
 			sc.nextLine(); // get rid of \n
+			if (id == -1) { // check user exit
+				return null; // exit
+			}
 			if (id <= 0 || !Set.isValidId(sets, id)) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -75,6 +79,9 @@ public class SetManager {
 		System.out.println("Enter Set name: ");
 		do {
 			name = sc.nextLine();
+			if (name.equals("-1")) { // check for user exit
+				return null; // exit
+			}
 			if (name.isEmpty()) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -85,6 +92,9 @@ public class SetManager {
 		System.out.println("Enter Set description: ");
 		do {
 			desc = sc.nextLine();
+			if (desc.equals("-1")) { // check for user exit
+				return null; // exit
+			}
 			if (desc.isEmpty()) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -101,6 +111,9 @@ public class SetManager {
 			// user entered double
 			price = sc.nextDouble();
 			sc.nextLine(); // get rid of \n
+			if (price == -1) { // check user exit
+				return null; // exit
+			}
 			if (price < 0) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -109,6 +122,9 @@ public class SetManager {
 		} while (true); // only exit do while loop when user input is valid
 
 		setItems = createSetItems(menuItems);
+		if(setItems == null) {
+			return null;
+		}
 
 		Set newSet = new Set(id, name, desc, price, setItems);
 		// print success msg
@@ -124,10 +140,12 @@ public class SetManager {
 	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 * @param sets      available ArrayList<Set> sets
 	 * @return null if menuItems size == 0 or menuItems == null or sets size == 0 or
-	 *         sets == null; <br>
+	 *         sets == null or user exit; <br>
 	 *         updated ArrayList<Set> sets, where one of the Set is updated
 	 */
 	public ArrayList<Set> updateSet(ArrayList<MenuItem> menuItems, ArrayList<Set> sets) {
+		System.out.println("Enter -1 at any time to exit current action.");
+		System.out.println("Note that any changes will be kept.");
 		Scanner sc = new Scanner(System.in);
 
 		int id = 0;
@@ -156,6 +174,9 @@ public class SetManager {
 			// user entered int
 			id = sc.nextInt();
 			sc.nextLine(); // get rid of \n
+			if (id == -1) { // check user exit
+				return null; // exit
+			}
 			set = getSetById(sets, id);
 			if (set == null) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
@@ -174,6 +195,9 @@ public class SetManager {
 			// user entered int
 			id = sc.nextInt();
 			sc.nextLine(); // get rid of \n
+			if (id == -1) { // check user exit
+				return null; // exit
+			}
 			if (id == set.getId()) { // same value
 				System.out.println("Input value is same as current value: " + set.getId());
 				break; // same value
@@ -190,6 +214,9 @@ public class SetManager {
 		System.out.println("Enter new Set name: ");
 		do {
 			name = sc.nextLine();
+			if (name.equals("-1")) { // check for user exit
+				return null; // exit
+			}
 			if (name.isEmpty()) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -207,6 +234,9 @@ public class SetManager {
 		System.out.println("Enter new Set description: ");
 		do {
 			desc = sc.nextLine();
+			if (desc.equals("-1")) { // check for user exit
+				return null; // exit
+			}
 			if (desc.isEmpty()) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -230,6 +260,9 @@ public class SetManager {
 			// user entered double
 			price = sc.nextDouble();
 			sc.nextLine(); // get rid of \n
+			if (price == -1) { // check user exit
+				return null; // exit
+			}
 			if (price < 0) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -247,6 +280,9 @@ public class SetManager {
 		setItems = set.getMenuItems();
 		menuItemManager.viewAllMenuItem(setItems);
 		setItems = createSetItems(menuItems); // enter new set items
+		if(setItems == null) {
+			return null;
+		}
 		set.setMenuItems(setItems);
 		System.out.println("New Set's Menu Items(s):");
 		menuItemManager.viewAllMenuItem(setItems);
@@ -260,14 +296,14 @@ public class SetManager {
 
 	/**
 	 * Delete a Set from parameter, ArrayList<MenuItem> sets, <br>
-	 * user choose a Set from sets that will be deleted, <br>
-	 * user can enter 0 to terminate delete process
+	 * user choose a Set from sets that will be deleted
 	 * 
 	 * @param sets available ArrayList<Set> sets
 	 * @return updated ArrayList <Set> sets where one of the Set is deleted;<br>
-	 *         null if sets size == 0 or sets == null;
+	 *         null if sets size == 0 or sets == null or user exit;
 	 */
 	public ArrayList<Set> deleteSet(ArrayList<Set> sets) {
+		System.out.println("Enter -1 at any time to exit current action.");
 		Scanner sc = new Scanner(System.in);
 
 		int id = 0;
@@ -280,7 +316,6 @@ public class SetManager {
 
 		viewAllSet(sets);
 		System.out.println("Select a Set by Id:");
-		System.out.println("Enter 0 to cancel delete.");
 		do { // choose a Set to delete
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
@@ -289,9 +324,8 @@ public class SetManager {
 			// user entered int
 			id = sc.nextInt();
 			sc.nextLine(); // get rid of \n
-			if (id == 0) {
-				System.out.println("Cancelled delete.");
-				break; // exit/cancel delete
+			if (id == -1) { // check for user exit
+				return null; // exit
 			}
 			set = getSetById(sets, id);
 			if (set == null) { // invalid value
@@ -329,10 +363,12 @@ public class SetManager {
 	 * Each Set can have duplicate MenuItems
 	 * 
 	 * @param menuItems available ArrayList<MenuItem> menuItems
-	 * @return null if input menuItems size == 0 or menuItems == null; <br>
+	 * @return null if input menuItems size == 0 or menuItems == null or user exit;
+	 *         <br>
 	 *         valid ArrayList<MenuItem> setItems
 	 */
 	public static ArrayList<MenuItem> createSetItems(ArrayList<MenuItem> menuItems) {
+		System.out.println("Enter -1 at any time to exit current action.");
 		Scanner sc = new Scanner(System.in);
 		int menuItemId = 0;
 		int setItemsSize = 0;
@@ -356,6 +392,9 @@ public class SetManager {
 			// user entered int
 			setItemsSize = sc.nextInt();
 			sc.nextLine(); // get rid of \n
+			if (setItemsSize == -1) { // check for user exit
+				return null; // exit
+			}
 			if (setItemsSize < 1) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -373,6 +412,9 @@ public class SetManager {
 				// user entered int
 				menuItemId = sc.nextInt();
 				sc.nextLine(); // get rid of \n
+				if (menuItemId == -1) { // check for user exit
+					return null; // exit
+				}
 				setItem = menuItemManager.getMenuItemById(menuItems, menuItemId);
 				if (setItem == null) { // invalid value
 					System.out.println("Invalid Input, please enter valid input.");

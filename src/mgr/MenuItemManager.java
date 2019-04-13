@@ -352,6 +352,7 @@ public class MenuItemManager {
 	 *         null if user exit
 	 */
 	public MenuType chooseMenuType() {
+		System.out.println("Enter -1 at any time to exit current action.");
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
 
