@@ -367,7 +367,7 @@ public class SetManager {
 	 *         <br>
 	 *         valid ArrayList<MenuItem> setItems
 	 */
-	public static ArrayList<MenuItem> createSetItems(ArrayList<MenuItem> menuItems) {
+	public ArrayList<MenuItem> createSetItems(ArrayList<MenuItem> menuItems) {
 		System.out.println("Enter -1 at any time to exit current action.");
 		Scanner sc = new Scanner(System.in);
 		int menuItemId = 0;
