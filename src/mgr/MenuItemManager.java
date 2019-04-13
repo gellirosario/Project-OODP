@@ -8,6 +8,7 @@ import classes.MenuItem.MenuType;
 
 /**
  * Handles manipulation of MenuItem
+ * 
  * @author Kailing
  *
  */
@@ -35,9 +36,11 @@ public class MenuItemManager {
 	 * Create new Menu Item from user's inputs
 	 * 
 	 * @param menuItems available ArrayList<MenuItem> menuItems
-	 * @return new Menu Item created from user's inputs
+	 * @return new Menu Item created from user's inputs <br>
+	 *         null if user exit
 	 */
 	public MenuItem createMenuItem(ArrayList<MenuItem> menuItems) {
+		System.out.println("Enter -1 at any time to exit current action.");
 		Scanner sc = new Scanner(System.in);
 		int id = 0;
 		String name = "";
@@ -54,6 +57,9 @@ public class MenuItemManager {
 			// user entered int
 			id = sc.nextInt();
 			sc.nextLine(); // get rid of \n
+			if (id == -1) { // check for user exit
+				return null; // exit
+			}
 			if (id <= 0 || !MenuItem.isValidId(menuItems, id)) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -64,6 +70,9 @@ public class MenuItemManager {
 		System.out.println("Enter Menu Item name: ");
 		do {
 			name = sc.nextLine();
+			if (name.equals("-1")) { // check for user exit
+				return null; // exit
+			}
 			if (name.isEmpty()) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -74,6 +83,9 @@ public class MenuItemManager {
 		System.out.println("Enter Menu Item description: ");
 		do {
 			desc = sc.nextLine();
+			if (desc.equals("-1")) { // check for user exit
+				return null; // exit
+			}
 			if (desc.isEmpty()) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -90,6 +102,9 @@ public class MenuItemManager {
 			// user entered double
 			price = sc.nextDouble();
 			sc.nextLine(); // get rid of \n
+			if (price == -1) { // check for user exit
+				return null; // exit
+			}
 			if (price < 0) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -98,6 +113,9 @@ public class MenuItemManager {
 		} while (true); // only exit do while loop when user input is valid
 
 		menuType = chooseMenuType();
+		if (menuType == null) {
+			return null;
+		}
 
 		// add to ArrayList<MenuItem> menuItems
 		MenuItem newItem = new MenuItem(id, name, desc, price, menuType);
@@ -116,9 +134,12 @@ public class MenuItemManager {
 	 * 
 	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 * @return updated ArrayList<MenuItem> menuItems, where one of the MenuItem is
-	 *         updated
+	 *         updated<br>
+	 *         null if user exit
 	 */
 	public ArrayList<MenuItem> updateMenuItem(ArrayList<MenuItem> menuItems) {
+		System.out.println("Enter -1 at any time to exit current action.");
+		System.out.println("Note that any changes will be kept.");
 		Scanner sc = new Scanner(System.in);
 
 		int id = 0;
@@ -139,6 +160,9 @@ public class MenuItemManager {
 			// user entered int
 			id = sc.nextInt();
 			sc.nextLine(); // get rid of \n
+			if (id == -1) { // check user exit
+				return null; // exit
+			}
 			menuItem = getMenuItemById(menuItems, id);
 			if (menuItem == null) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
@@ -157,6 +181,9 @@ public class MenuItemManager {
 			// user entered int
 			id = sc.nextInt();
 			sc.nextLine(); // get rid of \n
+			if (id == -1) { // check for user exit
+				return null; // exit
+			}
 			if (id == menuItem.getId()) { // same value
 				System.out.println("Input value is same as current value: " + menuItem.getId());
 				break; // same value
@@ -173,6 +200,9 @@ public class MenuItemManager {
 		System.out.println("Enter new Menu Item name: ");
 		do {
 			name = sc.nextLine();
+			if (name.equals("-1")) { // check for user exit
+				return null; // exit
+			}
 			if (name.isEmpty()) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -190,6 +220,9 @@ public class MenuItemManager {
 		System.out.println("Enter new Menu Item description: ");
 		do {
 			desc = sc.nextLine();
+			if (desc.equals("-1")) { // check for user exit
+				return null; // exit
+			}
 			if (desc.isEmpty()) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -213,6 +246,9 @@ public class MenuItemManager {
 			// user entered double
 			price = sc.nextDouble();
 			sc.nextLine(); // get rid of \n
+			if (price == -1) { // check for user exit
+				return null; // exit
+			}
 			if (price < 0) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
@@ -228,6 +264,9 @@ public class MenuItemManager {
 
 		System.out.println("\nCurrent menu type: " + menuItem.getMenuType().toString());
 		menuType = chooseMenuType();
+		if (menuType == null) {
+			return null;
+		}
 		if (menuType == menuItem.getMenuType()) {
 			System.out.println("Input value is same as current value: " + menuItem.getMenuType().toString());
 		} else {
@@ -244,15 +283,15 @@ public class MenuItemManager {
 
 	/**
 	 * Delete a MenuItem from parameter, ArrayList<MenuItem> menuItems, <br>
-	 * user choose a Menu Item from menuItems that will be deleted, <br>
-	 * user can enter 0 to terminate delete process
+	 * user choose a Menu Item from menuItems that will be deleted
 	 * 
 	 * @param menuItems available ArrayList<MenuItem> menuItems
 	 * @return updated ArrayList <MenuItem> menuItems, where one of the MenuItem is
 	 *         deleted <br>
-	 *         null, if menuItems size == 0 or menuItems == null
+	 *         null, if menuItems size == 0 or menuItems == null or if user exit
 	 */
 	public ArrayList<MenuItem> deleteMenuItem(ArrayList<MenuItem> menuItems) {
+		System.out.println("Enter -1 at any time to exit current action.");
 		Scanner sc = new Scanner(System.in);
 
 		int id = 0;
@@ -265,8 +304,6 @@ public class MenuItemManager {
 
 		viewAllMenuItem(menuItems);
 		System.out.println("Select a Menu Item by Id:");
-
-		System.out.println("Enter 0 to cancel delete.");
 		do { // choose a Menu Item to delete
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
@@ -275,9 +312,8 @@ public class MenuItemManager {
 			// user entered int
 			id = sc.nextInt();
 			sc.nextLine(); // get rid of \n
-			if (id == 0) {
-				System.out.println("Cancelled delete.");
-				break; // exit/cancel delete
+			if (id == -1) { // check for user exit
+				return null; // exit
 			}
 			menuItem = getMenuItemById(menuItems, id);
 			if (menuItem == null) { // invalid value
@@ -311,7 +347,9 @@ public class MenuItemManager {
 	/**
 	 * prints all MenuType <br>
 	 * user choose a MenuType
-	 * @return MenuType chosen by user
+	 * 
+	 * @return MenuType chosen by user<br>
+	 *         null if user exit
 	 */
 	public MenuType chooseMenuType() {
 		Scanner sc = new Scanner(System.in);
@@ -332,6 +370,9 @@ public class MenuItemManager {
 			// user entered int
 			option = sc.nextInt();
 			sc.nextLine(); // get rid of \n
+			if (option == -1) { // check for user exit
+				return null;
+			}
 			if (option <= 0 || option > MenuType.values().length) { // invalid value
 				System.out.println("Invalid Input, please enter valid input.");
 			} else { // valid value
