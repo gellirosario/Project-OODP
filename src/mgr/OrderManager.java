@@ -33,6 +33,9 @@ public class OrderManager {
 	 */
 	public static Scanner sc = new Scanner(System.in);
 
+	private static MenuItemManager menuItemManager = new MenuItemManager();
+	private static SetManager setManager = new SetManager();
+
 	/**
 	 * 
 	 * View existing orders Prints out all existing orders
@@ -71,13 +74,15 @@ public class OrderManager {
 	 * 
 	 * @param ArrayList<MenuItem>    menuItems
 	 * @param ArrayList<Order>       orders
-	 * @param ArrayList<Table>		 tables
+	 * @param ArrayList
+	 *                               <Table>
+	 *                               tables
 	 * @param ArrayList<Reservation> reservations
 	 * @param Staff                  currentStaff
 	 * 
 	 */
-	public static void createOrder(ArrayList<MenuItem> menuItems,ArrayList<Set> setItems, ArrayList<Order> orders, ArrayList<Table> tables,
-			Reservation reservation, Staff currentStaff) {
+	public static void createOrder(ArrayList<MenuItem> menuItems, ArrayList<Set> setItems, ArrayList<Order> orders,
+			ArrayList<Table> tables, Reservation reservation, Staff currentStaff) {
 
 		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
 		Order order = null;
@@ -91,11 +96,10 @@ public class OrderManager {
 		{
 			occupiedTable = reservation.getTableReservation();
 			pax = reservation.getNumOfPax();
-			saleItems = addItemToOrder(menuItems,setItems, new ArrayList<SaleItem>()); // Add menu items to order
-		} 
-		else if (reservation == null) // Customer has no reservation
+			saleItems = addItemToOrder(menuItems, setItems, new ArrayList<SaleItem>()); // Add menu items to order
+		} else if (reservation == null) // Customer has no reservation
 		{
-			saleItems = addItemToOrder(menuItems,setItems, new ArrayList<SaleItem>()); // Add menu items to order
+			saleItems = addItemToOrder(menuItems, setItems, new ArrayList<SaleItem>()); // Add menu items to order
 
 			do {
 				// Get pax
@@ -155,7 +159,7 @@ public class OrderManager {
 	 * @param ArrayList<Order>    orders
 	 * 
 	 */
-	public static void updateOrder(ArrayList<MenuItem> menuItems,ArrayList<Set> setItems, ArrayList<Order> orders) {
+	public static void updateOrder(ArrayList<MenuItem> menuItems, ArrayList<Set> setItems, ArrayList<Order> orders) {
 
 		int choice = 0;
 		int orderId = 0;
@@ -204,7 +208,7 @@ public class OrderManager {
 				case 0:
 					break;
 				case 1:
-					saleItems = addItemToOrder(menuItems,setItems, saleItems);
+					saleItems = addItemToOrder(menuItems, setItems, saleItems);
 					break;
 				case 2:
 					removeItemFromOrder(menuItems, saleItems);
@@ -227,7 +231,8 @@ public class OrderManager {
 	 * @return ArrayList<SaleItem> list of sale items
 	 * 
 	 */
-	public static ArrayList<SaleItem> addItemToOrder(ArrayList<MenuItem> menuItems,ArrayList<Set> setItems, ArrayList<SaleItem> items) {
+	public static ArrayList<SaleItem> addItemToOrder(ArrayList<MenuItem> menuItems, ArrayList<Set> setItems,
+			ArrayList<SaleItem> items) {
 
 		ArrayList<SaleItem> saleItems = items;
 
@@ -236,35 +241,18 @@ public class OrderManager {
 
 		System.out.println("\n[Menu]\n");
 		System.out.println("================================");
-		for (int i = 0; i < menuItems.size(); i++) {
-			System.out.println("(" + menuItems.get(i).getId() + ") " + menuItems.get(i).getName() + " | $"
-					+ menuItems.get(i).getPrice() + " | " + menuItems.get(i).getMenuType());
-		}
+		menuItemManager.viewAllMenuItem(menuItems);
 		System.out.println("================================\n");
-		
+
 		System.out.println("\n[Sets]\n");
 		System.out.println("================================");
-		for (int i = 0; i < setItems.size(); i++) {
-			System.out.println("\n(" + setItems.get(i).getId() + ") " + setItems.get(i).getName() + " | $"
-					+ setItems.get(i).getPrice() + " | Items : ");
-			
-			for(int j = 0; j < setItems.get(i).getMenuItems().size(); j++)
-			{
-				if(j>0)
-				{
-					System.out.print(", ");
-				}
-				System.out.print(setItems.get(i).getMenuItems().get(j).getName());
-			}
-			
-			System.out.println("\n");
-		}
+		setManager.viewAllSet(setItems);
 		System.out.println("================================\n");
 
 		do {
 			System.out.println("Add menu/set item to order: (Enter -1 to exit)");
 			choice = sc.nextInt();
-			
+
 			boolean found = false;
 
 			if (choice < 0) {
@@ -278,14 +266,8 @@ public class OrderManager {
 					found = true;
 					break;
 				}
-				
-				/*
-				if (i + 1 == menuItems.size()) {
-					System.out.println("Menu item not found.");
-				}
-				*/
 			}
-			
+
 			for (int i = 0; i < setItems.size(); i++) {
 				if (setItems.get(i).getId() == choice) {
 					saleItems.add(setItems.get(i));
@@ -293,16 +275,9 @@ public class OrderManager {
 					found = true;
 					break;
 				}
-				
-				/*
-				if (i + 1 == menuItems.size()) {
-					System.out.println("Menu item not found.");
-				}
-				*/
 			}
-			
-			if(found == false)
-			{
+
+			if (found == false) {
 				System.out.println("Item not found.");
 			}
 
@@ -359,7 +334,7 @@ public class OrderManager {
 				}
 
 				if (i + 1 == menuItems.size()) {
-					System.out.println("Menu item not found."); 
+					System.out.println("Menu item not found.");
 				}
 			}
 
@@ -388,11 +363,9 @@ public class OrderManager {
 		} else {
 
 			System.out.println("\n[Menu]\n");
-
-			for (int i = 0; i < menuItems.size(); i++) {
-				System.out.println("(" + menuItems.get(i).getId() + ") " + menuItems.get(i).getName() + " | $"
-						+ menuItems.get(i).getPrice() + " | " + menuItems.get(i).getMenuType());
-			}
+			System.out.println("================================");
+			menuItemManager.viewAllMenuItem(menuItems);
+			System.out.println("================================\n");
 
 			viewOrder(orders);
 

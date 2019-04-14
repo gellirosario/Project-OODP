@@ -1,7 +1,5 @@
 package classes;
 
-import java.util.Date;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -166,6 +164,24 @@ public class Order{
 		}
 		return true;
 	}
-
+	
+	
+	/**
+	 * returns a String of an Order, including all of its attributes
+	 */
+	public String toString(String name) {
+		String s = "";
+		s = name+"|" + getId() + "|" + getStaff().getId() + "|" + getTable().getId() + "|" + getOrderDateTime().getTime();
+		if (items.size() != 0) {
+			s += "|";
+			int saleItemId = 0;
+			for (int i = 0; i < items.size(); i++) {
+				saleItemId = items.get(i).getId();
+				s += saleItemId + ",";
+			}
+			s = s.substring(0, s.length() - 1); // remove last char ','
+		}
+		return s;
+	}
 }
 

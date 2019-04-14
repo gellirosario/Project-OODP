@@ -4,13 +4,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+
 import classes.*;
 import classes.MenuItem.MenuType;
 import classes.Person.Gender;
 import classes.Table.Status;
 import mgr.MenuItemManager;
+import mgr.SetManager;
 
 /**
  * 
@@ -18,13 +24,12 @@ import mgr.MenuItemManager;
  * 
  */
 public class Restaurant {
-	
-	public static final int		BOOKING_MTHINADVANCE		= 1;
-	public static final	int		SESSION_AMSTARTTIME			= 11;
-	public static final	int		SESSION_AMENDTIME			= 15;
-	public static final	int		SESSION_PMSTARTTIME			= 18;
-	public static final	int		SESSION_PMENDTIME			= 22;
-	
+
+	public static final int BOOKING_MTHINADVANCE = 1;
+	public static final int SESSION_AMSTARTTIME = 11;
+	public static final int SESSION_AMENDTIME = 15;
+	public static final int SESSION_PMSTARTTIME = 18;
+	public static final int SESSION_PMENDTIME = 22;
 
 	// ArrayList of objects
 	public static ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
@@ -43,6 +48,7 @@ public class Restaurant {
 
 	// Manager classes
 	private static MenuItemManager menuItemManager = new MenuItemManager();
+	private static SetManager setManager = new SetManager();
 
 	public Restaurant() {
 		loadRestaurant();
@@ -69,6 +75,7 @@ public class Restaurant {
 	public void saveRestaurant() {
 		System.out.println("Saving data...");
 		saveSaleItem();
+		saveOrder();
 		System.out.println("Saving data done.");
 	}
 
@@ -181,17 +188,17 @@ public class Restaurant {
 
 		ArrayList<Table> tables = new ArrayList<Table>();
 
-        for(int i=1; i<11; i++) //10 x 2 seats [ID: 1-5]
-            tables.add(new Table(i, Status.Vacated, 2));    
+		for (int i = 1; i < 11; i++) // 10 x 2 seats [ID: 1-5]
+			tables.add(new Table(i, Status.Vacated, 2));
 
-        for(int i=11; i<21; i++) //10 x 4 seats [ID: 6-10]
-            tables.add(new Table(i, Status.Vacated, 4)); 
+		for (int i = 11; i < 21; i++) // 10 x 4 seats [ID: 6-10]
+			tables.add(new Table(i, Status.Vacated, 4));
 
-        for(int i=21; i<26; i++) //5 x 8 seats [ID: 11-20]
-            tables.add(new Table(i, Status.Vacated, 8));
-        
-        for(int i=26; i<31; i++) //5 x 10 seats [ID: 21-30]
-            tables.add(new Table(i, Status.Vacated, 10));
+		for (int i = 21; i < 26; i++) // 5 x 8 seats [ID: 11-20]
+			tables.add(new Table(i, Status.Vacated, 8));
+
+		for (int i = 26; i < 31; i++) // 5 x 10 seats [ID: 21-30]
+			tables.add(new Table(i, Status.Vacated, 10));
 
 		Restaurant.tables = tables;
 	}
@@ -208,6 +215,96 @@ public class Restaurant {
 	 */
 	private void initOrders() {
 		Restaurant.orders = new ArrayList<Order>();
+		
+		try {
+			String line = "";
+			BufferedReader reader = new BufferedReader(new FileReader("order.txt"));
+			while ((line = reader.readLine()) != null) { // check and read next line
+
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+				
+				ArrayList<SaleItem> setItems = new ArrayList<SaleItem>();
+				Staff staff = null;
+				Table table = null;
+				Calendar orderDate = Calendar.getInstance();
+				
+				if(tokens[0].equals("Order") || tokens[0].equals("PreviousOrder")) // Get Data
+				{
+					// Get Sale Items
+					String[] stringIds = tokens[5].split(","); // saleItemIds are split by ','
+					int[] saleItemIds = Arrays.asList(stringIds).stream().mapToInt(Integer::parseInt).toArray();
+					
+					MenuItem menuItem = null;
+					Set setItem = null;
+					
+					for (int i = 0; i < saleItemIds.length; i++) {
+						menuItem = menuItemManager.getMenuItemById(menuItems, saleItemIds[i]);
+						setItem = setManager.getSetById(sets, saleItemIds[i]);
+						
+						if(menuItem != null)
+						{
+							setItems.add(menuItem);
+						}
+						else if(setItem != null)
+						{
+							setItems.add(setItem);
+						}
+					}
+					
+					// Get Staff
+					String staffString = tokens[2];
+					
+					
+					for (int i = 0; i < staffs.size(); i++) {
+						if (staffs.get(i).getId() == Integer.parseInt(staffString)) {
+							staff = staffs.get(i);
+						}
+					}
+					
+					// Get Table
+					String tableString = tokens[3];
+					
+					
+					for (int i = 0; i < tables.size(); i++) {
+						if (tables.get(i).getId() == Integer.parseInt(tableString)) {
+							table = tables.get(i);
+						}
+					}
+					
+					// Get Order Date
+					String orderString = tokens[4];
+					SimpleDateFormat readFormat = new SimpleDateFormat("EEE MMM dd hh:mm:ss z yyyy");
+					Date date = null;
+					try {
+						date = readFormat.parse(orderString);
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					orderDate.setTime(date);
+				}
+				
+				if (tokens[0].equals("Order")) { // Add to Order
+					orders.add(new Order(Integer.parseInt(tokens[1]),staff,setItems,table,orderDate));
+					
+				}
+				else if(tokens[0].equals("PreviousOrder")) // Add to Previous Order
+				{
+					
+					previousOrders.add(new Order(Integer.parseInt(tokens[1]),staff,setItems,table,orderDate));
+				}
+				else {
+					System.out.println("Error reading order data.");
+				}
+
+			}
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -215,8 +312,35 @@ public class Restaurant {
 	 */
 	private void initReservations() {
 		Restaurant.reservations = new ArrayList<Reservation>();
+
+		// read/load data from text file, orders.txt
+		/*
+		 * try { String line = ""; BufferedReader reader = new BufferedReader(new
+		 * FileReader("order.txt")); while ((line = reader.readLine()) != null) { //
+		 * check and read next line //System.out.println("Line: " + line);
+		 * 
+		 * // used '|' as char to separate values, as ',' is used in description //
+		 * NOTE: used "\\|" as "|" is interpret as logical operator OR String[] tokens =
+		 * line.split("\\|");
+		 * 
+		 * if (tokens[0].equals("MenuItem")) { // MenuItem menuItems.add(new
+		 * MenuItem(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
+		 * Double.parseDouble(tokens[4]), MenuType.valueOf(tokens[5]))); } else if
+		 * (tokens[0].equals("Set")) { // Set String[] stringIds = tokens[5].split(",");
+		 * // menuItemIds are split by ',' int[] menuItemIds =
+		 * Arrays.asList(stringIds).stream().mapToInt(Integer::parseInt).toArray();
+		 * MenuItem setItem = null; ArrayList<MenuItem> setItems = new
+		 * ArrayList<MenuItem>(); for (int i = 0; i < menuItemIds.length; i++) { setItem
+		 * = menuItemManager.getMenuItemById(menuItems, menuItemIds[i]);
+		 * setItems.add(setItem); } sets.add(new Set(Integer.parseInt(tokens[1]),
+		 * tokens[2], tokens[3], Double.parseDouble(tokens[4]), setItems)); } // #######
+		 * u can ADD YOUR OWN READ DATA HERE ####### //TODO remove b4 submit else {
+		 * System.out.println("Error reading data."); }
+		 * 
+		 * } reader.close(); } catch (IOException e) { e.printStackTrace(); }
+		 */
 	}
-	
+
 	/**
 	 * Initialize completed restaurant reservations
 	 */
@@ -241,11 +365,43 @@ public class Restaurant {
 			for (int i = 0; i < sets.size(); i++) {
 				String line = sets.get(i).toString(); // generate line
 				out.println(line); // add a line to text file
-			
+
 			}
-			
+
 			// ####### u can ADD YOUR OWN SAVE DATA HERE ####### //TODO remove b4 submit
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Save all Order(existing/previous) into orders.txt
+	 */
+	private void saveOrder() {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter("order.txt");
 			
+			
+			// save all Orders
+			for (int i = 0; i < orders.size(); i++) {
+				// generate line
+				String line = orders.get(i).toString("Order");
+						
+				out.println(line); // add a line to text file
+			}
+			// save all Previous Orders
+			for (int i = 0; i < previousOrders.size(); i++) {
+				// generate line
+				
+				String line = previousOrders.get(i).toString("PreviousOrder");
+				
+				out.println(line); // add a line to text file
+
+			}
+
 			out.close(); // close before exit
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -275,11 +431,11 @@ public class Restaurant {
 	public void setOrders(ArrayList<Order> orders) {
 		Restaurant.orders = orders;
 	}
-	
+
 	public ArrayList<Order> getPreviousOrders() {
 		return previousOrders;
 	}
-	
+
 	public void setPreviousOrders(ArrayList<Order> previousOrders) {
 		Restaurant.previousOrders = previousOrders;
 	}
