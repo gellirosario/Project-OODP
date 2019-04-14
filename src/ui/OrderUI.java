@@ -58,7 +58,7 @@ public class OrderUI {
 			option = sc.nextInt();
 
 			switch (option) {
-			case 0:
+			case 0: // Return to Main Menu
 				System.out.println("Returning to Main Menu...");
 				break;
 			case 1: // View list of Orders

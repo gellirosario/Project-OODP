@@ -88,6 +88,7 @@ public class OrderManager {
 		Order order = null;
 		Table occupiedTable = null;
 		int pax = 0;
+		String input = null;
 
 		Calendar date = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -101,33 +102,47 @@ public class OrderManager {
 		{
 			saleItems = addItemToOrder(menuItems, setItems, new ArrayList<SaleItem>()); // Add menu items to order
 
-			do {
-				// Get pax
-				System.out.println("Please enter pax: (Enter -1 to exit)");
-				pax = sc.nextInt();
+			if(!saleItems.isEmpty())
+			{
+				System.out.println("Enter -1 at any time to exit current action.");
+				
+				do {
+					// Get pax
+					System.out.println("Please enter pax:");
+					input = sc.next();
+					
+					try {
+						pax = Integer.parseInt(input);
+					}
+					catch (NumberFormatException e)  
+					{
+						System.out.println("***Please only enter numbers");
+						continue;
+					}
 
-				if (pax < 0) {
-					pax = 0;
-					break;
-				}
+					if (pax < 0) {
+						pax = 0;
+						break;
+					}
 
-				if (pax < 1 || pax > 10) {
-					System.out.println("No tables found for this amount of pax. Please try again.");
-				}
+					if (pax < 1 || pax > 10) {
+						System.out.println("No tables found for this amount of pax. Please try again.");
+					}
 
-			} while (pax < 1 || pax > 10);
+				} while (pax < 1 || pax > 10);
 
-			// Auto allocation of table according to pax
-			for (int i = 0; i < tables.size(); i++) {
-				if (tables.get(i).getSeatingCapacity() >= pax && tables.get(i).getStatus() == Status.Vacated) {
-					occupiedTable = tables.get(i);
-					occupiedTable.setStatus(Status.Occupied);
+				// Auto allocation of table according to pax
+				for (int i = 0; i < tables.size(); i++) {
+					if (tables.get(i).getSeatingCapacity() >= pax && tables.get(i).getStatus() == Status.Vacated) {
+						occupiedTable = tables.get(i);
+						occupiedTable.setStatus(Status.Occupied);
 
-					break;
-				}
+						break;
+					}
 
-				if (i + 1 == tables.size()) {
-					System.out.println("Table is all occupied. Please wait for a vacated table.");
+					if (i + 1 == tables.size()) {
+						System.out.println("Table is all occupied. Please wait for a vacated table.");
+					}
 				}
 			}
 		}
@@ -163,7 +178,8 @@ public class OrderManager {
 
 		int choice = 0;
 		int orderId = 0;
-
+		String input = null;
+		
 		if (orders.size() == 0) {
 			System.out.println("No orders found. Unable to edit any orders.");
 		} else {
@@ -175,9 +191,19 @@ public class OrderManager {
 			Order order = null;
 
 			do {
-				System.out.println("Please enter the order ID you want to edit: (Enter -1 to exit)");
-				orderId = sc.nextInt();
-
+				System.out.println("Enter -1 at any time to exit current action.");
+				System.out.println("Please enter the order ID you want to edit:");
+				input = sc.next();
+				
+				try {
+					orderId = Integer.parseInt(input);
+				}
+				catch (NumberFormatException e)  
+				{
+					System.out.println("***Please only enter numbers");
+					continue;
+				}
+				
 				if (orderId < 0) {
 					break;
 				}
@@ -234,10 +260,16 @@ public class OrderManager {
 	public static ArrayList<SaleItem> addItemToOrder(ArrayList<MenuItem> menuItems, ArrayList<Set> setItems,
 			ArrayList<SaleItem> items) {
 
-		ArrayList<SaleItem> saleItems = items;
-
+		ArrayList<SaleItem> saleItems = null;
+		
+		if(items != null)
+		{
+			saleItems = items;
+		}
+		
 		int choice = 0;
-		char option;
+		char option = ' ';
+		String input = null;
 
 		System.out.println("\n[Menu]\n");
 		System.out.println("================================");
@@ -248,11 +280,23 @@ public class OrderManager {
 		System.out.println("================================");
 		setManager.viewAllSet(setItems);
 		System.out.println("================================\n");
-
+		
+		System.out.println("Enter -1 at any time to exit current action.");
+		
 		do {
-			System.out.println("Add menu/set item to order: (Enter -1 to exit)");
-			choice = sc.nextInt();
-
+			
+			System.out.println("Add menu/set item to order:");
+			input = sc.next();
+			
+			try {
+				choice = Integer.parseInt(input);
+			}
+			catch (NumberFormatException e)  
+			{
+				System.out.println("***Please only enter numbers");
+				continue;
+			}
+			
 			boolean found = false;
 
 			if (choice < 0) {
@@ -281,8 +325,35 @@ public class OrderManager {
 				System.out.println("Item not found.");
 			}
 
-			System.out.print("Continue adding to order? (Y/N): ");
-			option = Character.toUpperCase(sc.next().charAt(0)); // check if user input is char
+			do {
+				System.out.print("Continue adding item to order? (Y/N): ");
+				input = sc.next();
+				
+				try {
+					if(Integer.parseInt(input) < 0)
+					{
+						break;
+					}
+				}
+				catch(Exception e)
+				{
+					
+				}
+				
+				if (input.length() > 1) {
+					System.out.println("Please enter single character.");
+				}
+				
+				if(Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) !=  'N')
+				{
+					System.out.println("Please enter Y or N.");
+				}
+				
+				
+				
+			}while(input.length() > 1 || (Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) != 'N'));
+			
+			option = Character.toUpperCase(input.charAt(0));
 
 		} while (option == 'Y');
 
@@ -301,7 +372,8 @@ public class OrderManager {
 		ArrayList<SaleItem> saleItems = items;
 
 		int choice = 0;
-		char option;
+		String input = null;
+		char option = ' ';
 
 		System.out.println("\n[Ordered List]\n");
 		System.out.println("================================");
@@ -310,18 +382,28 @@ public class OrderManager {
 					"(" + items.get(i).getId() + ") " + items.get(i).getName() + " | $" + items.get(i).getPrice());
 		}
 		System.out.println("================================\n");
-
+		
+		System.out.println("Enter -1 at any time to exit current action.");
 		do {
-
-			System.out.println("Remove menu item from order: (Enter -1 to exit)");
-			choice = sc.nextInt();
+			
+			System.out.println("Remove menu item from order:");
+			input = sc.next();
+			
+			try {
+				choice = Integer.parseInt(input);
+			}
+			catch (NumberFormatException e)  
+			{
+				System.out.println("***Please only enter numbers");
+				continue;
+			}
 
 			if (choice < 0) {
 				break;
 			}
 
 			if (saleItems.size() == 1) {
-				System.out.println("You can't delete the last item from the order.");
+				System.out.println("You can't delete the last item from the order.\nPlease go to 'Remove Order' to remove the order.");
 				break;
 			}
 
@@ -337,10 +419,37 @@ public class OrderManager {
 					System.out.println("Menu item not found.");
 				}
 			}
-
-			System.out.print("Continue removing from order? (Y/N): ");
-			option = Character.toUpperCase(sc.next().charAt(0)); // check if user input is char
-
+			
+			do {
+				System.out.print("Continue removing item to order? (Y/N): ");
+				input = sc.next();
+				
+				try {
+					if(Integer.parseInt(input) < 0)
+					{
+						break;
+					}
+				}
+				catch(Exception e)
+				{
+					
+				}
+				
+				if (input.length() > 1) {
+					System.out.println("Please enter single character.");
+				}
+				
+				if(Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) !=  'N')
+				{
+					System.out.println("Please enter Y or N.");
+				}
+				
+				
+				
+			}while(input.length() > 1 || (Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) != 'N'));
+			
+			option = Character.toUpperCase(input.charAt(0));
+			
 		} while (option == 'Y');
 
 	}
@@ -356,7 +465,8 @@ public class OrderManager {
 	public static void removeOrder(ArrayList<MenuItem> menuItems, ArrayList<Order> orders) {
 
 		int choice = 0;
-		char option;
+		char option = ' ';
+		String input = null;
 
 		if (orders.size() == 0) {
 			System.out.println("No orders found. Unable to remove any orders.");
@@ -372,8 +482,18 @@ public class OrderManager {
 			System.out.println("\n[Remove Orders]\n");
 
 			do {
-				System.out.println("Please enter the order ID you want to remove : (Enter -1 to exit)");
-				choice = sc.nextInt();
+				System.out.println("Enter -1 at any time to exit current action.");
+				System.out.println("Please enter the order ID you want to remove :");
+				input = sc.next();
+				
+				try {
+					choice = Integer.parseInt(input);
+				}
+				catch (NumberFormatException e)  
+				{
+					System.out.println("***Please only enter numbers");
+					continue;
+				}
 
 				if (choice < 0) {
 					break;
@@ -391,8 +511,35 @@ public class OrderManager {
 					}
 				}
 
-				System.out.print("Continue removing from order? (Y/N): ");
-				option = Character.toUpperCase(sc.next().charAt(0)); // check if user input is char
+				do {
+					System.out.print("Continue removing order? (Y/N): ");
+					input = sc.next();
+					
+					try {
+						if(Integer.parseInt(input) < 0)
+						{
+							break;
+						}
+					}
+					catch(Exception e)
+					{
+						
+					}
+					
+					if (input.length() > 1) {
+						System.out.println("Please enter single character.");
+					}
+					
+					if(Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) !=  'N')
+					{
+						System.out.println("Please enter Y or N.");
+					}
+					
+					
+					
+				}while(input.length() > 1 || (Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) != 'N'));
+				
+				option = Character.toUpperCase(input.charAt(0));
 
 			} while (option == 'Y');
 
