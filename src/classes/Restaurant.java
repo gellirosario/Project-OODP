@@ -123,7 +123,7 @@ public class Restaurant {
 				// used '|' as char to separate values, as ',' is used in description
 				// NOTE: used "\\|" as "|" is interpret as logical operator OR
 				String[] tokens = line.split("\\|");
-
+ 
 				if (tokens[0].equals("MenuItem")) { // MenuItem
 					menuItems.add(new MenuItem(Integer.parseInt(tokens[1]), tokens[2], tokens[3],
 							Double.parseDouble(tokens[4]), MenuType.valueOf(tokens[5])));
@@ -270,6 +270,11 @@ public class Restaurant {
 					for (int i = 0; i < tables.size(); i++) {
 						if (tables.get(i).getId() == Integer.parseInt(tableString)) {
 							table = tables.get(i);
+							
+							if(tokens[0].equals("Order"))
+							{
+								table.setStatus(Status.Occupied);
+							}
 						}
 					}
 					
