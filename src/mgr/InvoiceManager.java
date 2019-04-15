@@ -32,6 +32,7 @@ public class InvoiceManager {
 	 * @param invoices available ArrayList<Invoice> invoices
 	 */
 	public static void printInvoice(Order order, ArrayList<Invoice> invoices) {
+		
 
 		String itemName;
 

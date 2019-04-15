@@ -65,10 +65,19 @@ public class SaleReportUI {
 				String date;
 
 				do {
+					System.out.println("Enter -1 at any time to exit current action.");
 					System.out.println("Enter Date (dd/mm/yyyy): ");
 					date = sc.next();
-				} while (!InvoiceManager.checkDate(date));
 
+					if(date.equals(Integer.toString(-1))) {
+						break;
+					}
+				} while (!InvoiceManager.checkDate(date));
+				
+				if(date.equals(Integer.toString(-1))) {
+					break;
+				}
+			
 				InvoiceManager.printByDay(date, invoices);
 
 				break;
@@ -77,9 +86,17 @@ public class SaleReportUI {
 				String month;
 
 				do {
+					System.out.println("Enter -1 at any time to exit current action.");
 					System.out.println("Enter Date (mm/yyyy): ");
 					month = sc.next();
+					if(month.equals(Integer.toString(-1))) {
+						break;
+					}
 				} while (!InvoiceManager.checkMonth(month));
+				
+				if(month.equals(Integer.toString(-1))) {
+					break;
+				}
 
 				InvoiceManager.printByMonth(month, invoices);
 

@@ -43,19 +43,28 @@ public class InvoiceUI {
 		}
 
 		Boolean checkInput = false;
-
+		
+		System.out.println("Enter -1 at any time to exit current action.");
 		System.out.println("Please enter the order ID: ");
+		
+
 
 		do {
+	
 			if (sc.hasNextInt()) {
 				orderId = sc.nextInt();
+				if(orderId == -1) {
+					return;
+				}
 				if (orderId > 0) {
 					checkInput = false;
-				} else {
+				} 
+				else {
 					System.out.println("Invalid Input. Please enter a valid order ID.");
 					checkInput = true;
 				}
-			} else {
+			}
+			else {
 				System.out.println("Invalid Input. Please enter a valid order ID.");
 				checkInput = true;
 				sc.next();
