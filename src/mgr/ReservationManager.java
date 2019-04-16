@@ -422,7 +422,7 @@ public class ReservationManager {
 					moveToPastReservation(ar);
 					System.out.println("***Reservation accepted.");
 					
-					OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders, Restaurant.tables, ar, staff);
+					OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders,Restaurant.previousOrders, Restaurant.tables, ar, staff);
 					x=0;
 					break;
 				}
@@ -451,7 +451,7 @@ public class ReservationManager {
 				
 				System.out.println("***Reservation accepted.");
 				
-				OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders, Restaurant.tables, ar, staff);
+				OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders,Restaurant.previousOrders, Restaurant.tables, ar, staff);
 				
 			}
 			catch (NumberFormatException e)  {

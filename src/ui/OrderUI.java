@@ -35,7 +35,7 @@ public class OrderUI {
 		ArrayList<Table> tables = restaurant.getTables();
 		ArrayList<MenuItem> menuItems = restaurant.getMenuItems();
 		ArrayList<Set> setItems = restaurant.getSets();
-		
+		ArrayList<Order> prevOrders = restaurant.getPreviousOrders();
 		int option = 0;
 
 		do {
@@ -65,7 +65,7 @@ public class OrderUI {
 				OrderManager.viewOrder(orders);
 				break;
 			case 2: // Create an order
-				OrderManager.createOrder(menuItems,setItems, orders, tables, null, currentStaff);
+				OrderManager.createOrder(menuItems,setItems, orders,prevOrders, tables, null, currentStaff);
 				break;
 			case 3: // Edit an order
 				OrderManager.updateOrder(menuItems,setItems, orders);
