@@ -76,6 +76,7 @@ public class Restaurant {
 		System.out.println("Saving data...");
 		saveSaleItem();
 		saveOrder();
+		saveInvoice();
 		System.out.println("Saving data done.");
 	}
 
@@ -208,6 +209,43 @@ public class Restaurant {
 	 */
 	private void initInvoices() {
 		Restaurant.invoices = new ArrayList<Invoice>();
+		
+		try {
+			String line = "";
+			BufferedReader reader = new BufferedReader(new FileReader("invoice.txt"));
+			while ((line = reader.readLine()) != null) { // check and read next line
+
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+				
+				Order order = null;
+				
+				if(tokens[0].equals("Invoice")) {
+					
+					//Get order
+					String orderString = tokens[2];
+					
+					for(int i = 0; i < previousOrders.size(); i++) {
+						if(previousOrders.get(i).getId() == Integer.parseInt(orderString)) {
+							order = previousOrders.get(i);
+							break;
+						}
+					}
+					
+					invoices.add(new Invoice(Integer.parseInt(tokens[1]), order, Double.parseDouble(tokens[3]), 
+							Double.parseDouble(tokens[4]), Double.parseDouble(tokens[5]), Double.parseDouble(tokens[6])));
+				}
+				else {
+					System.out.println("Error reading invoice data.");
+				}
+			}
+			reader.close();
+			
+		}catch (IOException e) {
+			e.printStackTrace();
+		}		
+				
 	}
 
 	/**
@@ -405,6 +443,28 @@ public class Restaurant {
 				
 				out.println(line); // add a line to text file
 
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Save all Invoices into invoice.txt
+	 */
+	private void saveInvoice() {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter("invoice.txt");
+			
+			// save all Invoices
+			for (int i = 0; i < invoices.size(); i++) {
+				// generate line
+				String line = invoices.get(i).toString("Invoice");
+						
+				out.println(line); // add a line to text file
 			}
 
 			out.close(); // close before exit

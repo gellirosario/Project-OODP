@@ -32,6 +32,7 @@ public class InvoiceManager {
 	 * @param invoices available ArrayList<Invoice> invoices
 	 */
 	public static void printInvoice(Order order, ArrayList<Invoice> invoices) {
+		
 
 		String itemName;
 
@@ -51,12 +52,20 @@ public class InvoiceManager {
 
 		// Calculations
 		subTotal = calSubTotal(order);
+		
+		subTotal = Math.round(subTotal * 100.0)/100.0;
 
 		svcChrg = SVC_CHRG * subTotal;
+		
+		svcChrg = Math.round(svcChrg * 100.0)/100.0;
 
 		tax = GST * (subTotal + svcChrg);
+		
+		tax = Math.round(tax * 100.0)/100.0;
 
 		grandTotal = subTotal + tax;
+		
+		grandTotal = Math.round(grandTotal * 100.0)/100.0;
 
 		// Create new invoice, append to ArrayList<Invoice> invoices
 		invoice = new Invoice(invoices.size() + 1, order, tax, svcChrg, subTotal, grandTotal);
@@ -274,7 +283,7 @@ public class InvoiceManager {
 	 * @param invoices available ArrayList<Invoice> invoices
 	 */
 	public static void printByDay(String day, ArrayList<Invoice> invoices) {// dd/MM/yyyy
-
+		
 		Calendar date;
 		String dateStr = null;
 
@@ -285,8 +294,8 @@ public class InvoiceManager {
 		ArrayList<SaleItem> totalSaleItems = new ArrayList<SaleItem>();
 
 		for (int i = 0; i < invoices.size(); i++) {
-
 			date = invoices.get(i).getOrder().getOrderDateTime();
+	
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			dateStr = dateFormat.format(date.getTime());
 
@@ -298,8 +307,15 @@ public class InvoiceManager {
 		if (foundInvoices.size() == 0) {
 			System.out.println("No sales recorded on " + day);
 		}
-
+		
 		else {
+			
+			//TODO delete this for loop before submission
+			for(int k = 0; k<foundInvoices.size(); k++) {
+				System.out.println("invoice id = " + foundInvoices.get(k).getId());
+				System.out.println("order id = " + foundInvoices.get(k).getOrder().getId());
+			}
+			
 			String itemName;
 			int qty = 0;
 			double price = 0.0;
@@ -317,15 +333,16 @@ public class InvoiceManager {
 
 			count = countItems(totalSaleItems);
 			totalSaleItems = removeDuplicate(totalSaleItems);
-
 			totalRevenue = calTotalRevenue(foundInvoices);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			Calendar printDate = foundInvoices.get(0).getOrder().getOrderDateTime();
 
 			System.out.println("generating...\n");
 			// start print
 			System.out.println("------------------------------------------------------------------");
 			System.out.println("                         SALE REVENUE REPORT                      ");
 			System.out.println("------------------------------------------------------------------");
-			System.out.println("Date: " + dateStr + "\n");
+			System.out.println("Date: " + dateFormat.format(printDate.getTime()) + "\n");
 			System.out.println("------------------------------------------------------------------");
 			System.out
 					.println(String.format("%s %15.30s %30.20s %15.20s", "Qty", "Item", "Price per qty", "Price*Qty"));
@@ -342,8 +359,8 @@ public class InvoiceManager {
 			System.out.println("------------------------------------------------------------------");
 			System.out.println(String.format("%s %8.2f", "TOTAL REVENUE (incl. gst & svcChrg): ", totalRevenue));
 			// end print
-
 		}
+
 	}
 
 	/**
@@ -380,6 +397,13 @@ public class InvoiceManager {
 		}
 
 		else {
+			
+			//TODO delete this for loop before submission
+			for(int k = 0; k<foundInvoices.size(); k++) {
+				System.out.println("invoice id = " + foundInvoices.get(k).getId());
+				System.out.println("order id = " + foundInvoices.get(k).getOrder().getId());
+			}
+			
 			String itemName;
 			int qty = 0;
 			double price = 0.0;
