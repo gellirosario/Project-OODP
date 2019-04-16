@@ -167,4 +167,15 @@ public class Invoice {
 	public void setGrandTotal(double grandTotal) {
 		this.grandTotal = grandTotal;
 	}
+	
+	/**
+	 * returns a String of an Invoice, including all of its attributes
+	 */
+	public String toString(String name) {
+		String s = "";
+		s = name+"|" + getId() + "|" + getOrder().getId() + "|" + getTax() +
+				"|" + getSvcChrg() + "|" + getSubTotal() + "|" + getGrandTotal();
+		
+		return s;
+	}
 }
