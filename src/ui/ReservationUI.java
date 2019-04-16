@@ -59,7 +59,7 @@ public class ReservationUI {
                 		ReservationManager.showReservations();
                 		break;
                 case 3:
-                		ReservationManager.makeReservation();
+                		ReservationManager.makeReservation(0,Calendar.getInstance());
                         break;
                 case 4:
                 		ReservationManager.acceptReservation(staff);

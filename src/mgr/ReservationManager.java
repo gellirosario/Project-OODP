@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 
 import classes.Restaurant;
 import classes.Table;
+import classes.Table.Status;
 import classes.Reservation;
 import classes.Staff;
 
@@ -33,15 +34,16 @@ public class ReservationManager {
 	 * Move pending reservation to past
 	 */
 	public static void expiredReservations(){
-		
+
 		Calendar expired = Calendar.getInstance();
-		expired.add(Calendar.MINUTE, -30);	
+		expired.add(Calendar.MINUTE, -30);
 		
-		for (int i = 0; i <= reservations.size()-1; i++){
-			Reservation r = reservations.get(i);
+		for (int i = reservations.size()-1; i >= 0 ; i--){
+			Reservation r = reservations.get(i);	
 		    if(r.getReservationTime().before(expired))
 		    	moveToPastReservation(r);
 		 }
+		
 	}
 	
 	/**
@@ -67,6 +69,37 @@ public class ReservationManager {
 	}
 
 	
+	/**
+	 * Check reservation time if less than
+	 * 30mins before session closing time
+	 * 
+	 */
+	public static int checkClosingSession(Calendar date, int session){
+    	
+		Calendar endAM = (Calendar) date.clone();
+	    endAM.set(Calendar.HOUR_OF_DAY, Restaurant.SESSION_AMENDTIME);
+	    endAM.set(Calendar.MINUTE, 0);
+	    endAM.set(Calendar.SECOND, 0);
+	    endAM.set(Calendar.MILLISECOND, 0);
+	    endAM.add(Calendar.MINUTE, -30);
+	    
+	    Calendar endPM = (Calendar) date.clone();
+	    endPM.set(Calendar.HOUR_OF_DAY, Restaurant.SESSION_PMENDTIME);
+	    endPM.set(Calendar.MINUTE, 0);
+	    endPM.set(Calendar.SECOND, 0);
+	    endPM.set(Calendar.MILLISECOND, 0);
+	    endPM.add(Calendar.MINUTE, -30);
+	    
+	    int num = 0;
+	    
+	    if(session == 1 && !(date.after(endAM)))
+	    	num = 1;
+	    
+	    if(session == 2 && !(date.after(endPM)))
+	    	num = 1;
+	    
+		return num;
+	}
 	
 	/**
 	 * Show reservations to be accepted with start time
@@ -108,6 +141,7 @@ public class ReservationManager {
 		
 		if(t != null){
 			r = new Reservation(custName, custContact, numOfPax, reservationTime, t);
+			t.setStatus(Status.Reserved);
 			reservations.add(r);
 			System.out.println("\nReservation is sucessfully added!");
 			System.out.println("Customer name: " + r.getCustName());
@@ -138,10 +172,13 @@ public class ReservationManager {
 		boolean validDate = false;
 		current.add(Calendar.DAY_OF_MONTH, 30);
 	    
+		
     	if(date.after(current))
     		System.out.println("***You are only allowed to make a reservation for a maximum of 30 days in advance");
     	else if (getReservationTimeSession(date) == 0)
     		System.out.println("***Reservation time invalid. Please key in a reservation time during operating hours.");
+    	else if (checkClosingSession(date, getReservationTimeSession(date)) == 0)
+    		System.out.println("***Reservation start time should be at least 30 mins before dining session closing time.");
     	else
     		validDate = true;
 	    
@@ -201,9 +238,9 @@ public class ReservationManager {
 		Calendar reservationTime = Calendar.getInstance();
 		SimpleDateFormat format = null;
 		Date parsed = null;
-		String exit = "*";
+		String exit = "-1";
 		do{
-			System.out.println("Enter reservation DateTime [dd/MM/yyyy HH:mm]: (Press * to exit)");	
+			System.out.println("Enter reservation DateTime [dd/MM/yyyy HH:mm]: (Enter -1 to exit)");	
 			String date  = sc.nextLine();
 			
 		    
@@ -262,7 +299,7 @@ public class ReservationManager {
 		}
 		
 		
-		System.out.println("Choose which reservation to cancel: (Press * to exit)");
+		System.out.println("Choose which reservation to cancel: (Enter -1 to exit)");
 		
 		boolean validIndex = false;
 		
@@ -272,7 +309,7 @@ public class ReservationManager {
 		}
 		
 		String choice = sc.nextLine();
-		String exit = "*";
+		String exit = "-1";
 		do {
 			if(exit.equals(choice))
 				break;
@@ -280,16 +317,20 @@ public class ReservationManager {
 			try {
 				Reservation rr = reservation.get(Integer.parseInt(choice));
 				moveToPastReservation(rr);
-				System.out.println("***Reservation is successfully cancelled.");
+				System.out.println("***Reservation [" + choice + "] is successfully cancelled.");
+				count = 0;
+				for(Reservation r : reservation){
+					System.out.println("["+ (count++) + "] " + r);
+				}
 				}
 			catch (NumberFormatException e)  {
 				System.out.println("***Please key in a valid index only");
-				System.out.println("Choose which reservation to cancel: (Press * to exit)");
+				System.out.println("Choose which reservation to cancel: (Enter -1 to exit)");
 				choice = sc.nextLine();
 				continue;
 			}catch(IndexOutOfBoundsException e){
 				System.out.println("***Failed to cancel reservation! (Invalid index provided)");
-				System.out.println("Choose which reservation to cancel: (Press * to exit)");
+				System.out.println("Choose which reservation to cancel: (Enter -1 to exit)");
 				choice = sc.nextLine();
 				continue;
 			}
@@ -300,85 +341,159 @@ public class ReservationManager {
 	
 	/**
 	 * Allow user to accept a reservation.
-	 * Make an order from the reservation
+	 * Make an order from the reservation 
 	 * Move reservation to past reservations
 	 * @param staff Staff accepting the reservation and making new order
 	 */
 	public static void acceptReservation(Staff staff){
 		
 		ArrayList<Reservation> reservation = acceptTodaySessionReservation();
+		String exit = "-1";
+		
+		int count = 0;
+		for(Reservation r : reservation){
+			
+			System.out.println("["+ (count++) + "] " + r);
+		}
 		
 		if(reservation.size() <= 0){
 			System.out.println("There are no reservations to accept for current dining session.");
 			return;
 		}
 
-		System.out.println("Choose which reservation to accept: (Press * to exit)");	
+		String c;
+		int x = 1, j = 0;
+		do {
+			System.out.println("Accept reservation by phone number(1) or index(2)? (Enter -1 to exit)");
+			c = sc.nextLine();
+		
+			if(exit.equals(c))
+				return;
+		
+			try {
+				   Integer.parseInt(c);
+				}
+				catch (NumberFormatException e)  {
+					System.out.println("***Please enter only 1 or 2");
+					continue;
+				}
+			
+			if (Integer.parseInt(c) == 1 || Integer.parseInt(c) == 2)
+					j=1;
+					break;
+		}while (j==0);
+			
+			
+		if (Integer.parseInt(c) == 1)
+		{
+			String custContact = null;
+			boolean validNo = false;
+			do {
+				System.out.println("Enter customer's contact number:  (Enter -1 to exit)");
+				custContact = sc.nextLine();
+				
+				if(exit.equals(custContact))
+					return;
+				
+				try {
+					   Integer.parseInt(custContact);
+				}
+				catch (NumberFormatException e)  {
+					System.out.println("***Please only enter 8-digit number");
+					continue;
+				}
+				if (custContact.length() != 8)
+					System.out.println("***Please only enter 8-digit number.");
+				else
+					validNo = true;
+					
+				
+			}while(!validNo);
+			
+			
+		
+			count = 0;
+			for(Reservation r : reservation){
+				if (r.getCustContact() == Integer.parseInt(custContact)) {
+					System.out.println(r);
+					Reservation ar = reservation.get(count);
+				
+					ar.setAccepted(true);
+					moveToPastReservation(ar);
+					System.out.println("***Reservation accepted.");
+					
+					OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders, Restaurant.tables, ar, staff);
+					x=0;
+					break;
+				}
+				count++;
+			}
+			
+			if (x != 0)
+				System.out.println("***Reservation not found! Please try again");	
+		
+		}
+		
+		if (Integer.parseInt(c) == 2)
+		{
+		System.out.println("Choose which reservation to accept: (Enter -1 to exit)");	
 		
 		boolean validIndex = false;
 		
-		int count = 0;
-		for(Reservation r : reservation){
-			System.out.println("["+ (count++) + "] " + r);
-		}
-		
 		String choice = sc.nextLine();
-		String exit = "*";
 		do {
 			if(exit.equals(choice))
 				break;
 			try {
 				Reservation ar = reservation.get(Integer.parseInt(choice));
-				
 				ar.setAccepted(true);
-				//Order newOrder = new Order(staff, ar);
-				//Restaurant.orders.add(newOrder);
+				moveToPastReservation(ar);
+				
+				System.out.println("***Reservation accepted.");
 				
 				OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders, Restaurant.tables, ar, staff);
 				
-				moveToPastReservation(ar);
-			
-				System.out.println("***Reservation accepted.");
 			}
 			catch (NumberFormatException e)  {
 				System.out.println("***Please key in a valid index only");
-				System.out.println("Choose which reservation to cancel: (Press * to exit)");
+				System.out.println("Choose which reservation to cancel: (Enter -1 to exit)");
 				choice = sc.nextLine();
 				continue;
 			}catch(IndexOutOfBoundsException e){
 				System.out.println("***Failed to accept reservation! (Invalid index provided)");
-				System.out.println("Choose which reservation to cancel: (Press * to exit)");
+				System.out.println("Choose which reservation to cancel: (Enter -1 to exit)");
 				choice = sc.nextLine();
 				continue;
 			}
 			validIndex = true;
 		}while(!validIndex);
+		}
 	}
 	
 	/**
 	 * Gathering reservation's information
 	 * Making a reservation
 	 */
-	public static void makeReservation(){
+	public static void makeReservation(int numPax, Calendar date){
 		
 		String custName = null;
-		String exit = "*";
+		String exit = "-1";
 		do {
-			System.out.println("Enter customer's name:  (Press * to exit)"); 
+			System.out.println("Enter customer's name:  (Enter -1 to exit)"); 
 			custName = sc.nextLine();
 		
 			if(exit.equals(custName))
 				return;
 			
 			if (custName.length() == 0)
-				System.out.println("***Please key in customer's name (Press * to exit)");
+				System.out.println("***Please key in customer's name (Enter -1 to exit)");
 		}while(custName.length() == 0);
 		
 		
 		String custContact = null;
 		boolean validNo = false;
 		do {
-			System.out.println("Enter customer's contact number:  (Press * to exit)");
+			System.out.println("Enter customer's contact number:  (Enter -1 to exit)");
 			custContact = sc.nextLine();
 			
 			if(exit.equals(custContact))
@@ -397,40 +512,48 @@ public class ReservationManager {
 					validNo = true;
 		}while(!validNo);
 		
-		
-		
-		String numOfPax = null;
-		boolean validPax = false;
-		do {
-			System.out.println("Enter number of pax:  (Press * to exit)");
-			numOfPax = sc.nextLine();
-		
-			if(exit.equals(numOfPax))
-				return;
+		Calendar reservationTime;
+		String numOfPax;
+		if (numPax == 0)
+		{
+			numOfPax = null;
+			boolean validPax = false;
+			do {
+				System.out.println("Enter number of pax:  (Enter -1 to exit)");
+				numOfPax = sc.nextLine();
 			
-			try {
-			   Integer.parseInt(numOfPax);
-			}
-			catch (NumberFormatException e)  {
-				System.out.println("***Please only enter number from 1 - 10");
-				continue;
-			}
-				if(Integer.parseInt(numOfPax) < 1)
-					System.out.println("***Minimum 1 pax per reservation");
-				else if(Integer.parseInt(numOfPax) > 10)
-					System.out.println("***Maximum of 10 pax per reservation");
-				else
-					validPax = true;
-		}while(!validPax);
+				if(exit.equals(numOfPax))
+					return;
+				
+				try {
+				   Integer.parseInt(numOfPax);
+				}
+				catch (NumberFormatException e)  {
+					System.out.println("***Please only enter number from 1 - 10");
+					continue;
+				}
+					if(Integer.parseInt(numOfPax) < 1)
+						System.out.println("***Minimum 1 pax per reservation");
+					else if(Integer.parseInt(numOfPax) > 10)
+						System.out.println("***Maximum of 10 pax per reservation");
+					else
+						validPax = true;
+			}while(!validPax);
+			
+			
+			reservationTime = checkValidDateTimeFormat();
 		
 		
-		Calendar reservationTime = checkValidDateTimeFormat();
-
-		if (reservationTime == null) {
-			return;
+			if (reservationTime == null) {
+				return;
+			}
+			else
+				addReservation(custName, Integer.parseInt(custContact), Integer.parseInt(numOfPax), reservationTime);
 		}
-		else
-			addReservation(custName, Integer.parseInt(custContact), Integer.parseInt(numOfPax), reservationTime);
+		else {
+			addReservation(custName, Integer.parseInt(custContact), numPax, date);
+		}
+		
 	}
 	
 	
@@ -442,9 +565,9 @@ public class ReservationManager {
 		
 		String numOfPax = null;
 		boolean validPax = false;
-		String exit = "*";
+		String exit = "-1";
 		do {
-			System.out.println("Enter number of pax:  (Press * to exit)");
+			System.out.println("Enter number of pax:  (Enter -1 to exit)");
 			numOfPax = sc.nextLine();
 		
 			if(exit.equals(numOfPax))
@@ -480,6 +603,32 @@ public class ReservationManager {
 		System.out.println("Table number			Capacity			Status");
 		for(Table table : availTables)
 			System.out.println(table.getId() + "				" + table.getSeatingCapacity() + "				" + table.getStatus());
+		
+		String answer = null;
+		boolean validAnswer = false;
+		
+		do {
+			System.out.println("Proceed to make reservation? (Y/N) (Enter -1 to exit)");
+			answer = sc.nextLine();
+			
+			String y = "y";
+			String Y = "Y";
+			String n = "n";
+			String N = "N";
+			
+			if(exit.equals(answer) || answer.equals(N)|| answer.equals(n))
+				return;
+			
+			if(!(answer.equals(Y)|| answer.equals(y) || answer.equals(N)|| answer.equals(n))) {
+				System.out.println("***Please key in 'Y' or 'N' only");
+				continue;
+			}
+			
+			if(answer.equals(Y)|| answer.equals(y))
+				makeReservation(Integer.parseInt(numOfPax), reservationTime);
+				validAnswer = true;
+		}while(!validAnswer);
+		
 
 	}
 	
