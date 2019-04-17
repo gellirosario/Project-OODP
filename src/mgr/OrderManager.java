@@ -81,7 +81,7 @@ public class OrderManager {
 	 * @param Staff                  currentStaff
 	 * 
 	 */
-	public static void createOrder(ArrayList<MenuItem> menuItems, ArrayList<Set> setItems, ArrayList<Order> orders,
+	public static void createOrder(ArrayList<MenuItem> menuItems, ArrayList<Set> setItems, ArrayList<Order> orders, ArrayList<Order> prevOrders,
 			ArrayList<Table> tables, Reservation reservation, Staff currentStaff) {
 
 		ArrayList<SaleItem> saleItems = new ArrayList<SaleItem>();
@@ -89,7 +89,6 @@ public class OrderManager {
 		Table occupiedTable = null;
 		int pax = 0;
 		String input = null;
-
 		Calendar date = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
@@ -149,14 +148,32 @@ public class OrderManager {
 
 		// Adds to order
 		if (currentStaff != null && occupiedTable != null && saleItems != null && pax != 0) {
-
-			order = new Order(orders.size() + 1, currentStaff, saleItems, occupiedTable, date);
+			
+			int orderId = 0;
+			
+			if(prevOrders.size() > 0)
+			{
+				for(int i = 0; i < prevOrders.size(); i++)
+				{
+					if(i+1 == prevOrders.size())
+					{
+						orderId = prevOrders.get(i).getId() + 1;
+					}
+				}
+			}
+			else
+			{
+				orderId =  orders.size() + 1;
+			}
+			
+			
+			order = new Order(orderId, currentStaff, saleItems, occupiedTable, date);
 
 			if (order != null) {
 
 				orders.add(order);
 				System.out.println("Order complete!");
-				System.out.println("[Order No." + orders.size() + " | Table No." + occupiedTable.getId()
+				System.out.println("[Order No." + orderId + " | Table No." + occupiedTable.getId()
 						+ " | Created by " + currentStaff.getName() + " on " + dateFormat.format(date.getTime()) + "]");
 			}
 

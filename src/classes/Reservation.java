@@ -188,7 +188,7 @@ public class Reservation{
 	
 	/**-------------------------------------------------
 	 * set accepted = true
-	 * change table's status to RESERVED
+	 * change table's status to OCCUPIED
 	 * remove this reservation in the ArrayList
 	 */
 	public void setAccepted(boolean accepted){

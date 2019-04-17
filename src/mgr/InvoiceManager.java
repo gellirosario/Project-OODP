@@ -32,7 +32,8 @@ public class InvoiceManager {
 	 * @param invoices available ArrayList<Invoice> invoices
 	 */
 	public static void printInvoice(Order order, ArrayList<Invoice> invoices) {
-	
+		
+
 		String itemName;
 
 		int qty = 0;
@@ -63,7 +64,7 @@ public class InvoiceManager {
 		tax = Math.round(tax * 100.0)/100.0;
 
 		grandTotal = subTotal + tax + svcChrg;
-		
+
 		grandTotal = Math.round(grandTotal * 100.0)/100.0;
 
 		// Create new invoice, append to ArrayList<Invoice> invoices
