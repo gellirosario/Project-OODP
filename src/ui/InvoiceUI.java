@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import classes.Order;
 import classes.Restaurant;
+import classes.Table.Status;
 import classes.Invoice;
 import mgr.InvoiceManager;
 import mgr.OrderManager;
@@ -79,6 +80,7 @@ public class InvoiceUI {
 				InvoiceManager.printInvoice(order, invoices);
 
 				// after printing
+				order.getTable().setStatus(Status.Vacated);
 				OrderManager.moveToCompletedOrder(order, orders, previousOrders);
 				System.out.println("\nCheckout Complete!");
 				return;
