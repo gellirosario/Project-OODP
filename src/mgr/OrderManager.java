@@ -150,8 +150,30 @@ public class OrderManager {
 		if (currentStaff != null && occupiedTable != null && saleItems != null && pax != 0) {
 			
 			int orderId = 0;
+			int oId = 0;
+			int pId = 0;
 			
-			if(prevOrders.size() > 0)
+			if(orders.size() > 0 && prevOrders.size() > 0) {
+				for(int i = 0; i < orders.size(); i++) {
+					if(i+1 == orders.size()) {
+						oId = orders.get(i).getId()+1;
+					}
+				}
+				for(int i = 0; i < prevOrders.size(); i++) {
+					if(i+1 == prevOrders.size()) {
+						pId = prevOrders.get(i).getId() +1;
+ 					}
+				}
+				
+				if(pId > oId) {
+					orderId = pId;
+				}
+				else {
+					orderId = oId;
+				}
+			}
+			
+			else if(prevOrders.size() > 0)
 			{
 				for(int i = 0; i < prevOrders.size(); i++)
 				{
