@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.Collections;
 
 import classes.MenuItem;
 import classes.Order;
@@ -149,45 +150,42 @@ public class OrderManager {
 		// Adds to order
 		if (currentStaff != null && occupiedTable != null && saleItems != null && pax != 0) {
 			
+			ArrayList<Integer> currentIds = new ArrayList<Integer>();
 			int orderId = 0;
-			int oId = 0;
-			int pId = 0;
+			int maxId = 0;
+			boolean found;
 			
-			if(orders.size() > 0 && prevOrders.size() > 0) {
+			//If there are orders
+			if(orders.size() != 0) {
 				for(int i = 0; i < orders.size(); i++) {
-					if(i+1 == orders.size()) {
-						oId = orders.get(i).getId()+1;
-					}
+					currentIds.add(orders.get(i).getId());
 				}
+			}
+			
+			//If there are previous orders
+			if(prevOrders.size() != 0) {
 				for(int i = 0; i < prevOrders.size(); i++) {
-					if(i+1 == prevOrders.size()) {
-						pId = prevOrders.get(i).getId() +1;
- 					}
-				}
-				
-				if(pId > oId) {
-					orderId = pId;
-				}
-				else {
-					orderId = oId;
+					currentIds.add(prevOrders.get(i).getId());
 				}
 			}
-			
-			else if(prevOrders.size() > 0)
-			{
-				for(int i = 0; i < prevOrders.size(); i++)
-				{
-					if(i+1 == prevOrders.size())
-					{
-						orderId = prevOrders.get(i).getId() + 1;
+				
+			maxId = Collections.max(currentIds);
+				
+			for(int check = 1; check <= maxId; check++) {
+				found = false;
+				for(int i = 0; i < currentIds.size(); i++) {
+					if(check == currentIds.get(i)) {
+						found = true;
 					}
 				}
+				if(check+1 == maxId+1) {
+					orderId = check + 1;
+				}
+				else if(!found) {
+					orderId = check;
+					break;
+				}	
 			}
-			else
-			{
-				orderId =  orders.size() + 1;
-			}
-			
 			
 			order = new Order(orderId, currentStaff, saleItems, occupiedTable, date);
 
