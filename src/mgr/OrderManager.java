@@ -423,7 +423,7 @@ public class OrderManager {
 		System.out.println("Enter -1 at any time to exit current action.");
 		do {
 			
-			System.out.println("Remove menu item from order:");
+			System.out.println("Remove menu/set item from order:");
 			input = sc.next();
 			
 			try {
@@ -520,7 +520,7 @@ public class OrderManager {
 
 			do {
 				System.out.println("Enter -1 at any time to exit current action.");
-				System.out.println("Please enter the order ID you want to remove :");
+				System.out.println("Please enter the order ID you want to remove:");
 				input = sc.next();
 				
 				try {
