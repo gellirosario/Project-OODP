@@ -126,7 +126,7 @@ public class OrderManager {
 					}
 
 					if (pax < 1 || pax > 10) {
-						System.out.println("No tables found for this amount of pax. Please try again.");
+						System.out.println("No tables found for this amount of pax. \nThe maximum number of pax is 10. Please try again.");
 					}
 
 				} while (pax < 1 || pax > 10);
