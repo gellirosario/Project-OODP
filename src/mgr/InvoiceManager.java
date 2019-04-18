@@ -310,12 +310,6 @@ public class InvoiceManager {
 		
 		else {
 			
-			//TODO delete this for loop before submission
-			for(int k = 0; k<foundInvoices.size(); k++) {
-				System.out.println("invoice id = " + foundInvoices.get(k).getId());
-				System.out.println("order id = " + foundInvoices.get(k).getOrder().getId());
-			}
-			
 			String itemName;
 			int qty = 0;
 			double price = 0.0;
@@ -397,12 +391,6 @@ public class InvoiceManager {
 		}
 
 		else {
-			
-			//TODO delete this for loop before submission
-			for(int k = 0; k<foundInvoices.size(); k++) {
-				System.out.println("invoice id = " + foundInvoices.get(k).getId());
-				System.out.println("order id = " + foundInvoices.get(k).getOrder().getId());
-			}
 			
 			String itemName;
 			int qty = 0;
