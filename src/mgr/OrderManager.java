@@ -506,6 +506,9 @@ public class OrderManager {
 		String input = null;
 
 		if (orders.size() == 0) {
+			
+			System.out.println("\n[Remove Orders]\n");
+			
 			System.out.println("No orders found. Unable to remove any orders.");
 		} else {
 
@@ -549,8 +552,16 @@ public class OrderManager {
 				}
 
 				do {
+					
+					if(orders.size() == 0)
+					{
+						System.out.println("All orders have been deleted. Going back to Orders Menu...");
+						break;
+					}
+					
 					System.out.print("Continue removing order? (Y/N): ");
 					input = sc.next();
+					
 					
 					try {
 						if(Integer.parseInt(input) < 0)

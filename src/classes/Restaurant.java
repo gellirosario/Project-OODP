@@ -1,6 +1,7 @@
 package classes;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,9 +52,6 @@ public class Restaurant {
 	private static MenuItemManager menuItemManager = new MenuItemManager();
 	private static SetManager setManager = new SetManager();
 
-	/**
-	 * default constructor
-	 */
 	public Restaurant() {
 		loadRestaurant();
 	}
@@ -64,7 +62,7 @@ public class Restaurant {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	private void loadRestaurant() {
+	public void loadRestaurant() {
 		System.out.println("Loading data...");
 		initRestaurant();
 		System.out.println("Loading data done.");
@@ -102,9 +100,8 @@ public class Restaurant {
 	 */
 	private void initSaleItem() {
 		// read/load data from text file, data.txt
-		try {
+		try(BufferedReader reader = new BufferedReader(new FileReader("data.txt"))){
 			String line = "";
-			BufferedReader reader = new BufferedReader(new FileReader("data.txt"));
 			while ((line = reader.readLine()) != null) { // check and read next line
 				// used '|' as char to separate values, as ',' is used in description
 				// NOTE: used "\\|" as "|" is interpret as logical operator OR
@@ -131,7 +128,11 @@ public class Restaurant {
 
 			}
 			reader.close();
-		} catch (IOException e) {
+		}
+		catch (FileNotFoundException ex){
+	         System.out.println("No previous data found for Sale Items.");
+	    }
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -194,9 +195,8 @@ public class Restaurant {
 	private void initInvoices() {
 		Restaurant.invoices = new ArrayList<Invoice>();
 
-		try {
+		try(BufferedReader reader = new BufferedReader(new FileReader("invoice.txt"))){
 			String line = "";
-			BufferedReader reader = new BufferedReader(new FileReader("invoice.txt"));
 			while ((line = reader.readLine()) != null) { // check and read next line
 
 				// used '|' as char to separate values, as ',' is used in description
@@ -226,7 +226,11 @@ public class Restaurant {
 			}
 			reader.close();
 
-		} catch (IOException e) {
+		}
+		catch (FileNotFoundException ex){
+			System.out.println("No previous data found for Invoice.");
+	    }
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -238,9 +242,8 @@ public class Restaurant {
 	private void initOrders() {
 		Restaurant.orders = new ArrayList<Order>();
 
-		try {
+		try(BufferedReader reader = new BufferedReader(new FileReader("order.txt"))){
 			String line = "";
-			BufferedReader reader = new BufferedReader(new FileReader("order.txt"));
 			while ((line = reader.readLine()) != null) { // check and read next line
 
 				// used '|' as char to separate values, as ',' is used in description
@@ -321,7 +324,11 @@ public class Restaurant {
 
 			}
 			reader.close();
-		} catch (IOException e) {
+		}
+		catch (FileNotFoundException ex){
+			System.out.println("No previous data found for Orders.");
+	    }
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -332,9 +339,8 @@ public class Restaurant {
 	private void initReservations() {
 		Restaurant.reservations = new ArrayList<Reservation>();
 
-		try {
+		try(BufferedReader reader = new BufferedReader(new FileReader("reservation.txt"))){
 			String line = "";
-			BufferedReader reader = new BufferedReader(new FileReader("reservation.txt"));
 			while ((line = reader.readLine()) != null) { // check and read next line
 
 				// used '|' as char to separate values, as ',' is used in description
@@ -385,7 +391,11 @@ public class Restaurant {
 
 			}
 			reader.close();
-		} catch (IOException e) {
+		}
+		catch (FileNotFoundException ex){
+			System.out.println("No previous data found for Reservations.");
+	    }
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
