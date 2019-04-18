@@ -148,7 +148,7 @@ public class OrderManager {
 		}
 
 		// Adds to order
-		if (currentStaff != null && occupiedTable != null && saleItems != null && pax != 0) {
+		if (currentStaff != null && occupiedTable != null && saleItems != null && pax != 0 && saleItems.size() != 0) {
 			
 			ArrayList<Integer> currentIds = new ArrayList<Integer>();
 			int orderId = 0;
