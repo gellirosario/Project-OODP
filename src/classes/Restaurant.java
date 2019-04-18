@@ -51,6 +51,9 @@ public class Restaurant {
 	private static MenuItemManager menuItemManager = new MenuItemManager();
 	private static SetManager setManager = new SetManager();
 
+	/**
+	 * default constructor
+	 */
 	public Restaurant() {
 		loadRestaurant();
 	}
