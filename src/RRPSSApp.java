@@ -20,7 +20,6 @@ public class RRPSSApp {
 
 		System.out.println("Starting RRPSS System....");
 
-		//		Restaurant.loadRestaurant();
 		restaurant = new Restaurant();
 
 		while (currentStaff == null)
@@ -99,7 +98,7 @@ public class RRPSSApp {
 				SaleItemUI.showSaleItemUI(restaurant);
 				break;
 			case 2: // Orders
-				OrderUI.showOrderUI(restaurant,currentStaff);
+				OrderUI.showOrderUI(restaurant, currentStaff);
 				break;
 			case 3: // Reservations
 				ReservationUI.showReservationUI(currentStaff);
