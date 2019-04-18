@@ -98,30 +98,11 @@ public class Restaurant {
 	 * Initialize restaurant's SaleItem: MenuItem and Set
 	 */
 	private void initSaleItem() {
-		//		ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
-		//		ArrayList<Set> sets = new ArrayList<Set>();
-		//		
-		//		MenuItem foodExample = new MenuItem(11,"Cheese Beef Burger","Beef patty with melted cheddar cheese, tomatoes and lettuce",20.45,MenuType.MAIN);
-		//		
-		//		menuItems.add(foodExample);
-		//		
-		//		Set setExample = new Set(101,"Lunch Set A","All time popular lunch set!",18.5,menuItems);
-		//		
-		//		setItems.add(setExample);
-		//		
-		//		Restaurant.menuItems = menuItems;
-		//		Restaurant.sets = setItems;
-
-		// ========== PLACEHOLDER VALUES ========== //TODO remove when not needed
-		//		menuItems.add(new MenuItem(31, "Ice Lemon Tea", "Homemade fresh ice lemon tea", 1.8, MenuType.DRINK));
-
 		// read/load data from text file, data.txt
 		try {
 			String line = "";
 			BufferedReader reader = new BufferedReader(new FileReader("data.txt"));
 			while ((line = reader.readLine()) != null) { // check and read next line
-				//				System.out.println("Line: " + line); //TODO remove b4 submit
-
 				// used '|' as char to separate values, as ',' is used in description
 				// NOTE: used "\\|" as "|" is interpret as logical operator OR
 				String[] tokens = line.split("\\|");
@@ -141,7 +122,6 @@ public class Restaurant {
 					sets.add(new Set(Integer.parseInt(tokens[1]), tokens[2], tokens[3], Double.parseDouble(tokens[4]),
 							setItems));
 				}
-				// ####### u can ADD YOUR OWN READ DATA HERE ####### //TODO remove b4 submit
 				else {
 					System.out.println("Error reading data.");
 				}
@@ -222,30 +202,30 @@ public class Restaurant {
 
 				Order order = null;
 
-				if(tokens[0].equals("Invoice")) {
+				if (tokens[0].equals("Invoice")) {
 
-					//Get order
+					// Get order
 					String orderString = tokens[2];
 
-					for(int i = 0; i < previousOrders.size(); i++) {
-						if(previousOrders.get(i).getId() == Integer.parseInt(orderString)) {
+					for (int i = 0; i < previousOrders.size(); i++) {
+						if (previousOrders.get(i).getId() == Integer.parseInt(orderString)) {
 							order = previousOrders.get(i);
 							break;
 						}
 					}
 
-					invoices.add(new Invoice(Integer.parseInt(tokens[1]), order, Double.parseDouble(tokens[3]), 
-							Double.parseDouble(tokens[4]), Double.parseDouble(tokens[5]), Double.parseDouble(tokens[6])));
-				}
-				else {
+					invoices.add(new Invoice(Integer.parseInt(tokens[1]), order, Double.parseDouble(tokens[3]),
+							Double.parseDouble(tokens[4]), Double.parseDouble(tokens[5]),
+							Double.parseDouble(tokens[6])));
+				} else {
 					System.out.println("Error reading invoice data.");
 				}
 			}
 			reader.close();
 
-		}catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
 
 	}
 
@@ -269,7 +249,7 @@ public class Restaurant {
 				Table table = null;
 				Calendar orderDate = Calendar.getInstance();
 
-				if(tokens[0].equals("Order") || tokens[0].equals("PreviousOrder")) // Get Data
+				if (tokens[0].equals("Order") || tokens[0].equals("PreviousOrder")) // Get Data
 				{
 					// Get Sale Items
 					String[] stringIds = tokens[5].split(","); // saleItemIds are split by ','
@@ -282,19 +262,15 @@ public class Restaurant {
 						menuItem = menuItemManager.getMenuItemById(menuItems, saleItemIds[i]);
 						setItem = setManager.getSetById(sets, saleItemIds[i]);
 
-						if(menuItem != null)
-						{
+						if (menuItem != null) {
 							setItems.add(menuItem);
-						}
-						else if(setItem != null)
-						{
+						} else if (setItem != null) {
 							setItems.add(setItem);
 						}
 					}
 
 					// Get Staff
 					String staffString = tokens[2];
-
 
 					for (int i = 0; i < staffs.size(); i++) {
 						if (staffs.get(i).getId() == Integer.parseInt(staffString)) {
@@ -305,13 +281,11 @@ public class Restaurant {
 					// Get Table
 					String tableString = tokens[3];
 
-
 					for (int i = 0; i < tables.size(); i++) {
 						if (tables.get(i).getId() == Integer.parseInt(tableString)) {
 							table = tables.get(i);
 
-							if(tokens[0].equals("Order"))
-							{
+							if (tokens[0].equals("Order")) {
 								table.setStatus(Status.Occupied);
 							}
 						}
@@ -332,15 +306,13 @@ public class Restaurant {
 				}
 
 				if (tokens[0].equals("Order")) { // Add to Order
-					orders.add(new Order(Integer.parseInt(tokens[1]),staff,setItems,table,orderDate));
+					orders.add(new Order(Integer.parseInt(tokens[1]), staff, setItems, table, orderDate));
 
-				}
-				else if(tokens[0].equals("PreviousOrder")) // Add to Previous Order
+				} else if (tokens[0].equals("PreviousOrder")) // Add to Previous Order
 				{
 
-					previousOrders.add(new Order(Integer.parseInt(tokens[1]),staff,setItems,table,orderDate));
-				}
-				else {
+					previousOrders.add(new Order(Integer.parseInt(tokens[1]), staff, setItems, table, orderDate));
+				} else {
 					System.out.println("Error reading order data.");
 				}
 
@@ -369,12 +341,11 @@ public class Restaurant {
 				Table table = null;
 				Calendar orderDate = Calendar.getInstance();
 
-				if(tokens[0].equals("Reservation") || tokens[0].equals("pastReservation")) // Get Data
+				if (tokens[0].equals("Reservation") || tokens[0].equals("pastReservation")) // Get Data
 				{
 
 					// Get Table
 					String tableString = tokens[5];
-
 
 					for (int i = 0; i < tables.size(); i++) {
 						if (tables.get(i).getId() == Integer.parseInt(tableString)) {
@@ -397,15 +368,15 @@ public class Restaurant {
 				}
 
 				if (tokens[0].equals("Reservation")) { // Add to Reservation
-					reservations.add(new Reservation(tokens[1],Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]), orderDate, table));
+					reservations.add(new Reservation(tokens[1], Integer.parseInt(tokens[2]),
+							Integer.parseInt(tokens[3]), orderDate, table));
 
-				}
-				else if(tokens[0].equals("pastReservation")) // Add to Past Reservation
+				} else if (tokens[0].equals("pastReservation")) // Add to Past Reservation
 				{
 
-					pastReservations.add(new Reservation(tokens[1],Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]), orderDate, table));
-				}
-				else {
+					pastReservations.add(new Reservation(tokens[1], Integer.parseInt(tokens[2]),
+							Integer.parseInt(tokens[3]), orderDate, table));
+				} else {
 					System.out.println("Error reading order data.");
 				}
 
@@ -436,8 +407,6 @@ public class Restaurant {
 
 			}
 
-			// ####### u can ADD YOUR OWN SAVE DATA HERE ####### //TODO remove b4 submit
-
 			out.close(); // close before exit
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -451,7 +420,6 @@ public class Restaurant {
 		// output to text
 		try {
 			PrintWriter out = new PrintWriter("order.txt");
-
 
 			// save all Orders
 			for (int i = 0; i < orders.size(); i++) {
@@ -508,8 +476,6 @@ public class Restaurant {
 
 			// save all Reservations
 			out.println("//reservationStatus|custName|custContact|numOfPax|reservationTime|TableID");
-
-
 
 			for (int i = 0; i < reservations.size(); i++) {
 				// generate line
