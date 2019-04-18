@@ -64,7 +64,7 @@ public class Restaurant {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public void loadRestaurant() {
+	private void loadRestaurant() {
 		System.out.println("Loading data...");
 		initRestaurant();
 		System.out.println("Loading data done.");
