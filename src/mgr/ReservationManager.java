@@ -236,7 +236,7 @@ public class ReservationManager {
 				return null;
 
 			if(!(choice.equals(Y)|| choice.equals(y) || choice.equals(N)|| choice.equals(n))) {
-				System.out.println("***Please key in 'Y' or 'N' only");
+				System.out.println("***Please key in 'Y' or 'N' only.");
 				continue;
 			}
 			if(choice.equals("Y") || choice.equals("y"))
@@ -477,7 +477,7 @@ public class ReservationManager {
 			}
 
 			if (x==1){
-				System.out.println("***Reservation not found! Please try again");
+				System.out.println("***Reservation not found! Please try again.");
 			}
 		}while (j==1);
 		

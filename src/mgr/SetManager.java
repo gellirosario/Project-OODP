@@ -61,7 +61,7 @@ public class SetManager {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			id = sc.nextInt();
@@ -70,7 +70,7 @@ public class SetManager {
 				return null; // exit
 			}
 			if (id <= 0 || !Set.isValidId(sets, id)) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -83,7 +83,7 @@ public class SetManager {
 				return null; // exit
 			}
 			if (name.isEmpty()) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -96,7 +96,7 @@ public class SetManager {
 				return null; // exit
 			}
 			if (desc.isEmpty()) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -106,7 +106,7 @@ public class SetManager {
 		do {
 			while (!sc.hasNextDouble()) { // check if user entered double
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered double
 			price = sc.nextDouble();
@@ -115,7 +115,7 @@ public class SetManager {
 				return null; // exit
 			}
 			if (price < 0) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -169,7 +169,7 @@ public class SetManager {
 		do { // choose a Set to edit
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			id = sc.nextInt();
@@ -179,7 +179,7 @@ public class SetManager {
 			}
 			set = getSetById(sets, id);
 			if (set == null) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -190,7 +190,7 @@ public class SetManager {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			id = sc.nextInt();
@@ -202,7 +202,7 @@ public class SetManager {
 				System.out.println("Input value is same as current value: " + set.getId());
 				break; // same value
 			} else if (id <= 0 || !Set.isValidId(sets, id)) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				set.setId(id);
 				System.out.println("New value: " + set.getId());
@@ -218,7 +218,7 @@ public class SetManager {
 				return null; // exit
 			}
 			if (name.isEmpty()) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				if (name.equals(set.getName())) {
 					System.out.println("Input value is same as current value: " + set.getName());
@@ -238,7 +238,7 @@ public class SetManager {
 				return null; // exit
 			}
 			if (desc.isEmpty()) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				if (desc.equals(set.getDescription())) {
 					System.out.println("Input value is same as current value: " + set.getDescription());
@@ -255,7 +255,7 @@ public class SetManager {
 		do {
 			while (!sc.hasNextDouble()) { // check if user entered double
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered double
 			price = sc.nextDouble();
@@ -264,7 +264,7 @@ public class SetManager {
 				return null; // exit
 			}
 			if (price < 0) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				if (price == set.getPrice()) {
 					System.out.println("Input value is same as current value: " + set.getPrice());
@@ -319,7 +319,7 @@ public class SetManager {
 		do { // choose a Set to delete
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			id = sc.nextInt();
@@ -329,7 +329,7 @@ public class SetManager {
 			}
 			set = getSetById(sets, id);
 			if (set == null) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				sets.remove(set);
 				System.out.println("Set Id: " + id + " has been deleted.");
@@ -387,7 +387,7 @@ public class SetManager {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			setItemsSize = sc.nextInt();
@@ -396,7 +396,7 @@ public class SetManager {
 				return null; // exit
 			}
 			if (setItemsSize < 1) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -407,7 +407,7 @@ public class SetManager {
 			do {
 				while (!sc.hasNextInt()) { // check if user entered int
 					sc.next(); // move buffer
-					System.out.println("Invalid Input, please enter valid input.");
+					System.out.println("***Invalid Input, please enter valid input.");
 				}
 				// user entered int
 				menuItemId = sc.nextInt();
@@ -417,7 +417,7 @@ public class SetManager {
 				}
 				setItem = menuItemManager.getMenuItemById(menuItems, menuItemId);
 				if (setItem == null) { // invalid value
-					System.out.println("Invalid Input, please enter valid input.");
+					System.out.println("***Invalid Input, please enter valid input.");
 				} else { // valid value
 					setItems.add(setItem);
 					break; // exit do while loop

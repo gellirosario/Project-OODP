@@ -59,7 +59,7 @@ public class RRPSSApp {
 		}
 
 		if (existingStaff == null) {
-			System.out.println("Staff ID not found.\nPlease try again.\n");
+			System.out.println("***Staff ID not found.\nPlease try again.");
 		}
 
 		return existingStaff;

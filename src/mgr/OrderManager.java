@@ -118,7 +118,7 @@ public class OrderManager {
 						}
 						catch (NumberFormatException e)  
 						{
-							System.out.println("***Please only enter numbers");
+							System.out.println("***Please only enter numbers.");
 							continue;
 						}
 
@@ -128,7 +128,7 @@ public class OrderManager {
 						}
 
 						if (pax < 1 || pax > 10) {
-							System.out.println("No tables found for this amount of pax. \nThe maximum number of pax is 10. Please try again.");
+							System.out.println("***No tables found for this amount of pax. \n***The maximum number of pax is 10. Please try again.");
 						}
 
 					} while (pax < 1 || pax > 10);
@@ -143,7 +143,7 @@ public class OrderManager {
 						}
 
 						if (i + 1 == tables.size()) {
-							System.out.println("Table is all occupied. Please wait for a vacated table.");
+							System.out.println("***Table is all occupied. Please wait for a vacated table.");
 						}
 					}
 				}
@@ -207,7 +207,7 @@ public class OrderManager {
 				}
 
 			} else {
-				System.out.println("Unable to create an Order. Please try again.");
+				System.out.println("***Unable to create an Order. Please try again.");
 			}
 		}
 		else
@@ -251,7 +251,7 @@ public class OrderManager {
 				}
 				catch (NumberFormatException e)  
 				{
-					System.out.println("***Please only enter numbers");
+					System.out.println("***Please only enter numbers.");
 					continue;
 				}
 				
@@ -267,7 +267,7 @@ public class OrderManager {
 					}
 
 					if (i + 1 == orders.size()) {
-						System.out.println("Order not found. Please try again.");
+						System.out.println("***Order not found. Please try again");
 					}
 				}
 
@@ -291,7 +291,7 @@ public class OrderManager {
 					removeItemFromOrder(menuItems, saleItems);
 					break;
 				default:
-					System.out.println("No such option.");
+					System.out.println("***No such option.");
 				}
 			}
 
@@ -373,7 +373,7 @@ public class OrderManager {
 			}
 
 			if (found == false) {
-				System.out.println("Item not found.");
+				System.out.println("***Item not found.");
 			}
 
 			do {
@@ -392,12 +392,12 @@ public class OrderManager {
 				}
 				
 				if (input.length() > 1) {
-					System.out.println("Please enter single character.");
+					System.out.println("***Please enter single character.");
 				}
 				
 				if(Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) !=  'N')
 				{
-					System.out.println("Please enter Y or N.");
+					System.out.println("***Please key in 'Y' or 'N' only");
 				}
 				
 				
@@ -467,7 +467,7 @@ public class OrderManager {
 				}
 
 				if (i + 1 == menuItems.size()) {
-					System.out.println("Menu item not found.");
+					System.out.println("***Menu item not found.");
 				}
 			}
 			
@@ -487,12 +487,12 @@ public class OrderManager {
 				}
 				
 				if (input.length() > 1) {
-					System.out.println("Please enter single character.");
+					System.out.println("***Please enter single character.");
 				}
 				
 				if(Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) !=  'N')
 				{
-					System.out.println("Please enter Y or N.");
+					System.out.println("***Please key in 'Y' or 'N' only.");
 				}
 				
 				
@@ -561,7 +561,7 @@ public class OrderManager {
 					}
 
 					if (i + 1 == orders.size()) {
-						System.out.println("Order not found.");
+						System.out.println("***Order not found.");
 					}
 				}
 
@@ -589,12 +589,12 @@ public class OrderManager {
 					}
 					
 					if (input.length() > 1) {
-						System.out.println("Please enter single character.");
+						System.out.println("***Please enter single character.");
 					}
 					
 					if(Character.toUpperCase(input.charAt(0)) != 'Y' && Character.toUpperCase(input.charAt(0)) !=  'N')
 					{
-						System.out.println("Please enter Y or N.");
+						System.out.println("***Please key in 'Y' or 'N' only.");
 					}
 					
 					

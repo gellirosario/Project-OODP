@@ -210,21 +210,21 @@ public class InvoiceManager {
 
 			// check if date is in the future
 			if (curDate.compareTo(tgtDate) < 0) {
-				System.out.println("Invalid input, date entered is in the future.");
+				System.out.println("***Invalid input, date entered is in the future.");
 				System.out.println("Please try again.\n");
 				return false;
 			}
 
 			// accounts for cases like 4/4/19 instead of 04/04/2019
 			if (date.length() != 10) {
-				System.out.println("Invalid input, please try again.");
+				System.out.println("***Invalid input, please try again.");
 				System.out.println("Sample input: 05/03/2019 \n");
 				return false;
 			}
 			return true;
 
 		} catch (ParseException e) {
-			System.out.println("Invalid input, please try again.");
+			System.out.println("***Invalid input, please try again.");
 			System.out.println("Sample input: 18/03/2019 \n");
 			return false;
 		}
@@ -255,14 +255,14 @@ public class InvoiceManager {
 
 			// check if date is in the future
 			if (curMonth.compareTo(tgtMonth) < 0) {
-				System.out.println("Invalid input, month entered is in the future.");
+				System.out.println("***Invalid input, month entered is in the future.");
 				System.out.println("Please try again.\n");
 				return false;
 			}
 
 			// accounts for cases like 4/19 instead of 04/2019
 			if (month.length() != 7) {
-				System.out.println("Invalid input, please try again.");
+				System.out.println("***Invalid input, please try again.");
 				System.out.println("Sample input: 03/2019 \n");
 				return false;
 			}
@@ -270,7 +270,7 @@ public class InvoiceManager {
 			return true;
 
 		} catch (ParseException e) {
-			System.out.println("Invalid input, please try again.");
+			System.out.println("***Invalid input, please try again.");
 			System.out.println("Sample input: 03/2019 \n");
 			return false;
 		}

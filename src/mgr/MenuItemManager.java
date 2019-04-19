@@ -52,7 +52,7 @@ public class MenuItemManager {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			id = sc.nextInt();
@@ -61,7 +61,7 @@ public class MenuItemManager {
 				return null; // exit
 			}
 			if (id <= 0 || !MenuItem.isValidId(menuItems, id)) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -74,7 +74,7 @@ public class MenuItemManager {
 				return null; // exit
 			}
 			if (name.isEmpty()) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -87,7 +87,7 @@ public class MenuItemManager {
 				return null; // exit
 			}
 			if (desc.isEmpty()) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -97,7 +97,7 @@ public class MenuItemManager {
 		do {
 			while (!sc.hasNextDouble()) { // check if user entered double
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered double
 			price = sc.nextDouble();
@@ -106,7 +106,7 @@ public class MenuItemManager {
 				return null; // exit
 			}
 			if (price < 0) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -155,7 +155,7 @@ public class MenuItemManager {
 		do { // choose a Menu Item to edit
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			id = sc.nextInt();
@@ -165,7 +165,7 @@ public class MenuItemManager {
 			}
 			menuItem = getMenuItemById(menuItems, id);
 			if (menuItem == null) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				break; // exit do while loop
 			}
@@ -176,7 +176,7 @@ public class MenuItemManager {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			id = sc.nextInt();
@@ -188,7 +188,7 @@ public class MenuItemManager {
 				System.out.println("Input value is same as current value: " + menuItem.getId());
 				break; // same value
 			} else if (id <= 0 || !MenuItem.isValidId(menuItems, id)) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				menuItem.setId(id);
 				System.out.println("New value: " + menuItem.getId());
@@ -204,7 +204,7 @@ public class MenuItemManager {
 				return null; // exit
 			}
 			if (name.isEmpty()) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				if (name.equals(menuItem.getName())) {
 					System.out.println("Input value is same as current value: " + menuItem.getName());
@@ -224,7 +224,7 @@ public class MenuItemManager {
 				return null; // exit
 			}
 			if (desc.isEmpty()) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				if (desc.equals(menuItem.getDescription())) {
 					System.out.println("Input value is same as current value: " + menuItem.getDescription());
@@ -241,7 +241,7 @@ public class MenuItemManager {
 		do {
 			while (!sc.hasNextDouble()) { // check if user entered double
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered double
 			price = sc.nextDouble();
@@ -250,7 +250,7 @@ public class MenuItemManager {
 				return null; // exit
 			}
 			if (price < 0) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				if (price == menuItem.getPrice()) {
 					System.out.println("Input value is same as current value: " + menuItem.getPrice());
@@ -307,7 +307,7 @@ public class MenuItemManager {
 		do { // choose a Menu Item to delete
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			id = sc.nextInt();
@@ -317,7 +317,7 @@ public class MenuItemManager {
 			}
 			menuItem = getMenuItemById(menuItems, id);
 			if (menuItem == null) { // invalid value
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			} else { // valid value
 				menuItems.remove(menuItem);
 				System.out.println("Menu Item Id: " + id + " has been deleted.");
@@ -366,7 +366,7 @@ public class MenuItemManager {
 		do {
 			while (!sc.hasNextInt()) { // check if user entered int
 				sc.next(); // move buffer
-				System.out.println("Invalid Input, please enter valid input.");
+				System.out.println("***Invalid Input, please enter valid input.");
 			}
 			// user entered int
 			option = sc.nextInt();
