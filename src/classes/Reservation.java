@@ -13,6 +13,13 @@ import classes.Table.Status;
 public class Reservation{
 
 	/**
+	 * counter for ID
+	 */
+	private static int idCounter = 1000;
+	
+	
+	
+	/**
 	 * The unique id of the reservation
 	 */
 	private int reservationID;
@@ -75,7 +82,7 @@ public class Reservation{
 	 * 
 	 */
 	public Reservation(String custName, int custContact, int numOfPax, Calendar reservationTime, Table tableReservation){
-		this.reservationID=Calendar.getInstance().hashCode();
+		this.reservationID = idCounter++;
 		this.setCustName(custName);
 		this.setCustContact(custContact);
 		this.setNumOfPax(numOfPax);
@@ -91,12 +98,12 @@ public class Reservation{
 	/**-------------------------------------------------
 	 * set a unique ID for this reservation
 	 * @param reservationID unique ID of this reservation
-
+	 */
 	public void setReservationID(int reservationID)
 	{ 
-		this.reservationID = reservationID; 
+		this.reservationID = reservationID;
 	}
-	 */
+	 
 
 
 	/**

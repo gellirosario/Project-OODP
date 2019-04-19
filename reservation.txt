@@ -1,8 +1,11 @@
 //reservationStatus|custName|custContact|numOfPax|reservationTime|TableID
-Reservation|Audrey|15678456|5|Wed Apr 17 14:00:00 SGT 2019|22
-Reservation|Lexx|12345678|5|Wed Apr 17 14:00:00 SGT 2019|23
-Reservation|Lee|12345678|5|Thu Apr 18 14:00:00 SGT 2019|21
-Reservation|Lexx |12345678|5|Wed Apr 17 18:00:00 SGT 2019|21
-Reservation|Lexx|12345678|3|Thu Apr 18 19:00:00 SGT 2019|11
+Reservation|Lexx|93749282|5|Sat Apr 20 14:00:00 SGT 2019|21
+Reservation|Lexx|21324442|4|Mon Apr 22 21:00:00 SGT 2019|11
+Reservation|Pwld|33333333|1|Thu Apr 25 14:00:00 SGT 2019|1
 pastReservation|Lexx|12345678|5|Wed Apr 17 14:00:00 SGT 2019|21
 pastReservation|Finn|65432178|4|Wed Apr 17 14:00:00 SGT 2019|11
+pastReservation|Lexx|12345678|3|Thu Apr 18 19:00:00 SGT 2019|11
+pastReservation|Lexx |12345678|5|Wed Apr 17 18:00:00 SGT 2019|21
+pastReservation|Lee|12345678|5|Thu Apr 18 14:00:00 SGT 2019|21
+pastReservation|Lexx|12345678|5|Wed Apr 17 14:00:00 SGT 2019|23
+pastReservation|Audrey|15678456|5|Wed Apr 17 14:00:00 SGT 2019|22
