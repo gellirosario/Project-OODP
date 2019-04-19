@@ -705,11 +705,6 @@ public class ReservationManager {
 			return;
 		}
 
-
-		String custContact = checkValidCustContact();
-		if(custContact == null)
-			return;
-
 		ar = findCustContactReservation(reservation);
 		if(ar == null)
 			return;
