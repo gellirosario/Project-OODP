@@ -171,22 +171,29 @@ public class OrderManager {
 					}
 				}
 					
-				maxId = Collections.max(currentIds);
+				if(currentIds.size() != 0)
+				{
+					maxId = Collections.max(currentIds);
 					
-				for(int check = 1; check <= maxId; check++) {
-					found = false;
-					for(int i = 0; i < currentIds.size(); i++) {
-						if(check == currentIds.get(i)) {
-							found = true;
+					for(int check = 1; check <= maxId; check++) {
+						found = false;
+						for(int i = 0; i < currentIds.size(); i++) {
+							if(check == currentIds.get(i)) {
+								found = true;
+							}
 						}
+						if(check+1 == maxId+1) {
+							orderId = check + 1;
+						}
+						else if(!found) {
+							orderId = check;
+							break;
+						}	
 					}
-					if(check+1 == maxId+1) {
-						orderId = check + 1;
-					}
-					else if(!found) {
-						orderId = check;
-						break;
-					}	
+				}
+				else
+				{
+					orderId = 1;
 				}
 				
 				order = new Order(orderId, currentStaff, saleItems, occupiedTable, date);
