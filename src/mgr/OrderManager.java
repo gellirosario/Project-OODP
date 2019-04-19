@@ -93,112 +93,119 @@ public class OrderManager {
 		Calendar date = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-		if (reservation != null) // Customer has reservation
+		if(menuItems.size() != 0 && setItems.size() != 0)
 		{
-			occupiedTable = reservation.getTableReservation();
-			pax = reservation.getNumOfPax();
-			saleItems = addItemToOrder(menuItems, setItems, new ArrayList<SaleItem>()); // Add menu items to order
-		} else if (reservation == null) // Customer has no reservation
-		{
-			saleItems = addItemToOrder(menuItems, setItems, new ArrayList<SaleItem>()); // Add menu items to order
-
-			if(!saleItems.isEmpty())
+			if (reservation != null) // Customer has reservation
 			{
-				System.out.println("Enter -1 at any time to exit current action.");
-				
-				do {
-					// Get pax
-					System.out.println("Please enter pax:");
-					input = sc.next();
+				occupiedTable = reservation.getTableReservation();
+				pax = reservation.getNumOfPax();
+				saleItems = addItemToOrder(menuItems, setItems, new ArrayList<SaleItem>()); // Add menu items to order
+			} else if (reservation == null) // Customer has no reservation
+			{
+				saleItems = addItemToOrder(menuItems, setItems, new ArrayList<SaleItem>()); // Add menu items to order
+
+				if(!saleItems.isEmpty())
+				{
+					System.out.println("Enter -1 at any time to exit current action.");
 					
-					try {
-						pax = Integer.parseInt(input);
-					}
-					catch (NumberFormatException e)  
-					{
-						System.out.println("***Please only enter numbers");
-						continue;
-					}
+					do {
+						// Get pax
+						System.out.println("Please enter pax:");
+						input = sc.next();
+						
+						try {
+							pax = Integer.parseInt(input);
+						}
+						catch (NumberFormatException e)  
+						{
+							System.out.println("***Please only enter numbers");
+							continue;
+						}
 
-					if (pax < 0) {
-						pax = 0;
-						break;
-					}
+						if (pax < 0) {
+							pax = 0;
+							break;
+						}
 
-					if (pax < 1 || pax > 10) {
-						System.out.println("No tables found for this amount of pax. \nThe maximum number of pax is 10. Please try again.");
-					}
+						if (pax < 1 || pax > 10) {
+							System.out.println("No tables found for this amount of pax. \nThe maximum number of pax is 10. Please try again.");
+						}
 
-				} while (pax < 1 || pax > 10);
+					} while (pax < 1 || pax > 10);
 
-				// Auto allocation of table according to pax
-				for (int i = 0; i < tables.size(); i++) {
-					if (tables.get(i).getSeatingCapacity() >= pax && tables.get(i).getStatus() == Status.Vacated) {
-						occupiedTable = tables.get(i);
-						occupiedTable.setStatus(Status.Occupied);
+					// Auto allocation of table according to pax
+					for (int i = 0; i < tables.size(); i++) {
+						if (tables.get(i).getSeatingCapacity() >= pax && tables.get(i).getStatus() == Status.Vacated) {
+							occupiedTable = tables.get(i);
+							occupiedTable.setStatus(Status.Occupied);
 
-						break;
-					}
+							break;
+						}
 
-					if (i + 1 == tables.size()) {
-						System.out.println("Table is all occupied. Please wait for a vacated table.");
+						if (i + 1 == tables.size()) {
+							System.out.println("Table is all occupied. Please wait for a vacated table.");
+						}
 					}
 				}
+			}
+
+			// Adds to order
+			if (currentStaff != null && occupiedTable != null && saleItems != null && pax != 0 && saleItems.size() != 0) {
+				
+				ArrayList<Integer> currentIds = new ArrayList<Integer>();
+				int orderId = 0;
+				int maxId = 0;
+				boolean found;
+				
+				//If there are orders
+				if(orders.size() != 0) {
+					for(int i = 0; i < orders.size(); i++) {
+						currentIds.add(orders.get(i).getId());
+					}
+				}
+				
+				//If there are previous orders
+				if(prevOrders.size() != 0) {
+					for(int i = 0; i < prevOrders.size(); i++) {
+						currentIds.add(prevOrders.get(i).getId());
+					}
+				}
+					
+				maxId = Collections.max(currentIds);
+					
+				for(int check = 1; check <= maxId; check++) {
+					found = false;
+					for(int i = 0; i < currentIds.size(); i++) {
+						if(check == currentIds.get(i)) {
+							found = true;
+						}
+					}
+					if(check+1 == maxId+1) {
+						orderId = check + 1;
+					}
+					else if(!found) {
+						orderId = check;
+						break;
+					}	
+				}
+				
+				order = new Order(orderId, currentStaff, saleItems, occupiedTable, date);
+
+				if (order != null) {
+
+					orders.add(order);
+					System.out.println("Order complete!");
+					System.out.println("[Order No." + orderId + " | Table No." + occupiedTable.getId()
+							+ " | Created by " + currentStaff.getName() + " on " + dateFormat.format(date.getTime()) + "]");
+				}
+
+			} else {
+				System.out.println("Unable to create an Order. Please try again.");
 			}
 		}
-
-		// Adds to order
-		if (currentStaff != null && occupiedTable != null && saleItems != null && pax != 0 && saleItems.size() != 0) {
-			
-			ArrayList<Integer> currentIds = new ArrayList<Integer>();
-			int orderId = 0;
-			int maxId = 0;
-			boolean found;
-			
-			//If there are orders
-			if(orders.size() != 0) {
-				for(int i = 0; i < orders.size(); i++) {
-					currentIds.add(orders.get(i).getId());
-				}
-			}
-			
-			//If there are previous orders
-			if(prevOrders.size() != 0) {
-				for(int i = 0; i < prevOrders.size(); i++) {
-					currentIds.add(prevOrders.get(i).getId());
-				}
-			}
-				
-			maxId = Collections.max(currentIds);
-				
-			for(int check = 1; check <= maxId; check++) {
-				found = false;
-				for(int i = 0; i < currentIds.size(); i++) {
-					if(check == currentIds.get(i)) {
-						found = true;
-					}
-				}
-				if(check+1 == maxId+1) {
-					orderId = check + 1;
-				}
-				else if(!found) {
-					orderId = check;
-					break;
-				}	
-			}
-			
-			order = new Order(orderId, currentStaff, saleItems, occupiedTable, date);
-
-			if (order != null) {
-
-				orders.add(order);
-				System.out.println("Order complete!");
-				System.out.println("[Order No." + orderId + " | Table No." + occupiedTable.getId()
-						+ " | Created by " + currentStaff.getName() + " on " + dateFormat.format(date.getTime()) + "]");
-			}
-
-		} else {
-			System.out.println("Unable to create an Order. Please try again.");
+		else
+		{
+			System.out.println("There is no menu available. Please try again.");
 		}
 
 	}

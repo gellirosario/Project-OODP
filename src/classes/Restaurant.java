@@ -133,7 +133,7 @@ public class Restaurant {
 			reader.close();
 		}
 		catch (FileNotFoundException ex){
-	         System.out.println("No previous data found for Sale Items.");
+	         System.out.println("No previous data found for Sale Items. Creating new txt file...");
 	    }
 		catch (IOException e) {
 			e.printStackTrace();
@@ -231,7 +231,7 @@ public class Restaurant {
 
 		}
 		catch (FileNotFoundException ex){
-			System.out.println("No previous data found for Invoice.");
+			System.out.println("No previous data found for Invoice. Creating new txt file...");
 	    }
 		catch (IOException e) {
 			e.printStackTrace();
@@ -317,7 +317,8 @@ public class Restaurant {
 				if (tokens[0].equals("Order")) { // Add to Order
 					orders.add(new Order(Integer.parseInt(tokens[1]), staff, setItems, table, orderDate));
 
-				} else if (tokens[0].equals("PreviousOrder")) // Add to Previous Order
+				} 
+				else if (tokens[0].equals("PreviousOrder")) // Add to Previous Order
 				{
 
 					previousOrders.add(new Order(Integer.parseInt(tokens[1]), staff, setItems, table, orderDate));
@@ -329,7 +330,7 @@ public class Restaurant {
 			reader.close();
 		}
 		catch (FileNotFoundException ex){
-			System.out.println("No previous data found for Orders.");
+			System.out.println("No previous data found for Orders. Creating new txt file...");
 	    }
 		catch (IOException e) {
 			e.printStackTrace();
@@ -389,14 +390,14 @@ public class Restaurant {
 					pastReservations.add(new Reservation(tokens[1], Integer.parseInt(tokens[2]),
 							Integer.parseInt(tokens[3]), orderDate, table));
 				} else {
-					System.out.println("Error reading order data.");
+					//System.out.println("Error reading order data.");
 				}
 
 			}
 			reader.close();
 		}
 		catch (FileNotFoundException ex){
-			System.out.println("No previous data found for Reservations.");
+			System.out.println("No previous data found for Reservations. Creating new txt file...");
 	    }
 		catch (IOException e) {
 			e.printStackTrace();
