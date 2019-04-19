@@ -1,25 +1,8 @@
 //reservationStatus|custName|custContact|numOfPax|reservationTime|TableID
-Reservation|Lexx|21324442|4|Mon Apr 22 21:00:00 SGT 2019|11
-Reservation|Pwld|33333333|1|Thu Apr 25 14:00:00 SGT 2019|1
-Reservation|Leila|12345678|5|Wed Apr 24 14:00:00 SGT 2019|21
-Reservation|Leica|17652309|2|Wed Apr 24 14:00:00 SGT 2019|1
-Reservation|Poll|87654923|1|Wed Apr 24 14:00:00 SGT 2019|2
-Reservation|tuewr|23244234|4|Sat Apr 20 11:00:00 SGT 2019|13
-Reservation|idvcvuer|12233444|4|Sat Apr 20 11:00:00 SGT 2019|14
-Reservation|Ldcwnei|12862664|3|Sat Apr 20 11:00:00 SGT 2019|11
-Reservation|djcdnc|98776553|2|Sat Apr 20 11:00:00 SGT 2019|1
+Reservation|Audrey|15678456|5|Wed Apr 17 14:00:00 SGT 2019|22
+Reservation|Lexx|12345678|5|Wed Apr 17 14:00:00 SGT 2019|23
+Reservation|Lee|12345678|5|Thu Apr 18 14:00:00 SGT 2019|21
+Reservation|Lexx |12345678|5|Wed Apr 17 18:00:00 SGT 2019|21
+Reservation|Lexx|12345678|3|Thu Apr 18 19:00:00 SGT 2019|11
 pastReservation|Lexx|12345678|5|Wed Apr 17 14:00:00 SGT 2019|21
 pastReservation|Finn|65432178|4|Wed Apr 17 14:00:00 SGT 2019|11
-pastReservation|Lexx|12345678|3|Thu Apr 18 19:00:00 SGT 2019|11
-pastReservation|Lexx |12345678|5|Wed Apr 17 18:00:00 SGT 2019|21
-pastReservation|Lee|12345678|5|Thu Apr 18 14:00:00 SGT 2019|21
-pastReservation|Lexx|12345678|5|Wed Apr 17 14:00:00 SGT 2019|23
-pastReservation|Audrey|15678456|5|Wed Apr 17 14:00:00 SGT 2019|22
-pastReservation|LExx|12345676|4|Fri Apr 19 16:00:00 SGT 2019|11
-pastReservation|Lexx|93749282|5|Sat Apr 20 14:00:00 SGT 2019|21
-pastReservation|Pia|12345232|2|Fri Apr 19 21:20:00 SGT 2019|3
-pastReservation|Audrey|98762341|5|Fri Apr 19 21:20:00 SGT 2019|23
-pastReservation|Yehh|23417654|8|Fri Apr 19 21:20:00 SGT 2019|22
-pastReservation|Tiegi|87234532|1|Fri Apr 19 21:20:00 SGT 2019|5
-pastReservation|Lexx|13423442|3|Sat Apr 20 11:00:00 SGT 2019|11
-pastReservation|LExx|12343212|4|Sat Apr 20 11:00:00 SGT 2019|12

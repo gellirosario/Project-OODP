@@ -17,6 +17,7 @@ import classes.MenuItem.MenuType;
 import classes.Person.Gender;
 import classes.Table.Status;
 import mgr.MenuItemManager;
+import mgr.ReservationManager;
 import mgr.SetManager;
 
 /**
@@ -51,6 +52,7 @@ public class Restaurant {
 	// Manager classes
 	private static MenuItemManager menuItemManager = new MenuItemManager();
 	private static SetManager setManager = new SetManager();
+	private static ReservationManager reservationManager = new ReservationManager();
 	
     /**
      * default constructor
@@ -433,17 +435,42 @@ public class Restaurant {
 	/**
 	 * Save all Order(existing/previous) into orders.txt
 	 */
+	@SuppressWarnings("deprecation")
 	private void saveOrder() {
 		// output to text
 		try {
 			PrintWriter out = new PrintWriter("order.txt");
-
+			
+			Calendar current = Calendar.getInstance();
+			int session = ReservationManager.getReservationTimeSession(current);
+			boolean AM = (session == 1);
+			boolean PM = (session == 2);
+			
 			// save all Orders
 			for (int i = 0; i < orders.size(); i++) {
 				// generate line
-				String line = orders.get(i).toString("Order");
-
-				out.println(line); // add a line to text file
+				String line = null;
+				
+				if(orders.get(i).getOrderDateTime().getTime().getDay() == current.getTime().getDay() && 
+						orders.get(i).getOrderDateTime().getTime().getMonth() == current.getTime().getMonth() && 
+						orders.get(i).getOrderDateTime().getTime().getYear() == current.getTime().getYear())
+				{
+					if(AM == (ReservationManager.getReservationTimeSession(orders.get(i).getOrderDateTime()) == 1))
+					{
+						line = orders.get(i).toString("Order");
+					}
+					else if(PM == (ReservationManager.getReservationTimeSession(orders.get(i).getOrderDateTime()) == 2))
+					{
+						line = orders.get(i).toString("Order");
+					}
+				}
+				
+					
+				if(line != null)
+				{
+					out.println(line); // add a line to text file
+				}
+				
 			}
 			// save all Previous Orders
 			for (int i = 0; i < previousOrders.size(); i++) {
@@ -473,8 +500,8 @@ public class Restaurant {
 			for (int i = 0; i < invoices.size(); i++) {
 				// generate line
 				String line = invoices.get(i).toString("Invoice");
-
-				out.println(line); // add a line to text file
+				if(line != null)
+					out.println(line); // add a line to text file
 			}
 
 			out.close(); // close before exit

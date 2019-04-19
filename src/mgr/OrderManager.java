@@ -36,7 +36,6 @@ public class OrderManager {
 
 	private static MenuItemManager menuItemManager = new MenuItemManager();
 	private static SetManager setManager = new SetManager();
-	private static ReservationManager reservationManager = new ReservationManager();
 	
 	/**
 	 * 
