@@ -125,7 +125,7 @@ public class OrderManager {
 		Calendar date = Calendar.getInstance();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-		if(menuItems.size() != 0 && setItems.size() != 0)
+		if(menuItems.size() != 0 || setItems.size() != 0)
 		{
 			if (reservation != null) // Customer has reservation
 			{
