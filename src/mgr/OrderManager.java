@@ -56,6 +56,8 @@ public class OrderManager {
 		boolean AM = (session == 1);
 		boolean PM = (session == 2);
 		
+		int orderFound = 0;
+		
 		if (orders.size() > 0) {
 			for (int i = 0; i < orders.size(); i++) {
 				
@@ -78,6 +80,8 @@ public class OrderManager {
 								+ orders.get(i).getOrderDateTime().getTime());
 						System.out.println("================================\n");
 						
+						orderFound++;
+						
 					}
 					else if(PM == (ReservationManager.getReservationTimeSession(orders.get(i).getOrderDateTime()) == 2))
 					{
@@ -93,9 +97,19 @@ public class OrderManager {
 						System.out.println("Created by " + orders.get(i).getStaff().getName() + "\n"
 								+ orders.get(i).getOrderDateTime().getTime());
 						System.out.println("================================\n");
+						
+						orderFound++;
 					}
+					
 				}
+				
 			}
+			
+			if(orderFound == 0)
+			{
+				System.out.println("No orders found.");
+			}
+			
 		} else {
 			System.out.println("No orders found.");
 		}
