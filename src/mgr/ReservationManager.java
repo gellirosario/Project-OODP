@@ -36,7 +36,7 @@ public class ReservationManager {
 	 * @param r Reservation being printed
 	 */
 	public static void printReservations(ArrayList<Reservation> reservation){
-		int count = 0;
+		int count = 1;
 		for(Reservation r : reservation){
 			System.out.println("["+ (count++) + "] " + "ID: " + r.getReservationID() + "	Customer Name: " + r.getCustName() + 
 					"	Contact Number: " + r.getCustContact() + 
