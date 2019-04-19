@@ -414,11 +414,10 @@ public class ReservationManager {
 
 	/**-------------------------------------------------------------------
 	 * Find reservation by phone number
-	 * @param staff Staff accepting reservation
 	 * @param reservation reservation being accepted
 	 */
 
-	public static Reservation findCustContactReservation(Staff staff, ArrayList<Reservation> reservation){
+	public static Reservation findCustContactReservation(ArrayList<Reservation> reservation){
 
 		Reservation ar = null;
 		int x = 1;
@@ -453,34 +452,64 @@ public class ReservationManager {
 
 
 	/**-------------------------------------------------------------------
-	 * Find reservation by Index
-	 * @param staff Staff accepting reservation
+	 * Find reservation of specific phone number by reservation date
 	 * @param reservation reservation being accepted
 	 */
-	public static Reservation findIndexReservation(Staff staff, ArrayList<Reservation> reservation){
 
-		boolean validIndex = false;
-		Reservation ar = null;
+	public static Reservation findReservationTimeReservation(ArrayList<Reservation> reservation){
 
+		ArrayList<Reservation> ar = new ArrayList<Reservation>();
+		int x = 1;
+		int j = 1;
 		do {
-			System.out.println("Choose which reservation to accept: (Enter -1 to exit)");	
-			String choice = sc.nextLine();
-			if(exit.equals(choice))
-				break;
-			try {
-				ar = reservation.get(Integer.parseInt(choice));
-			}
-			catch (NumberFormatException e)  {
-				System.out.println("***Please key in a valid index only");
-				continue;
-			}catch(IndexOutOfBoundsException e){
-				System.out.println("***Failed to accept reservation! (Invalid index provided)");
-				continue;
-			}
-			validIndex = true;
-		}while(!validIndex);
+			String custContact = checkValidCustContact();
+			if(custContact == null)
+				return null;
 
-		return ar;
+			for(Reservation r : reservation){
+				if (r.getCustContact() == Integer.parseInt(custContact)) {
+					ar.add(r);
+
+					x=0;
+					j=0;
+					break;
+				}
+			}
+
+			if (x==1){
+				System.out.println("***Reservation not found! Please try again");
+			}
+		}while (j==1);
+		
+		Reservation rr = null;
+		x = 1;
+		j = 1;
+		do {
+			Calendar reservationTime = checkValidDateTimeFormat();
+			if (reservationTime == null)
+				return rr;
+
+			int session = getReservationTimeSession(reservationTime);
+			boolean AM = (session == 1);
+
+			for(Reservation r : reservation){
+				if(reservationTime.get(Calendar.MONTH)==r.getReservationTime().get(Calendar.MONTH))
+					if(reservationTime.get(Calendar.DATE) == r.getReservationTime().get(Calendar.DATE))
+						if(AM == (getReservationTimeSession(r.getReservationTime()) == 1)) {
+							rr = r;
+							x=0;
+							j=0;
+							break;
+						}
+
+				
+			}
+
+			if (x==1){
+				System.out.println("***Reservation not found! Please try again");
+			}
+		}while (j==1);
+		return rr;
 	}
 
 
@@ -676,47 +705,20 @@ public class ReservationManager {
 			return;
 		}
 
-		String c;
-		int j = 0;
-		do {
-			System.out.println("Accept reservation by phone number(1) or index(2)? (Enter -1 to exit)");
-			c = sc.nextLine();
 
-			if(exit.equals(c))
-				return;
+		String custContact = checkValidCustContact();
+		if(custContact == null)
+			return;
 
-			try {
-				Integer.parseInt(c);
-			}
-			catch (NumberFormatException e)  {
-				System.out.println("***Please enter ");
-				continue;
-			}
+		ar = findCustContactReservation(reservation);
+		if(ar == null)
+			return;
+		ar.setAccepted(true);
+		moveToPastReservation(ar);
 
-			//if(Integer.parseInt(c) <= 1 || Integer.parseInt(c) >= 2) {
+		System.out.println("***Reservation accepted.");
 
-			if (Integer.parseInt(c) == 1){
-				ar = findCustContactReservation(staff, reservation);
-			}
-			else if (Integer.parseInt(c) == 2){
-				ar = findIndexReservation(staff, reservation);
-			}else {
-				System.out.println("***Please enter only 1 or 2");
-				continue;
-			}
-
-			if(ar == null)
-				return;
-			ar.setAccepted(true);
-			moveToPastReservation(ar);
-
-			System.out.println("***Reservation accepted.");
-
-			OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders,Restaurant.previousOrders, Restaurant.tables, ar, staff);
-
-			j=1;
-
-		}while (j==0);
+		OrderManager.createOrder(Restaurant.menuItems,Restaurant.sets, Restaurant.orders,Restaurant.previousOrders, Restaurant.tables, ar, staff);
 
 	}
 
@@ -736,32 +738,15 @@ public class ReservationManager {
 
 		printReservations(reservation);
 
-		boolean validIndex = false;
-		String choice;
-		do {
-			System.out.println("Choose which reservation to cancel: (Enter -1 to exit)");
-			choice = sc.nextLine();
 
-			if(exit.equals(choice))
-				break;
+		Reservation rr = null;
+		rr = findReservationTimeReservation(reservation);
+		if(rr == null)
+			return;
 
-			try {
-				Reservation rr = reservation.get(Integer.parseInt(choice));
-				moveToPastReservation(rr);
-				System.out.println("***Reservation [" + choice + "] is successfully cancelled.");
-				printReservations(reservation);
-			}
-			catch (NumberFormatException e)  {
-				System.out.println("***Please key in a valid index only");
-				continue;
-			}catch(IndexOutOfBoundsException e){
-				System.out.println("***Failed to cancel reservation! (Invalid index provided)");
+		moveToPastReservation(rr);
+		System.out.println("***Reservation is successfully cancelled.");
 
-				continue;
-			}
-
-			validIndex = true;
-		}while(!validIndex);
 	}
 }
 
