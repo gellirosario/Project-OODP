@@ -35,7 +35,7 @@ public class ReservationManager {
 	 * Print reservation details
 	 * @param r Reservation being printed
 	 */
-	public static void printReservations(ArrayList<Reservation> reservation){
+	private static void printReservations(ArrayList<Reservation> reservation){
 		int count = 1;
 		for(Reservation r : reservation){
 			System.out.println("["+ (count++) + "] " + "ID: " + r.getReservationID() + "	Customer Name: " + r.getCustName() + 
@@ -54,7 +54,7 @@ public class ReservationManager {
 	 * Validate customer's contact number
 	 * @return valid contact number of customer for reservation
 	 */
-	public static String checkValidCustContact(){
+	private static String checkValidCustContact(){
 		String custContact = null;
 		boolean validNo = false;
 		do {
@@ -87,7 +87,7 @@ public class ReservationManager {
 	 * Validate number of pax attending
 	 * @return valid number of pax for reservation
 	 */
-	public static String checkValidNumOfPax(){
+	private static String checkValidNumOfPax(){
 		String numOfPax = null;
 		boolean validPax = false;
 		do {
@@ -122,7 +122,7 @@ public class ReservationManager {
 	 * Validate customer's name
 	 * @return valid name of customer for reservation
 	 */
-	public static String checkValidCustName(){
+	private static String checkValidCustName(){
 		String custName = null;
 		do {
 			System.out.println("Enter customer's name:  (Enter -1 to exit)"); 
@@ -147,7 +147,7 @@ public class ReservationManager {
 	 * @param date Reservation date time
 	 * @return boolean to confirm validity
 	 */
-	public static boolean checkValidDateTime(Calendar date){
+	private static boolean checkValidDateTime(Calendar date){
 
 		Calendar current = Calendar.getInstance();
 
@@ -180,7 +180,7 @@ public class ReservationManager {
 	 * Validate date time format
 	 * @return valid reservation DateTime
 	 */
-	public static Calendar checkValidDateTimeFormat(){
+	private static Calendar checkValidDateTimeFormat(){
 
 		boolean validDate = false;		
 		Calendar reservationTime = Calendar.getInstance();
@@ -218,7 +218,7 @@ public class ReservationManager {
 	 * Validate choice
 	 * @return valid choice
 	 */
-	public static String checkValidChoice(){
+	private static String checkValidChoice(){
 		String choice = null;
 		boolean validAnswer = false;
 		String input = null;
@@ -236,7 +236,7 @@ public class ReservationManager {
 				return null;
 
 			if(!(choice.equals(Y)|| choice.equals(y) || choice.equals(N)|| choice.equals(n))) {
-				System.out.println("***Please key in 'Y' or 'N' only.");
+				System.out.println("***Please key in 'Y' or 'N' only");
 				continue;
 			}
 			if(choice.equals("Y") || choice.equals("y"))
@@ -258,7 +258,7 @@ public class ReservationManager {
 	 * @param session Dining session: AM or PM
 	 * @return 0(< 30mins before closing time) or  1(> 30mins before closing time)
 	 */
-	public static int checkClosingSession(Calendar date, int session){
+	private static int checkClosingSession(Calendar date, int session){
 
 		Calendar endAM = (Calendar) date.clone();
 		endAM.set(Calendar.HOUR_OF_DAY, Restaurant.SESSION_AMENDTIME);
@@ -356,7 +356,7 @@ public class ReservationManager {
 	 * Move pending reservation to past
 	 * @param r Reservation being moved to past reservation
 	 */
-	public static void moveToPastReservation(Reservation r){
+	private static void moveToPastReservation(Reservation r){
 
 		Table t = r.getTableReservation();		
 		t.removeTableReservation(r);		
@@ -372,7 +372,7 @@ public class ReservationManager {
 	 * Show pending reservations
 	 * @return Reservations pending
 	 */
-	public static ArrayList<Reservation> pendingReservations(){
+	private static ArrayList<Reservation> pendingReservations(){
 		expiredReservations();
 		return reservations;
 	}
@@ -388,7 +388,7 @@ public class ReservationManager {
 	 * @return 1(duplicate) or 0(no duplicate)
 	 */
 
-	public static int checkDuplicateContact(int custContact, Calendar reservationTime){
+	private static int checkDuplicateContact(int custContact, Calendar reservationTime){
 
 		expiredReservations();
 		int duplicate = 0;
@@ -417,7 +417,7 @@ public class ReservationManager {
 	 * @param reservation reservation being accepted
 	 */
 
-	public static Reservation findCustContactReservation(ArrayList<Reservation> reservation){
+	private static Reservation findCustContactReservation(ArrayList<Reservation> reservation){
 
 		Reservation ar = null;
 		int x = 1;
@@ -455,8 +455,7 @@ public class ReservationManager {
 	 * Find reservation of specific phone number by reservation date
 	 * @param reservation reservation being accepted
 	 */
-
-	public static Reservation findReservationTimeReservation(ArrayList<Reservation> reservation){
+	private static Reservation findReservationTimeReservation(ArrayList<Reservation> reservation){
 
 		ArrayList<Reservation> ar = new ArrayList<Reservation>();
 		int x = 1;
@@ -477,7 +476,7 @@ public class ReservationManager {
 			}
 
 			if (x==1){
-				System.out.println("***Reservation not found! Please try again.");
+				System.out.println("***Reservation not found! Please try again");
 			}
 		}while (j==1);
 		
@@ -492,7 +491,7 @@ public class ReservationManager {
 			int session = getReservationTimeSession(reservationTime);
 			boolean AM = (session == 1);
 
-			for(Reservation r : reservation){
+			for(Reservation r : ar){
 				if(reservationTime.get(Calendar.MONTH)==r.getReservationTime().get(Calendar.MONTH))
 					if(reservationTime.get(Calendar.DATE) == r.getReservationTime().get(Calendar.DATE))
 						if(AM == (getReservationTimeSession(r.getReservationTime()) == 1)) {
@@ -519,7 +518,7 @@ public class ReservationManager {
 	 * Show reservations to be accepted with start time between current session
 	 * @return Reservation with start time in current session
 	 */
-	public static ArrayList<Reservation> acceptTodaySessionReservation(){
+	private static ArrayList<Reservation> acceptTodaySessionReservation(){
 		expiredReservations();
 
 		Calendar current = Calendar.getInstance();
@@ -550,7 +549,7 @@ public class ReservationManager {
 	 * @param numOfPax Number of people attending the reservation
 	 * @param reservationTime Date and time of the reservation
 	 */
-	public static void addReservation(String custName, int custContact, int numOfPax, Calendar reservationTime) {
+	private static void addReservation(String custName, int custContact, int numOfPax, Calendar reservationTime) {
 
 		Table t = TableManager.findReservationTable(reservationTime, numOfPax);
 		Reservation r;
@@ -738,7 +737,6 @@ public class ReservationManager {
 		rr = findReservationTimeReservation(reservation);
 		if(rr == null)
 			return;
-
 		moveToPastReservation(rr);
 		System.out.println("***Reservation is successfully cancelled.");
 
