@@ -1,4 +1,5 @@
 //reservationStatus|custName|custContact|numOfPax|reservationTime|TableID
+<<<<<<< HEAD
 Reservation|Lexx|21324442|4|Mon Apr 22 21:00:00 SGT 2019|11
 Reservation|Pwld|33333333|1|Thu Apr 25 14:00:00 SGT 2019|1
 Reservation|Leila|12345678|5|Wed Apr 24 14:00:00 SGT 2019|21
@@ -32,3 +33,12 @@ pastReservation|Lexx|13423442|3|Sat Apr 20 11:00:00 SGT 2019|11
 pastReservation|LExx|12343212|4|Sat Apr 20 11:00:00 SGT 2019|12
 pastReservation|ekmfewme|32343443|10|Sat Apr 20 11:00:00 SGT 2019|30
 pastReservation|Lexx|32432423|10|Sat Apr 20 11:00:00 SGT 2019|29
+=======
+Reservation|Audrey|15678456|5|Wed Apr 17 14:00:00 SGT 2019|22
+Reservation|Lexx|12345678|5|Wed Apr 17 14:00:00 SGT 2019|23
+Reservation|Lee|12345678|5|Thu Apr 18 14:00:00 SGT 2019|21
+Reservation|Lexx |12345678|5|Wed Apr 17 18:00:00 SGT 2019|21
+Reservation|Lexx|12345678|3|Thu Apr 18 19:00:00 SGT 2019|11
+pastReservation|Lexx|12345678|5|Wed Apr 17 14:00:00 SGT 2019|21
+pastReservation|Finn|65432178|4|Wed Apr 17 14:00:00 SGT 2019|11
+>>>>>>> 75d82c6f5af1a4e52cb007702b005301a578d5f2
