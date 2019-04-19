@@ -36,7 +36,8 @@ public class OrderManager {
 
 	private static MenuItemManager menuItemManager = new MenuItemManager();
 	private static SetManager setManager = new SetManager();
-
+	private static ReservationManager reservationManager = new ReservationManager();
+	
 	/**
 	 * 
 	 * View existing orders Prints out all existing orders
@@ -44,25 +45,56 @@ public class OrderManager {
 	 * @param ArrayList<Order> orders
 	 * 
 	 */
+	@SuppressWarnings("deprecation")
 	public static void viewOrder(ArrayList<Order> orders) {
 
 		System.out.println("\n[View all Orders]\n");
+		
+		Calendar current = Calendar.getInstance();
 
+		int session = ReservationManager.getReservationTimeSession(current);
+		boolean AM = (session == 1);
+		boolean PM = (session == 2);
+		
 		if (orders.size() > 0) {
 			for (int i = 0; i < orders.size(); i++) {
+				
+				if(orders.get(i).getOrderDateTime().getTime().getDay() == current.getTime().getDay() && 
+						orders.get(i).getOrderDateTime().getTime().getMonth() == current.getTime().getMonth() && 
+						orders.get(i).getOrderDateTime().getTime().getYear() == current.getTime().getYear())
+				{
+					if(AM == (ReservationManager.getReservationTimeSession(orders.get(i).getOrderDateTime()) == 1))
+					{
+						System.out.println("========= Order No. " + orders.get(i).getId() + " =========");
+						System.out.println("Table No. " + orders.get(i).getTable().getId());
 
-				System.out.println("========= Order No. " + orders.get(i).getId() + " =========");
-				System.out.println("Table No. " + orders.get(i).getTable().getId());
+						System.out.println("-----------Items-----------");
+						for (int j = 0; j < orders.get(i).getItems().size(); j++) {
+							System.out.println(orders.get(i).getItems().get(j).getName());
+						}
+						System.out.println("----------------------------");
 
-				System.out.println("-----------Items-----------");
-				for (int j = 0; j < orders.get(i).getItems().size(); j++) {
-					System.out.println(orders.get(i).getItems().get(j).getName());
+						System.out.println("Created by " + orders.get(i).getStaff().getName() + "\n"
+								+ orders.get(i).getOrderDateTime().getTime());
+						System.out.println("================================\n");
+						
+					}
+					else if(PM == (ReservationManager.getReservationTimeSession(orders.get(i).getOrderDateTime()) == 2))
+					{
+						System.out.println("========= Order No. " + orders.get(i).getId() + " =========");
+						System.out.println("Table No. " + orders.get(i).getTable().getId());
+
+						System.out.println("-----------Items-----------");
+						for (int j = 0; j < orders.get(i).getItems().size(); j++) {
+							System.out.println(orders.get(i).getItems().get(j).getName());
+						}
+						System.out.println("----------------------------");
+
+						System.out.println("Created by " + orders.get(i).getStaff().getName() + "\n"
+								+ orders.get(i).getOrderDateTime().getTime());
+						System.out.println("================================\n");
+					}
 				}
-				System.out.println("----------------------------");
-
-				System.out.println("Created by " + orders.get(i).getStaff().getName() + "\n"
-						+ orders.get(i).getOrderDateTime().getTime());
-				System.out.println("================================\n");
 			}
 		} else {
 			System.out.println("No orders found.");
